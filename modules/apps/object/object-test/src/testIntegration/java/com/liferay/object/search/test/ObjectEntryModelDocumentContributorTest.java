@@ -18,12 +18,10 @@ import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectFolderLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
-import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.DocumentImpl;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
@@ -31,28 +29,27 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.search.ml.embedding.text.TextEmbeddingDocumentContributor;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import com.liferay.portal.test.rule.FeatureFlag;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
+import com.liferay.portal.search.test.rule.SemanticSearchTestRule;
 
 import java.io.Serializable;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import org.mockito.Mockito;
 
 /**
  * @author Joshua Cords
@@ -61,242 +58,198 @@ import org.mockito.Mockito;
 @RunWith(Arquillian.class)
 public class ObjectEntryModelDocumentContributorTest {
 
-	@ClassRule
-	@Rule
-	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(),
-			PermissionCheckerMethodTestRule.INSTANCE,
-			SynchronousDestinationTestRule.INSTANCE);
+   @Rule
+	public SemanticSearchTestRule semanticSearchTestRule = new SemanticSearchTestRule();
 
-	@BeforeClass
-	public static void setUpClass() {
-		_textEmbeddingDocumentContributor = Mockito.mock(
-			TextEmbeddingDocumentContributor.class);
-	}
+    @ClassRule
+    @Rule
+    public static final AggregateTestRule aggregateTestRule =
+        new AggregateTestRule(
+            new LiferayIntegrationTestRule(),
+            PermissionCheckerMethodTestRule.INSTANCE,
+            SynchronousDestinationTestRule.INSTANCE);
 
-	@Before
-	public void setUp() {
-		Mockito.reset(_textEmbeddingDocumentContributor);
+    @Before
+    public void setUp() throws Exception {
+        semanticSearchTestRule.resetProviderConfiguration();
+    }
 
-		Mockito.when(
-			_textEmbeddingDocumentContributor.getLanguageIds(Mockito.any())
-		).thenReturn(
-			Collections.emptyList()
-		);
-	}
+    @Test
+    public void testContributesLocalizedTextEmbeddings() throws Exception {
+        ObjectField localizedObjectField = new TextObjectFieldBuilder(
+        ).indexed(
+            true
+        ).labelMap(
+            LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
+        ).localized(
+            true
+        ).name(
+            "localizedTextField"
+        ).build();
 
-	@Test
-	public void testContributesLocalizedTextEmbeddings() throws Exception {
-		Mockito.when(
-			_textEmbeddingDocumentContributor.getLanguageIds(Mockito.any())
-		).thenReturn(
-			Arrays.asList("en_US", "es_ES")
-		);
+        ObjectField textObjectField = new TextObjectFieldBuilder(
+        ).indexed(
+            true
+        ).labelMap(
+            LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
+        ).localized(
+            false
+        ).name(
+            "textField"
+        ).build();
 
-		ObjectField localizedObjectField = new TextObjectFieldBuilder(
-		).indexed(
-			true
-		).labelMap(
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
-		).localized(
-			true
-		).name(
-			"localizedTextField"
-		).build();
+        _objectDefinition = _addAndPublishObjectDefinition(
+            true, localizedObjectField, textObjectField);
 
-		ObjectField textObjectField = new TextObjectFieldBuilder(
-		).indexed(
-			true
-		).labelMap(
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
-		).localized(
-			false
-		).name(
-			"textField"
-		).build();
+        _configureSemanticSearch(
+            Arrays.asList("en_US", "es_ES"),
+            Collections.singletonList(_objectDefinition.getClassName()));
 
-		_objectDefinition = _addAndPublishObjectDefinition(
-			true, localizedObjectField, textObjectField);
+        String enLocalizedValue = RandomTestUtil.randomString();
+        String esLocalizedValue = RandomTestUtil.randomString();
+        String textFieldValue = RandomTestUtil.randomString();
 
-		String enLocalizedValue = RandomTestUtil.randomString();
-		String esLocalizedValue = RandomTestUtil.randomString();
-		String textFieldValue = RandomTestUtil.randomString();
+        Map<String, Object> localizedValues =
+            HashMapBuilder.<String, Object>put(
+                "en_US", enLocalizedValue
+            ).put(
+                "es_ES", esLocalizedValue
+            ).build();
 
-		Map<String, Object> localizedValues =
-			HashMapBuilder.<String, Object>put(
-				"en_US", enLocalizedValue
-			).put(
-				"es_ES", esLocalizedValue
-			).build();
-
-		_objectEntry = _addObjectEntry(
-			_objectDefinition,
-			HashMapBuilder.<String, Serializable>put(
-				"localizedTextField", enLocalizedValue
-			).put(
-				"localizedTextField_i18n", (Serializable)localizedValues
-			).put(
-				"textField", textFieldValue
-			).build());
+        _objectEntry = _addObjectEntry(
+            _objectDefinition,
+            HashMapBuilder.<String, Serializable>put(
+                "localizedTextField", enLocalizedValue
+            ).put(
+                "localizedTextField_i18n", (Serializable)localizedValues
+            ).put(
+                "textField", textFieldValue
+            ).build());
 
 		Document document = _createDocument(_objectEntry);
 
-		try (SafeCloseable safeCloseable =
-				_replaceTextEmbeddingDocumentContributor()) {
+		_objectEntryModelDocumentContributor.contribute(document, _objectEntry);
 
-			_objectEntryModelDocumentContributor.contribute(
-				document, _objectEntry);
-		}
+		String objectEntryContent = document.get("objectEntryContent");
 
-		String enContent = String.format(
-			"localizedTextField: %s, textField: %s", enLocalizedValue,
-			textFieldValue);
+		Assert.assertNotNull(objectEntryContent);
 
-		String esContent = String.format(
-			"localizedTextField: %s, textField: %s", esLocalizedValue,
-			textFieldValue);
+		Assert.assertTrue(
+			objectEntryContent.contains(
+				String.format("localizedTextField: %s", enLocalizedValue)));
+        Assert.assertTrue(
+            objectEntryContent.contains(
+                String.format("textField: %s", textFieldValue)));
 
-		_verifyLocalizedContribution(
-			document, "en_US", _objectEntry, enContent);
+        _assertTextEmbedding(document, "en_US");
+        _assertTextEmbedding(document, "es_ES");
+        _assertNoTextEmbedding(document, "pt_PT");
+    }
 
-		_verifyLocalizedContribution(
-			document, "es_ES", _objectEntry, esContent);
+    @Test
+    public void testContributesMissingLocalizedTextEmbeddings()
+        throws Exception {
 
-		_verifyNoGlobalContribution(document, _objectEntry);
+        ObjectField localizedObjectField = new TextObjectFieldBuilder(
+        ).indexed(
+            true
+        ).labelMap(
+            LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
+        ).localized(
+            true
+        ).name(
+            "localizedTextField"
+        ).build();
 
-		_verifyNoLocalizedContributionWithContent(
-			document, _objectEntry,
-			String.format("textField: %s", textFieldValue));
-	}
+        ObjectField textObjectField = new TextObjectFieldBuilder(
+        ).indexed(
+            true
+        ).labelMap(
+            LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
+        ).localized(
+            false
+        ).name(
+            "textField"
+        ).build();
 
-	@Test
-	public void testContributesMissingLocalizedTextEmbeddings()
-		throws Exception {
+        _objectDefinition = _addAndPublishObjectDefinition(
+            true, localizedObjectField, textObjectField);
 
-		Mockito.when(
-			_textEmbeddingDocumentContributor.getLanguageIds(Mockito.any())
-		).thenReturn(
-			Arrays.asList("en_US", "pt_PT")
-		);
+        _configureSemanticSearch(
+            Arrays.asList("en_US", "pt_PT"),
+            Collections.singletonList(_objectDefinition.getClassName()));
 
-		ObjectField localizedObjectField = new TextObjectFieldBuilder(
-		).indexed(
-			true
-		).labelMap(
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
-		).localized(
-			true
-		).name(
-			"localizedTextField"
-		).build();
+        String enLocalizedValue = RandomTestUtil.randomString();
+        String esLocalizedValue = RandomTestUtil.randomString();
+        String textFieldValue = RandomTestUtil.randomString();
 
-		ObjectField textObjectField = new TextObjectFieldBuilder(
-		).indexed(
-			true
-		).labelMap(
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
-		).localized(
-			false
-		).name(
-			"textField"
-		).build();
+        Map<String, Object> localizedValues =
+            HashMapBuilder.<String, Object>put(
+                "en_US", enLocalizedValue
+            ).put(
+                "es_ES", esLocalizedValue
+            ).put(
+                "pt_PT", enLocalizedValue
+            ).build();
 
-		_objectDefinition = _addAndPublishObjectDefinition(
-			true, localizedObjectField, textObjectField);
+        _objectEntry = _addObjectEntry(
+            _objectDefinition,
+            HashMapBuilder.<String, Serializable>put(
+                "localizedTextField", enLocalizedValue
+            ).put(
+                "localizedTextField_i18n", (Serializable)localizedValues
+            ).put(
+                "textField", textFieldValue
+            ).build());
 
-		String enLocalizedValue = RandomTestUtil.randomString();
-		String esLocalizedValue = RandomTestUtil.randomString();
-		String textFieldValue = RandomTestUtil.randomString();
+        Document document = _createDocument(_objectEntry);
 
-		Map<String, Object> localizedValues =
-			HashMapBuilder.<String, Object>put(
-				"en_US", enLocalizedValue
-			).put(
-				"es_ES", esLocalizedValue
-			).put(
-				"pt_PT", enLocalizedValue
-			).build();
+        _objectEntryModelDocumentContributor.contribute(document, _objectEntry);
 
-		_objectEntry = _addObjectEntry(
-			_objectDefinition,
-			HashMapBuilder.<String, Serializable>put(
-				"localizedTextField", enLocalizedValue
-			).put(
-				"localizedTextField_i18n", (Serializable)localizedValues
-			).put(
-				"textField", textFieldValue
-			).build());
+        _assertTextEmbedding(document, "en_US");
+        _assertTextEmbedding(document, "pt_PT");
+        _assertNoTextEmbedding(document, "es_ES");
+    }
 
-		Document document = _createDocument(_objectEntry);
+    @Test
+    public void testObjectEntryNonlocalizedTextEmbeddings() throws Exception {
+        ObjectField objectField = new TextObjectFieldBuilder(
+        ).indexed(
+            true
+        ).labelMap(
+            LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
+        ).localized(
+            false
+        ).name(
+            "textField"
+        ).build();
 
-		try (SafeCloseable safeCloseable =
-				_replaceTextEmbeddingDocumentContributor()) {
+        _objectDefinition = _addAndPublishObjectDefinition(false, objectField);
 
-			_objectEntryModelDocumentContributor.contribute(
-				document, _objectEntry);
-		}
+        _configureSemanticSearch(
+            Collections.singletonList("en_US"),
+            Collections.singletonList(_objectDefinition.getClassName()));
 
-		String expectedContent = String.format(
-			"localizedTextField: %s, textField: %s", enLocalizedValue,
-			textFieldValue);
+        String textFieldValue = RandomTestUtil.randomString();
 
-		_verifyLocalizedContribution(
-			document, "en_US", _objectEntry, expectedContent);
+        _objectEntry = _addObjectEntry(
+            _objectDefinition,
+            HashMapBuilder.<String, Serializable>put(
+                "textField", textFieldValue
+            ).build());
 
-		_verifyLocalizedContribution(
-			document, "pt_PT", _objectEntry, expectedContent);
+        Document document = _createDocument(_objectEntry);
 
-		_verifyNoLocalizedContributionForLanguage(
-			document, "es_ES", _objectEntry);
+        _objectEntryModelDocumentContributor.contribute(document, _objectEntry);
 
-		_verifyNoGlobalContribution(document, _objectEntry);
-	}
+        Assert.assertEquals(
+            String.format("textField: %s", textFieldValue),
+            document.get("objectEntryContent"));
 
-	@Test
-	public void testObjectEntryNonlocalizedTextEmbeddings() throws Exception {
-		Mockito.when(
-			_textEmbeddingDocumentContributor.getLanguageIds(Mockito.any())
-		).thenReturn(
-			Arrays.asList("en_US", "es_ES")
-		);
-
-		ObjectField objectField = new TextObjectFieldBuilder(
-		).indexed(
-			true
-		).labelMap(
-			LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString())
-		).localized(
-			false
-		).name(
-			"textField"
-		).build();
-
-		_objectDefinition = _addAndPublishObjectDefinition(false, objectField);
-
-		String textFieldValue = RandomTestUtil.randomString();
-
-		_objectEntry = _addObjectEntry(
-			_objectDefinition,
-			HashMapBuilder.<String, Serializable>put(
-				"textField", textFieldValue
-			).build());
-
-		Document document = _createDocument(_objectEntry);
-
-		try (SafeCloseable safeCloseable =
-				_replaceTextEmbeddingDocumentContributor()) {
-
-			_objectEntryModelDocumentContributor.contribute(
-				document, _objectEntry);
-		}
-
-		_verifyGlobalContribution(
-			document, _objectEntry,
-			String.format("textField: %s", textFieldValue));
-
-		_verifyNoLocalizedContribution(document, _objectEntry);
-	}
+        _assertTextEmbedding(document, "en_US");
+        _assertNoTextEmbedding(document, "es_ES");
+        _assertNoTextEmbedding(document, "pt_PT");
+    }
 
 	private ObjectDefinition _addAndPublishObjectDefinition(
 			boolean enableLocalization, ObjectField... objectFields)
@@ -339,92 +292,37 @@ public class ObjectEntryModelDocumentContributorTest {
 		return document;
 	}
 
-	private SafeCloseable _replaceTextEmbeddingDocumentContributor() {
-		TextEmbeddingDocumentContributor
-			originalTextEmbeddingDocumentContributor =
-				ReflectionTestUtil.getFieldValue(
-					_objectEntryModelDocumentContributor,
-					"_textEmbeddingDocumentContributor");
+	private void _assertNoTextEmbedding(
+		Document document, String languageId) {
 
-		ReflectionTestUtil.setFieldValue(
-			_objectEntryModelDocumentContributor,
-			"_textEmbeddingDocumentContributor",
-			_textEmbeddingDocumentContributor);
-
-		return () -> ReflectionTestUtil.setFieldValue(
-			_objectEntryModelDocumentContributor,
-			"_textEmbeddingDocumentContributor",
-			originalTextEmbeddingDocumentContributor);
+		Assert.assertNull(
+			document.getField(_getTextEmbeddingFieldName(languageId)));
 	}
 
-	private void _verifyGlobalContribution(
-		Document document, ObjectEntry objectEntry, String expectedContent) {
+	private void _assertTextEmbedding(Document document, String languageId) {
+		Field field = document.getField(_getTextEmbeddingFieldName(languageId));
 
-		Mockito.verify(
-			_textEmbeddingDocumentContributor
-		).contribute(
-			Mockito.eq(document), Mockito.eq(objectEntry),
-			Mockito.eq(expectedContent)
-		);
+		Assert.assertNotNull(
+			"Missing text embedding for " + languageId, field);
+
+		String[] values = field.getValues();
+
+		Assert.assertNotNull(values);
+		Assert.assertEquals(
+			_EMBEDDING_VECTOR_DIMENSIONS, values.length);
 	}
 
-	private void _verifyLocalizedContribution(
-		Document document, String languageId, ObjectEntry objectEntry,
-		String expectedContent) {
+	private void _configureSemanticSearch(
+		List<String> languageIds, List<String> modelClassNames)
+		throws Exception {
 
-		Mockito.verify(
-			_textEmbeddingDocumentContributor
-		).contribute(
-			Mockito.eq(document), Mockito.eq(languageId),
-			Mockito.eq(objectEntry), Mockito.eq(expectedContent)
-		);
+		semanticSearchTestRule.configureProvider(languageIds, modelClassNames);
 	}
 
-	private void _verifyNoGlobalContribution(
-		Document document, ObjectEntry objectEntry) {
-
-		Mockito.verify(
-			_textEmbeddingDocumentContributor, Mockito.never()
-		).contribute(
-			Mockito.eq(document), Mockito.eq(objectEntry), Mockito.anyString()
-		);
+	private String _getTextEmbeddingFieldName(String languageId) {
+		return String.format(
+			"text_embedding_%d_%s", _EMBEDDING_VECTOR_DIMENSIONS, languageId);
 	}
-
-	private void _verifyNoLocalizedContribution(
-		Document document, ObjectEntry objectEntry) {
-
-		Mockito.verify(
-			_textEmbeddingDocumentContributor, Mockito.never()
-		).contribute(
-			Mockito.eq(document), Mockito.anyString(), Mockito.eq(objectEntry),
-			Mockito.anyString()
-		);
-	}
-
-	private void _verifyNoLocalizedContributionForLanguage(
-		Document document, String languageId, ObjectEntry objectEntry) {
-
-		Mockito.verify(
-			_textEmbeddingDocumentContributor, Mockito.never()
-		).contribute(
-			Mockito.eq(document), Mockito.eq(languageId),
-			Mockito.eq(objectEntry), Mockito.anyString()
-		);
-	}
-
-	private void _verifyNoLocalizedContributionWithContent(
-		Document document, ObjectEntry objectEntry, String content) {
-
-		Mockito.verify(
-			_textEmbeddingDocumentContributor, Mockito.never()
-		).contribute(
-			Mockito.eq(document), Mockito.anyString(), Mockito.eq(objectEntry),
-			Mockito.eq(content)
-		);
-	}
-
-	private static TextEmbeddingDocumentContributor
-		_textEmbeddingDocumentContributor;
 
 	@Inject
 	private AccountEntryOrganizationRelLocalService
@@ -456,5 +354,7 @@ public class ObjectEntryModelDocumentContributorTest {
 
 	@Inject
 	private ObjectFolderLocalService _objectFolderLocalService;
+
+	private static final int _EMBEDDING_VECTOR_DIMENSIONS = 768;
 
 }
