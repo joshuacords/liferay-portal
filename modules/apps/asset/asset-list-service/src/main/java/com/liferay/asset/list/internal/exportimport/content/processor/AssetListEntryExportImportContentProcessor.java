@@ -9,6 +9,8 @@ import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.asset.list.model.AssetListEntry;
+import com.liferay.asset.list.util.AssetListTypeSettingsSanitizerUtil;
 import com.liferay.asset.util.AssetRendererFactoryClassProvider;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
@@ -35,6 +37,7 @@ import com.liferay.portal.kernel.util.UnicodePropertiesBuilder;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.site.model.adapter.StagedGroup;
+import com.liferay.segments.constants.SegmentsEntryConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,9 +64,22 @@ public class AssetListEntryExportImportContentProcessor
 			boolean escapeContent)
 		throws Exception {
 
-		UnicodeProperties unicodeProperties = UnicodePropertiesBuilder.load(
-			content
-		).build();
+                UnicodeProperties unicodeProperties = UnicodePropertiesBuilder.load(
+                        content
+                ).build();
+
+                long assetListEntryId = 0;
+
+                if (stagedModel instanceof AssetListEntry assetListEntry) {
+                        assetListEntryId = assetListEntry.getAssetListEntryId();
+                }
+
+                long segmentsEntryId = GetterUtil.getLong(
+                        unicodeProperties.getProperty("segmentsEntryId"),
+                        SegmentsEntryConstants.ID_DEFAULT);
+
+                unicodeProperties = AssetListTypeSettingsSanitizerUtil.sanitize(
+                        assetListEntryId, segmentsEntryId, unicodeProperties);
 
 		long[] groupIds = GetterUtil.getLongValues(
 			StringUtil.split(unicodeProperties.getProperty("groupIds", null)));
