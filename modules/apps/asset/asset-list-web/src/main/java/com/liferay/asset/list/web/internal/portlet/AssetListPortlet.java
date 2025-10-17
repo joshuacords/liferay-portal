@@ -11,6 +11,7 @@ import com.liferay.asset.list.constants.AssetListPortletKeys;
 import com.liferay.asset.list.exception.AssetListEntryTitleException;
 import com.liferay.asset.list.exception.DuplicateAssetListEntryTitleException;
 import com.liferay.asset.list.model.AssetListEntry;
+import com.liferay.asset.list.util.AssetListTypeSettingsSanitizerUtil;
 import com.liferay.asset.list.web.internal.constants.AssetListWebKeys;
 import com.liferay.asset.list.web.internal.display.context.AssetListDisplayContext;
 import com.liferay.asset.list.web.internal.display.context.AssetListItemsDisplayContext;
@@ -144,10 +145,14 @@ public class AssetListPortlet extends MVCPortlet {
 			return new UnicodeProperties();
 		}
 
-		return UnicodePropertiesBuilder.load(
+		UnicodeProperties unicodeProperties = UnicodePropertiesBuilder.load(
 			assetListEntry.getTypeSettings(
 				assetListDisplayContext.getSegmentsEntryId())
 		).build();
+
+		return AssetListTypeSettingsSanitizerUtil.sanitize(
+			assetListEntry.getAssetListEntryId(),
+			assetListDisplayContext.getSegmentsEntryId(), unicodeProperties);
 	}
 
 	@Reference
