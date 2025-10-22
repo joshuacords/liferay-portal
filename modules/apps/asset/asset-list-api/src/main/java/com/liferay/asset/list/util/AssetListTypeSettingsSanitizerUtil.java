@@ -23,48 +23,20 @@ import java.util.List;
 public class AssetListTypeSettingsSanitizerUtil {
 
 	public static UnicodeProperties sanitize(
-		long assetListEntryId, long segmentsEntryId,
-		UnicodeProperties unicodeProperties) {
+			long assetListEntryId, long segmentsEntryId,
+			UnicodeProperties unicodeProperties)
+		throws PortalException {
 
 		if (unicodeProperties == null) {
 			return new UnicodeProperties();
 		}
 
-		if (_sanitizeClassNameIds(
-				assetListEntryId, segmentsEntryId, unicodeProperties)) {
-
-			try {
-				AssetListEntryLocalServiceUtil.updateAssetListEntryTypeSettings(
-					assetListEntryId, segmentsEntryId,
-					unicodeProperties.toString());
-			}
-			catch (PortalException portalException) {
-				_log.error(
-					String.format(
-						"Unable to persist sanitized type settings for asset " +
-							"list id %d with segments entry id %d",
-						assetListEntryId, segmentsEntryId),
-					portalException);
-			}
-		}
-
-		return unicodeProperties;
-	}
-
-	private static boolean _sanitizeClassNameIds(
-		long assetListEntryId, long segmentsEntryId,
-		UnicodeProperties unicodeProperties) {
+		boolean updated = false;
 
 		String[] values = StringUtil.split(
 			unicodeProperties.getProperty("classNameIds"));
 
-		if (values.length == 0) {
-			return false;
-		}
-
 		List<String> validValues = new ArrayList<>(values.length);
-
-		boolean updated = false;
 
 		for (String value : values) {
 			long classNameId = GetterUtil.getLong(value);
@@ -76,24 +48,56 @@ public class AssetListTypeSettingsSanitizerUtil {
 			}
 
 			updated = true;
+		}
 
-			if (_log.isInfoEnabled()) {
-				_log.info(
-					String.format(
-						"Removed missing class name id %d from asset list %d " +
-							"with segment entry id %d)",
-						classNameId, assetListEntryId, segmentsEntryId));
+		if (validValues.isEmpty()) {
+			unicodeProperties.remove("classNameIds");
+		}
+		else {
+			unicodeProperties.setProperty(
+				"classNameIds", StringUtil.merge(validValues));
+		}
+
+		long classNameId = GetterUtil.getLong(
+			unicodeProperties.getProperty("anyAssetType"));
+
+		if (classNameId > 0) {
+			if (ClassNameLocalServiceUtil.fetchClassName(classNameId) == null) {
+				unicodeProperties.setProperty("anyAssetType", "true");
+
+				updated = true;
 			}
+		}
+		else if (!GetterUtil.getBoolean(
+					unicodeProperties.getProperty("anyAssetType"), true)) {
+
+			if (validValues.size() == 1) {
+				unicodeProperties.setProperty(
+					"anyAssetType", validValues.get(0));
+			}
+			else {
+				unicodeProperties.setProperty("anyAssetType", "true");
+			}
+
+			updated = true;
 		}
 
 		if (!updated) {
-			return false;
+			return unicodeProperties;
 		}
 
-		unicodeProperties.setProperty(
-			"classNameIds", StringUtil.merge(validValues));
+		if (_log.isInfoEnabled()) {
+			_log.info(
+				String.format(
+					"Removing missing class name id %d from asset list %d " +
+						"with segment entry id %d)",
+					classNameId, assetListEntryId, segmentsEntryId));
+		}
 
-		return true;
+		AssetListEntryLocalServiceUtil.updateAssetListEntryTypeSettings(
+			assetListEntryId, segmentsEntryId, unicodeProperties.toString());
+
+		return unicodeProperties;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
