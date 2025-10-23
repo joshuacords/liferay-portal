@@ -48,14 +48,24 @@ public class AssetListTypeSettingsSanitizerUtil {
 			}
 
 			updated = true;
+
+			if (_log.isInfoEnabled()) {
+				_log.info(
+					String.format(
+						"Removing missing class name id %d from asset list %d " +
+						"with segment entry id %d)",
+						classNameId, assetListEntryId, segmentsEntryId));
+			}
 		}
 
-		if (validValues.isEmpty()) {
-			unicodeProperties.remove("classNameIds");
-		}
-		else {
-			unicodeProperties.setProperty(
-				"classNameIds", StringUtil.merge(validValues));
+		if (updated) {
+			if (validValues.isEmpty()) {
+				unicodeProperties.remove("classNameIds");
+			}
+			else {
+				unicodeProperties.setProperty(
+					"classNameIds", StringUtil.merge(validValues));
+			}
 		}
 
 		long classNameId = GetterUtil.getLong(
@@ -74,30 +84,39 @@ public class AssetListTypeSettingsSanitizerUtil {
 			if (validValues.size() == 1) {
 				unicodeProperties.setProperty(
 					"anyAssetType", validValues.get(0));
-			}
-			else {
-				unicodeProperties.setProperty("anyAssetType", "true");
-			}
 
-			updated = true;
+				updated = true;
+
+				_logClassNameIdRemoval(assetListEntryId, classNameId, segmentsEntryId);
+			}
+			else if (validValues.isEmpty()) {
+				unicodeProperties.setProperty("anyAssetType", "true");
+
+
+				_logClassNameIdRemoval(assetListEntryId, classNameId, segmentsEntryId);
+
+				updated = true;
+			}
 		}
 
 		if (!updated) {
 			return unicodeProperties;
 		}
 
-		if (_log.isInfoEnabled()) {
-			_log.info(
-				String.format(
-					"Removing missing class name id %d from asset list %d " +
-						"with segment entry id %d)",
-					classNameId, assetListEntryId, segmentsEntryId));
-		}
-
 		AssetListEntryLocalServiceUtil.updateAssetListEntryTypeSettings(
 			assetListEntryId, segmentsEntryId, unicodeProperties.toString());
 
 		return unicodeProperties;
+	}
+
+	private static void _logClassNameIdRemoval(long assetListEntryId, long classNameId, long segmentsEntryId) {
+		if (_log.isInfoEnabled()) {
+			_log.info(
+				String.format(
+					"Removing missing class name id %d from asset list %d " +
+					"with segment entry id %d)",
+					classNameId, assetListEntryId, segmentsEntryId));
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
