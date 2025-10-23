@@ -27,6 +27,7 @@ import com.liferay.info.display.url.provider.InfoEditURLProviderRegistry;
 import com.liferay.info.item.InfoItemServiceRegistry;
 import com.liferay.info.search.InfoSearchClassMapperRegistry;
 import com.liferay.item.selector.ItemSelector;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
@@ -136,7 +137,7 @@ public class AssetListPortlet extends MVCPortlet {
 
 	private UnicodeProperties _getUnicodeProperties(
 			AssetListDisplayContext assetListDisplayContext)
-		throws IOException {
+		throws IOException, PortletException {
 
 		AssetListEntry assetListEntry =
 			assetListDisplayContext.getAssetListEntry();
@@ -150,9 +151,17 @@ public class AssetListPortlet extends MVCPortlet {
 				assetListDisplayContext.getSegmentsEntryId())
 		).build();
 
-		return AssetListTypeSettingsSanitizerUtil.sanitize(
-			assetListEntry.getAssetListEntryId(),
-			assetListDisplayContext.getSegmentsEntryId(), unicodeProperties);
+		try {
+			unicodeProperties = AssetListTypeSettingsSanitizerUtil.sanitize(
+				assetListEntry.getAssetListEntryId(),
+				assetListDisplayContext.getSegmentsEntryId(),
+				unicodeProperties);
+		}
+		catch (PortalException portalException) {
+			throw new PortletException(portalException);
+		}
+
+		return unicodeProperties;
 	}
 
 	@Reference
