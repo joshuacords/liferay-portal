@@ -9,7 +9,7 @@ import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
-import com.liferay.asset.list.model.AssetListEntry;
+import com.liferay.asset.list.model.AssetListEntrySegmentsEntryRel;
 import com.liferay.asset.list.util.AssetListTypeSettingsSanitizerUtil;
 import com.liferay.asset.util.AssetRendererFactoryClassProvider;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
@@ -68,15 +68,16 @@ public class AssetListEntryExportImportContentProcessor
 			content
 		).build();
 
-		AssetListEntry assetListEntry = (AssetListEntry)stagedModel;
+		AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel =
+			(AssetListEntrySegmentsEntryRel)stagedModel;
 
 		long segmentsEntryId = GetterUtil.getLong(
 			unicodeProperties.getProperty("segmentsEntryId"),
 			SegmentsEntryConstants.ID_DEFAULT);
 
 		unicodeProperties = AssetListTypeSettingsSanitizerUtil.sanitize(
-			assetListEntry.getAssetListEntryId(), segmentsEntryId,
-			unicodeProperties);
+			assetListEntrySegmentsEntryRel.getAssetListEntryId(),
+			segmentsEntryId, unicodeProperties);
 
 		long[] groupIds = GetterUtil.getLongValues(
 			StringUtil.split(unicodeProperties.getProperty("groupIds", null)));
