@@ -298,15 +298,16 @@ public class AssetVocabularyServiceUtil {
 	}
 
 	public static AssetVocabulary updateVocabulary(
-			long vocabularyId, String title,
+			long vocabularyId, String name,
 			Map<java.util.Locale, String> titleMap,
 			Map<java.util.Locale, String> descriptionMap, String settings,
+			int visibilityType,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
 		return getService().updateVocabulary(
-			vocabularyId, title, titleMap, descriptionMap, settings,
-			serviceContext);
+			vocabularyId, name, titleMap, descriptionMap, settings,
+			visibilityType, serviceContext);
 	}
 
 	public static AssetVocabularyService getService() {
