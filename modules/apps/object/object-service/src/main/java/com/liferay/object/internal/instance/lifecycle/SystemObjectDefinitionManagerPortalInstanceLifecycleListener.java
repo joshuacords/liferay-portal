@@ -64,14 +64,17 @@ import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.events.StartupHelperUtil;
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.EveryNodeEveryStartup;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
+import com.liferay.portal.kernel.dependency.manager.DependencyManagerSyncUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Release;
+import com.liferay.portal.kernel.security.auth.CompanyInheritableThreadLocalCallable;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.ListTypeLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -113,7 +116,8 @@ public class SystemObjectDefinitionManagerPortalInstanceLifecycleListener
 		for (SystemObjectDefinitionManager systemObjectDefinitionManager :
 				_serviceTrackerList) {
 
-			_apply(company.getCompanyId(), systemObjectDefinitionManager);
+			_applyWhenReady(
+				company.getCompanyId(), systemObjectDefinitionManager);
 		}
 	}
 
@@ -153,7 +157,7 @@ public class SystemObjectDefinitionManagerPortalInstanceLifecycleListener
 
 					if (!_opening.get()) {
 						_companyLocalService.forEachCompanyId(
-							companyId -> _apply(
+							companyId -> _applyWhenReady(
 								companyId, systemObjectDefinitionManager));
 					}
 
@@ -381,6 +385,35 @@ public class SystemObjectDefinitionManagerPortalInstanceLifecycleListener
 		catch (PortalException portalException) {
 			_log.error(portalException);
 		}
+	}
+
+	private void _applyWhenReady(
+		long companyId,
+		SystemObjectDefinitionManager systemObjectDefinitionManager) {
+
+		if (!StartupHelperUtil.isUpgrading()) {
+			_apply(companyId, systemObjectDefinitionManager);
+
+			return;
+		}
+
+		if (_log.isDebugEnabled()) {
+			_log.debug("Portal is upgrading, queuing apply Object Definition");
+		}
+
+		DependencyManagerSyncUtil.registerSyncCallable(
+			new CompanyInheritableThreadLocalCallable<>(
+				() -> {
+					if (StartupHelperUtil.isUpgrading()) {
+						_log.error("Object Definitions not applied");
+
+						return null;
+					}
+
+					_apply(companyId, systemObjectDefinitionManager);
+
+					return null;
+				}));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
