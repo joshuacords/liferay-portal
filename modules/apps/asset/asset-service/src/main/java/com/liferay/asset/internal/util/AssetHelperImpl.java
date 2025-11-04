@@ -48,6 +48,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.theme.PortletDisplay;
@@ -689,6 +690,9 @@ public class AssetHelperImpl implements AssetHelper {
 			SearchContext searchContext, int start)
 		throws Exception {
 
+		BooleanQueryImpl segmentsBooleanQueryImpl = new BooleanQueryImpl();
+		boolean hasSegmentsBooleanQuery = false;
+
 		for (AssetEntryQuery assetEntryQuery : assetEntryQueries) {
 			SearchContext assetEntryQuerySearchContext = new SearchContext();
 
@@ -711,23 +715,28 @@ public class AssetHelperImpl implements AssetHelper {
 			BooleanQuery booleanQuery = baseSearcher.getFullQuery(
 				assetEntryQuerySearchContext);
 
+			segmentsBooleanQueryImpl.add(
+				booleanQuery, BooleanClauseOccur.SHOULD);
+
+			hasSegmentsBooleanQuery = true;
+		}
+
+		if (hasSegmentsBooleanQuery) {
 			BooleanClause<Query>[] booleanClauses =
 				searchContext.getBooleanClauses();
 
+			BooleanClause<Query> segmentsBooleanClause =
+				BooleanClauseFactoryUtil.create(
+					segmentsBooleanQueryImpl,
+					BooleanClauseOccur.MUST.getName());
+
 			if (booleanClauses == null) {
 				searchContext.setBooleanClauses(
-					new BooleanClause[] {
-						BooleanClauseFactoryUtil.create(
-							booleanQuery, BooleanClauseOccur.SHOULD.getName())
-					});
+					new BooleanClause[] {segmentsBooleanClause});
 			}
 			else {
 				searchContext.setBooleanClauses(
-					ArrayUtil.append(
-						booleanClauses,
-						BooleanClauseFactoryUtil.create(
-							booleanQuery,
-							BooleanClauseOccur.SHOULD.getName())));
+					ArrayUtil.append(booleanClauses, segmentsBooleanClause));
 			}
 		}
 
