@@ -37,10 +37,13 @@ import com.liferay.portal.search.model.uid.UIDFactory;
 
 import java.io.Serializable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -406,14 +409,15 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 			Map<String, Serializable> taskContextMap)
 		throws SearchException {
 
-		if (taskContextMap == null) {
-			taskContextMap = new HashMap<>();
-		}
+                if (taskContextMap == null) {
+                        taskContextMap = new HashMap<>();
+                }
 
-		taskContextMap.put(
-			BackgroundTaskContextMapConstants.DELETE_ON_SUCCESS, true);
-		taskContextMap.put(
-			ReindexBackgroundTaskConstants.COMPANY_IDS, companyIds);
+                taskContextMap.put(
+                        BackgroundTaskContextMapConstants.DELETE_ON_SUCCESS, true);
+                taskContextMap.put(
+                        ReindexBackgroundTaskConstants.COMPANY_IDS,
+                        _toCompanyIds(companyIds));
 
 		try {
 			return _backgroundTaskManager.addBackgroundTask(
@@ -437,16 +441,17 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 			return reindex(userId, jobName, companyIds, taskContextMap);
 		}
 
-		if (taskContextMap == null) {
-			taskContextMap = new HashMap<>();
-		}
+                if (taskContextMap == null) {
+                        taskContextMap = new HashMap<>();
+                }
 
-		taskContextMap.put(
-			BackgroundTaskContextMapConstants.DELETE_ON_SUCCESS, true);
-		taskContextMap.put(
-			ReindexBackgroundTaskConstants.CLASS_NAME, className);
-		taskContextMap.put(
-			ReindexBackgroundTaskConstants.COMPANY_IDS, companyIds);
+                taskContextMap.put(
+                        BackgroundTaskContextMapConstants.DELETE_ON_SUCCESS, true);
+                taskContextMap.put(
+                        ReindexBackgroundTaskConstants.CLASS_NAME, className);
+                taskContextMap.put(
+                        ReindexBackgroundTaskConstants.COMPANY_IDS,
+                        _toCompanyIds(companyIds));
 
 		try {
 			return _backgroundTaskManager.addBackgroundTask(
@@ -580,15 +585,24 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 		uidFactory.getUID(document);
 	}
 
-	private String _getIndexerModelName(String name) {
-		String[] names = StringUtil.split(
-			name, ResourceActionsUtil.getCompositeModelNameSeparator());
+        private String _getIndexerModelName(String name) {
+                String[] names = StringUtil.split(
+                        name, ResourceActionsUtil.getCompositeModelNameSeparator());
 
-		return names[0];
-	}
+                return names[0];
+        }
 
-	private void _setCommitImmediately(
-		SearchContext searchContext, boolean commitImmediately) {
+        private List<Long> _toCompanyIds(long[] companyIds) {
+                return Arrays.stream(
+                        companyIds
+                ).boxed(
+                ).collect(
+                        Collectors.toList()
+                );
+        }
+
+        private void _setCommitImmediately(
+                SearchContext searchContext, boolean commitImmediately) {
 
 		if (!commitImmediately) {
 			searchContext.setCommitImmediately(_commitImmediately);

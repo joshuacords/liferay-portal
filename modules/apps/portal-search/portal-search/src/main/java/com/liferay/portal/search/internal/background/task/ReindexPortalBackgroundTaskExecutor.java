@@ -13,9 +13,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.service.Snapshot;
 import com.liferay.portal.kernel.search.background.task.ReindexBackgroundTaskConstants;
 import com.liferay.portal.kernel.search.background.task.ReindexStatusMessageSenderUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.search.index.ConcurrentReindexManager;
 import com.liferay.portal.search.index.SyncReindexManager;
 import com.liferay.portal.search.internal.SearchEngineInitializer;
+
+import java.util.List;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -43,14 +46,16 @@ public class ReindexPortalBackgroundTaskExecutor
 	}
 
 	@Override
-	protected void reindex(
-			String className, long[] companyIds, String executionMode)
-		throws Exception {
+        protected void reindex(
+                        String className, List<Long> companyIds, String executionMode)
+                throws Exception {
 
-		for (long companyId : companyIds) {
-			ReindexStatusMessageSenderUtil.sendStatusMessage(
-				ReindexBackgroundTaskConstants.PORTAL_START, companyId,
-				companyIds);
+                long[] companyIdsArray = ArrayUtil.toLongArray(companyIds);
+
+                for (long companyId : companyIdsArray) {
+                        ReindexStatusMessageSenderUtil.sendStatusMessage(
+                                ReindexBackgroundTaskConstants.PORTAL_START, companyId,
+                                companyIdsArray);
 
 			if (_log.isInfoEnabled()) {
 				_log.info(
@@ -70,12 +75,12 @@ public class ReindexPortalBackgroundTaskExecutor
 				searchEngineInitializer.reindex();
 			}
 			catch (Exception exception) {
-				_log.error(exception);
-			}
-			finally {
-				ReindexStatusMessageSenderUtil.sendStatusMessage(
-					ReindexBackgroundTaskConstants.PORTAL_END, companyId,
-					companyIds);
+                                _log.error(exception);
+                        }
+                        finally {
+                                ReindexStatusMessageSenderUtil.sendStatusMessage(
+                                        ReindexBackgroundTaskConstants.PORTAL_END, companyId,
+                                        companyIdsArray);
 
 				if (_log.isInfoEnabled()) {
 					_log.info(

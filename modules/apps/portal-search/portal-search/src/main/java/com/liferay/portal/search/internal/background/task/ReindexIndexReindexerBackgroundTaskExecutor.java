@@ -13,11 +13,13 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.background.task.ReindexBackgroundTaskConstants;
 import com.liferay.portal.kernel.search.background.task.ReindexStatusMessageSender;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.spi.reindexer.IndexReindexer;
 import com.liferay.portal.search.spi.reindexer.IndexReindexerRegistry;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -35,39 +37,41 @@ public class ReindexIndexReindexerBackgroundTaskExecutor
 	@Override
 	public BackgroundTaskExecutor clone() {
 		return this;
-	}
+        }
 
-	@Override
-	protected void reindex(
-			String className, long[] companyIds, String executionMode)
-		throws Exception {
+        @Override
+        protected void reindex(
+                        String className, List<Long> companyIds, String executionMode)
+                throws Exception {
 
-		if (Validator.isBlank(className)) {
-			Collection<IndexReindexer> indexReindexers =
-				_indexReindexerRegistry.getIndexReindexers();
+                long[] companyIdsArray = ArrayUtil.toLongArray(companyIds);
 
-			for (IndexReindexer indexReindexer : indexReindexers) {
-				Class<?> clazz = indexReindexer.getClass();
+                if (Validator.isBlank(className)) {
+                        Collection<IndexReindexer> indexReindexers =
+                                _indexReindexerRegistry.getIndexReindexers();
 
-				_reindex(
-					clazz.getName(), companyIds, executionMode, indexReindexer,
-					null, null);
-			}
-		}
-		else {
-			IndexReindexer indexReindexer =
-				_indexReindexerRegistry.getIndexReindexer(className);
+                        for (IndexReindexer indexReindexer : indexReindexers) {
+                                Class<?> clazz = indexReindexer.getClass();
+
+                                _reindex(
+                                        clazz.getName(), companyIdsArray, executionMode,
+                                        indexReindexer, null, null);
+                        }
+                }
+                else {
+                        IndexReindexer indexReindexer =
+                                _indexReindexerRegistry.getIndexReindexer(className);
 
 			if (indexReindexer == null) {
 				return;
-			}
+                        }
 
-			_reindex(
-				className, companyIds, executionMode, indexReindexer,
-				ReindexBackgroundTaskConstants.SINGLE_START,
-				ReindexBackgroundTaskConstants.SINGLE_END);
-		}
-	}
+                        _reindex(
+                                className, companyIdsArray, executionMode, indexReindexer,
+                                ReindexBackgroundTaskConstants.SINGLE_START,
+                                ReindexBackgroundTaskConstants.SINGLE_END);
+                }
+        }
 
 	private void _reindex(
 			String className, long[] companyIds, String executionMode,

@@ -15,7 +15,10 @@ import com.liferay.portal.search.internal.background.task.display.ReindexBackgro
 
 import java.io.Serializable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Andrew Betts
@@ -32,17 +35,16 @@ public abstract class BaseReindexBackgroundTaskExecutor
 	public BackgroundTaskResult execute(BackgroundTask backgroundTask)
 		throws Exception {
 
-		Map<String, Serializable> taskContextMap =
-			backgroundTask.getTaskContextMap();
+                Map<String, Serializable> taskContextMap =
+                        backgroundTask.getTaskContextMap();
 
-		String className = (String)taskContextMap.get(
-			ReindexBackgroundTaskConstants.CLASS_NAME);
-		long[] companyIds = GetterUtil.getLongValues(
-			taskContextMap.get(ReindexBackgroundTaskConstants.COMPANY_IDS));
-		String executionMode = (String)taskContextMap.get(
-			ReindexBackgroundTaskConstants.EXECUTION_MODE);
+                String className = (String)taskContextMap.get(
+                        ReindexBackgroundTaskConstants.CLASS_NAME);
+                List<Long> companyIds = _getCompanyIds(taskContextMap);
+                String executionMode = (String)taskContextMap.get(
+                        ReindexBackgroundTaskConstants.EXECUTION_MODE);
 
-		reindex(className, companyIds, executionMode);
+                reindex(className, companyIds, executionMode);
 
 		return BackgroundTaskResult.SUCCESS;
 	}
@@ -52,10 +54,34 @@ public abstract class BaseReindexBackgroundTaskExecutor
 		BackgroundTask backgroundTask) {
 
 		return new ReindexBackgroundTaskDisplay(backgroundTask);
-	}
+        }
 
-	protected abstract void reindex(
-			String className, long[] companyIds, String executionMode)
-		throws Exception;
+        protected abstract void reindex(
+                        String className, List<Long> companyIds, String executionMode)
+                throws Exception;
+
+        private List<Long> _getCompanyIds(
+                Map<String, Serializable> taskContextMap) {
+
+                Object companyIds = taskContextMap.get(
+                        ReindexBackgroundTaskConstants.COMPANY_IDS);
+
+                if (companyIds instanceof List) {
+                        List<?> companyIdsList = (List<?>)companyIds;
+
+                        return companyIdsList.stream(
+                        ).map(
+                                GetterUtil::getLong
+                        ).collect(
+                                Collectors.toList()
+                        );
+                }
+
+                return Arrays.stream(
+                        GetterUtil.getLongValues(companyIds)
+                ).boxed().collect(
+                        Collectors.toList()
+                );
+        }
 
 }

@@ -26,6 +26,7 @@ import com.liferay.portal.search.index.SyncReindexManager;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -60,12 +61,12 @@ public class ReindexSingleIndexerBackgroundTaskExecutor
 		if (systemIndexers != null) {
 			systemIndexers.close();
 		}
-	}
+        }
 
-	@Override
-	protected void reindex(
-			String className, long[] companyIds, String executionMode)
-		throws Exception {
+        @Override
+        protected void reindex(
+                        String className, List<Long> companyIds, String executionMode)
+                throws Exception {
 
 		Indexer<?> indexer = indexerRegistry.getIndexer(className);
 
@@ -77,9 +78,9 @@ public class ReindexSingleIndexerBackgroundTaskExecutor
 
 		boolean systemIndexer = _isSystemIndexer(indexer);
 
-		for (long companyId : companyIds) {
-			if (((companyId == CompanyConstants.SYSTEM) && !systemIndexer) ||
-				((companyId != CompanyConstants.SYSTEM) && systemIndexer)) {
+                for (long companyId : companyIds) {
+                        if (((companyId == CompanyConstants.SYSTEM) && !systemIndexer) ||
+                                ((companyId != CompanyConstants.SYSTEM) && systemIndexer)) {
 
 				continue;
 			}

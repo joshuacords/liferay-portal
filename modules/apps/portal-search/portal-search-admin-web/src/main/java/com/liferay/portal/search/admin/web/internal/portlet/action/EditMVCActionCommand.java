@@ -38,9 +38,13 @@ import jakarta.portlet.PortletSession;
 
 import java.io.Serializable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import java.util.stream.Collectors;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -208,30 +212,40 @@ public class EditMVCActionCommand extends BaseMVCActionCommand {
 		dictionaryReindexer.reindexDictionaries(companyIds);
 	}
 
-	private void _reindexIndexReindexer(
-			String className, long[] companyIds, String executionMode,
-			ThemeDisplay themeDisplay)
-		throws Exception {
+        private void _reindexIndexReindexer(
+                        String className, long[] companyIds, String executionMode,
+                        ThemeDisplay themeDisplay)
+                throws Exception {
 
-		_backgroundTaskManager.addBackgroundTask(
-			themeDisplay.getUserId(), BackgroundTaskConstants.GROUP_ID_DEFAULT,
-			"reindexIndexReindexer",
-			_CLASS_NAME_REINDEX_INDEX_REINDEXER_BACKGROUND_TASK_EXECUTOR,
-			HashMapBuilder.<String, Serializable>put(
-				BackgroundTaskContextMapConstants.DELETE_ON_SUCCESS, true
-			).put(
-				ReindexBackgroundTaskConstants.CLASS_NAME, className
-			).put(
-				ReindexBackgroundTaskConstants.COMPANY_IDS, companyIds
-			).put(
-				ReindexBackgroundTaskConstants.EXECUTION_MODE, executionMode
-			).build(),
-			new ServiceContext());
-	}
+                _backgroundTaskManager.addBackgroundTask(
+                        themeDisplay.getUserId(), BackgroundTaskConstants.GROUP_ID_DEFAULT,
+                        "reindexIndexReindexer",
+                        _CLASS_NAME_REINDEX_INDEX_REINDEXER_BACKGROUND_TASK_EXECUTOR,
+                        HashMapBuilder.<String, Serializable>put(
+                                BackgroundTaskContextMapConstants.DELETE_ON_SUCCESS, true
+                        ).put(
+                                ReindexBackgroundTaskConstants.CLASS_NAME, className
+                        ).put(
+                                ReindexBackgroundTaskConstants.COMPANY_IDS,
+                                _toCompanyIds(companyIds)
+                        ).put(
+                                ReindexBackgroundTaskConstants.EXECUTION_MODE, executionMode
+                        ).build(),
+                        new ServiceContext());
+        }
 
-	private static final String
-		_CLASS_NAME_REINDEX_INDEX_REINDEXER_BACKGROUND_TASK_EXECUTOR =
-			"com.liferay.portal.search.internal.background.task." +
+        private List<Long> _toCompanyIds(long[] companyIds) {
+                return Arrays.stream(
+                        companyIds
+                ).boxed(
+                ).collect(
+                        Collectors.toList()
+                );
+        }
+
+        private static final String
+                _CLASS_NAME_REINDEX_INDEX_REINDEXER_BACKGROUND_TASK_EXECUTOR =
+                        "com.liferay.portal.search.internal.background.task." +
 				"ReindexIndexReindexerBackgroundTaskExecutor";
 
 	@Reference
