@@ -2429,6 +2429,9 @@ public interface PropsKeys {
 	public static final String SHUTDOWN_PROGRAMMATICALLY_EXIT =
 		"shutdown.programmatically.exit";
 
+	public static final String SIDECAR_DEVELOPMENT_MODE_ENABLE =
+		"sidecar.development.mode.enable";
+
 	public static final String SITEMAP_DISPLAY_TEMPLATES_CONFIG =
 		"sitemap.display.templates.config";
 

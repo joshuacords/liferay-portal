@@ -416,26 +416,28 @@ public class Sidecar {
 				"bootstrap=ALL-UNNAMED");
 		arguments.add("--module-path=" + _sidecarHomePath.resolve("lib"));
 
-		// Apply agent to load modified classes
+		if (!PropsValues.SIDECAR_DEVELOPMENT_MODE_ENABLE) {
+			// Apply agent to load modified classes
 
-		Path agentPath = null;
+			Path agentPath = null;
 
-		URL sidecarAgentBundleURL = _getBundleURL(SidecarAgent.class);
+			URL sidecarAgentBundleURL = _getBundleURL(SidecarAgent.class);
 
-		try {
-			agentPath = Path.of(sidecarAgentBundleURL.toURI());
-		}
-		catch (URISyntaxException uriSyntaxException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(uriSyntaxException);
+			try {
+				agentPath = Path.of(sidecarAgentBundleURL.toURI());
+			}
+			catch (URISyntaxException uriSyntaxException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(uriSyntaxException);
+				}
+
+				File file = new File(sidecarAgentBundleURL.getPath());
+
+				agentPath = file.toPath();
 			}
 
-			File file = new File(sidecarAgentBundleURL.getPath());
-
-			agentPath = file.toPath();
+			arguments.add("-javaagent:" + agentPath);
 		}
-
-		arguments.add("-javaagent:" + agentPath);
 
 		return arguments;
 	}
@@ -579,6 +581,10 @@ public class Sidecar {
 			_sidecarHomePath
 		).build(
 		).install();
+
+		if (PropsValues.SIDECAR_DEVELOPMENT_MODE_ENABLE) {
+			return;
+		}
 
 		Path modulesPath = _sidecarHomePath.resolve(
 			_SIDECAR_MODULES_FOLDER_NAME);

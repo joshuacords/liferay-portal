@@ -2107,6 +2107,10 @@ public class PropsValues {
 	public static boolean SETUP_WIZARD_ENABLED = GetterUtil.getBoolean(
 		PropsUtil.get(PropsKeys.SETUP_WIZARD_ENABLED));
 
+	public static final boolean SIDECAR_DEVELOPMENT_MODE_ENABLE =
+		GetterUtil.getBoolean(
+			PropsUtil.get(PropsKeys.SIDECAR_DEVELOPMENT_MODE_ENABLE));
+
 	public static final String SITEMAP_DISPLAY_TEMPLATES_CONFIG = PropsUtil.get(
 		PropsKeys.SITEMAP_DISPLAY_TEMPLATES_CONFIG);
 
