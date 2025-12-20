@@ -35,7 +35,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		_model = model;
 		_textEmbeddingDocumentContributor = textEmbeddingDocumentContributor;
 
-		_nonlocalizedContentSB = new StringBundler(size);
+		_nonlocalizedContentSB = new StringBundler((size * 2) - 1);
 
 		if (!localizationEnabled) {
 			return;
@@ -44,40 +44,33 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		for (String languageId :
 				textEmbeddingDocumentContributor.getLanguageIds(model)) {
 
-			_localizedContentSBMap.put(languageId, new StringBundler(size));
+			_languageContentSBMap.put(languageId, new StringBundler(size));
 		}
 	}
 
-	public void appendToAll(StringBundler sb) {
-		_append(_nonlocalizedContentSB, sb);
+	public void appendToAll(String value) {
+		_append(_nonlocalizedContentSB, value);
 
 		for (StringBundler localizedContentSB :
-				_localizedContentSBMap.values()) {
+				_languageContentSBMap.values()) {
 
-			_append(localizedContentSB, sb);
+			_append(localizedContentSB, value);
 		}
 	}
 
 	public void appendToLocale(String languageId, String value) {
-		_append(_localizedContentSBMap.get(languageId), value);
-	}
-
-	public void appendToLocale(String languageId, StringBundler sb) {
-		_append(_localizedContentSBMap.get(languageId), sb);
+		_append(_languageContentSBMap.get(languageId), value);
 	}
 
 	public void appendToLocalizedAndNonlocalized(
 		String languageId, String value) {
 
 		_append(_nonlocalizedContentSB, value);
-		_append(_localizedContentSBMap.get(languageId), value);
+		_append(_languageContentSBMap.get(languageId), value);
 	}
 
-	public void appendToLocalizedAndNonlocalized(
-		String languageId, StringBundler sb) {
-
-		_append(_nonlocalizedContentSB, sb);
-		_append(_localizedContentSBMap.get(languageId), sb);
+	public void appendToNonlocalized(String value) {
+		_append(_nonlocalizedContentSB, value);
 	}
 
 	public void contribute(Document document) {
@@ -87,7 +80,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 
 		if (_localizationEnabled) {
 			for (Map.Entry<String, StringBundler> localizedContent :
-					_localizedContentSBMap.entrySet()) {
+					_languageContentSBMap.entrySet()) {
 
 				StringBundler localizedSB = localizedContent.getValue();
 
@@ -103,26 +96,26 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 	}
 
 	public Map<String, String> getLocalizedContentMap() {
-		Map<String, String> localizedContentMap = new TreeMap<>();
+		Map<String, String> languageContentMap = new TreeMap<>();
 
-		if (_localizedContentSBMap.isEmpty()) {
-			return localizedContentMap;
+		if (_languageContentSBMap.isEmpty()) {
+			return languageContentMap;
 		}
 
 		for (Map.Entry<String, StringBundler> entry :
-				_localizedContentSBMap.entrySet()) {
+				_languageContentSBMap.entrySet()) {
 
-			StringBundler localizedContentSB = entry.getValue();
+			StringBundler languageContentSB = entry.getValue();
 
-			if ((localizedContentSB != null) &&
-				(localizedContentSB.length() != 0)) {
+			if ((languageContentSB != null) &&
+				(languageContentSB.length() != 0)) {
 
-				localizedContentMap.put(
-					entry.getKey(), localizedContentSB.toString());
+				languageContentMap.put(
+					entry.getKey(), languageContentSB.toString());
 			}
 		}
 
-		return localizedContentMap;
+		return languageContentMap;
 	}
 
 	public String getNonlocalizedContent() {
@@ -141,23 +134,11 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		sb.append(value);
 	}
 
-	private void _append(StringBundler sb1, StringBundler sb2) {
-		if (sb1 == null) {
-			return;
-		}
-
-		if (sb1.length() > 0) {
-			sb1.append(_delimiter);
-		}
-
-		sb1.append(sb2);
-	}
-
 	private final long _companyId;
 	private final String _delimiter;
-	private final boolean _localizationEnabled;
-	private final Map<String, StringBundler> _localizedContentSBMap =
+	private final Map<String, StringBundler> _languageContentSBMap =
 		new TreeMap<>();
+	private final boolean _localizationEnabled;
 	private final T _model;
 	private final StringBundler _nonlocalizedContentSB;
 	private final TextEmbeddingDocumentContributor
