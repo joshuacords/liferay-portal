@@ -44,7 +44,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		for (String languageId :
 				textEmbeddingDocumentContributor.getLanguageIds(model)) {
 
-			_localizedContentSBMap.put(languageId, new StringBundler(size));
+			_languageContentSBMap.put(languageId, new StringBundler(size));
 		}
 	}
 
@@ -52,25 +52,25 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		_append(_nonlocalizedContentSB, value);
 
 		for (StringBundler localizedContentSB :
-				_localizedContentSBMap.values()) {
+				_languageContentSBMap.values()) {
 
 			_append(localizedContentSB, value);
 		}
 	}
 
-	public void appendToLocalized(String languageId, String value) {
-		_append(_localizedContentSBMap.get(languageId), value);
+	public void appendToLocale(String languageId, String value) {
+		_append(_languageContentSBMap.get(languageId), value);
 	}
 
 	public void appendToLocalizedAndNonlocalized(
 		String languageId, String value) {
 
 		_append(_nonlocalizedContentSB, value);
-		_append(_localizedContentSBMap.get(languageId), value);
+		_append(_languageContentSBMap.get(languageId), value);
 	}
 
-	public void appendToNonlocalized(String languageId, String value) {
-		_append(_localizedContentSBMap.get(languageId), value);
+	public void appendToNonlocalized(String value) {
+		_append(_nonlocalizedContentSB, value);
 	}
 
 	public void contribute(Document document) {
@@ -80,7 +80,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 
 		if (_localizationEnabled) {
 			for (Map.Entry<String, StringBundler> localizedContent :
-					_localizedContentSBMap.entrySet()) {
+					_languageContentSBMap.entrySet()) {
 
 				StringBundler localizedSB = localizedContent.getValue();
 
@@ -96,26 +96,26 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 	}
 
 	public Map<String, String> getLocalizedContentMap() {
-		Map<String, String> localizedContentMap = new TreeMap<>();
+		Map<String, String> languageContentMap = new TreeMap<>();
 
-		if (_localizedContentSBMap.isEmpty()) {
-			return localizedContentMap;
+		if (_languageContentSBMap.isEmpty()) {
+			return languageContentMap;
 		}
 
 		for (Map.Entry<String, StringBundler> entry :
-				_localizedContentSBMap.entrySet()) {
+				_languageContentSBMap.entrySet()) {
 
-			StringBundler localizedContentSB = entry.getValue();
+			StringBundler languageContentSB = entry.getValue();
 
-			if ((localizedContentSB != null) &&
-				(localizedContentSB.length() != 0)) {
+			if ((languageContentSB != null) &&
+				(languageContentSB.length() != 0)) {
 
-				localizedContentMap.put(
-					entry.getKey(), localizedContentSB.toString());
+				languageContentMap.put(
+					entry.getKey(), languageContentSB.toString());
 			}
 		}
 
-		return localizedContentMap;
+		return languageContentMap;
 	}
 
 	public String getNonlocalizedContent() {
@@ -136,9 +136,9 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 
 	private final long _companyId;
 	private final String _delimiter;
-	private final boolean _localizationEnabled;
-	private final Map<String, StringBundler> _localizedContentSBMap =
+	private final Map<String, StringBundler> _languageContentSBMap =
 		new TreeMap<>();
+	private final boolean _localizationEnabled;
 	private final T _model;
 	private final StringBundler _nonlocalizedContentSB;
 	private final TextEmbeddingDocumentContributor
