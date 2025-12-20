@@ -118,7 +118,7 @@ public class ObjectEntryModelDocumentContributor
 		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper,
 		String valueString) {
 
-		StringBundler sb = new StringBundler(4);
+		StringBundler sb = new StringBundler(3);
 
 		sb.append(objectFieldName);
 		sb.append(": ");
@@ -126,10 +126,10 @@ public class ObjectEntryModelDocumentContributor
 
 		if (locale != null) {
 			textEmbeddingContentHelper.appendToLocalizedAndNonlocalized(
-				locale, sb);
+				locale, sb.toString());
 		}
 		else {
-			textEmbeddingContentHelper.appendToAll(sb);
+			textEmbeddingContentHelper.appendToAll(sb.toString());
 		}
 	}
 
@@ -345,7 +345,8 @@ public class ObjectEntryModelDocumentContributor
 		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper =
 			new TextEmbeddingContentHelper<>(
 				objectEntry.getCompanyId(), StringPool.COMMA_AND_SPACE, true,
-				objectEntry, false, 0, _textEmbeddingDocumentContributor);
+				objectEntry, false, objectFields.size(),
+				_textEmbeddingDocumentContributor);
 
 		if (!objectFields.isEmpty()) {
 			values = objectEntry.getIndexedValues();
