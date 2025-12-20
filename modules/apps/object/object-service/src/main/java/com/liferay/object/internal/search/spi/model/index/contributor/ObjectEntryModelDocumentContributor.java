@@ -47,6 +47,7 @@ import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.ml.embedding.text.TextEmbeddingDocumentContributor;
+import com.liferay.portal.search.ml.embedding.text.util.TextEmbeddingContentHelper;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 
 import java.io.Serializable;
@@ -117,7 +118,8 @@ public class ObjectEntryModelDocumentContributor
 
 	private void _appendToContent(
 		ObjectContentHelper objectContentHelper, String locale,
-		String objectFieldName, String valueString) {
+		String objectFieldName, String valueString,
+		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper) {
 
 		StringBundler sb = new StringBundler(4);
 
@@ -128,9 +130,11 @@ public class ObjectEntryModelDocumentContributor
 
 		if (locale != null) {
 			objectContentHelper.contributeToLocale(locale, sb);
+			textEmbeddingContentHelper.appendToLocale(locale, sb);
 		}
 		else {
 			objectContentHelper.contributeToAll(sb);
+			textEmbeddingContentHelper.appendToAll(sb);
 		}
 	}
 
@@ -139,7 +143,8 @@ public class ObjectEntryModelDocumentContributor
 		Object fieldValue, String locale,
 		ObjectContentHelper objectContentHelper,
 		ObjectDefinition objectDefinition, ObjectEntry objectEntry,
-		ObjectField objectField) {
+		ObjectField objectField, Map<String, Serializable> values,
+		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper) {
 
 		if (!objectField.isIndexed()) {
 			return;
@@ -217,13 +222,15 @@ public class ObjectEntryModelDocumentContributor
 				StringUtil.lowerCase(valueString));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof BigDecimal) {
 			_addField(fieldArray, fieldName, "value_double", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof Boolean) {
 			_addField(fieldArray, fieldName, "value_boolean", valueString);
@@ -232,7 +239,8 @@ public class ObjectEntryModelDocumentContributor
 				_translate((Boolean)fieldValue));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof Date) {
 			_addField(
@@ -241,25 +249,28 @@ public class ObjectEntryModelDocumentContributor
 
 			_appendToContent(
 				objectContentHelper, locale, fieldName,
-				_getDateString(fieldValue));
+				_getDateString(fieldValue), textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof Double) {
 			_addField(fieldArray, fieldName, "value_double", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof Integer) {
 			_addField(fieldArray, fieldName, "value_integer", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof Long) {
 			_addField(fieldArray, fieldName, "value_long", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof String) {
 			if (Validator.isBlank(objectField.getIndexedLanguageId())) {
@@ -280,7 +291,8 @@ public class ObjectEntryModelDocumentContributor
 				_getSortableValue(valueString));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, locale, fieldName, valueString,
+				textEmbeddingContentHelper);
 		}
 		else if (fieldValue instanceof byte[]) {
 			_addField(
@@ -342,7 +354,13 @@ public class ObjectEntryModelDocumentContributor
 		}
 
 		ObjectContentHelper objectContentHelper = null;
+
 		Map<String, Serializable> values = null;
+
+		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper =
+			new TextEmbeddingContentHelper<>(
+				objectEntry.getCompanyId(), StringPool.COMMA_AND_SPACE, true,
+				objectEntry, false, 0, _textEmbeddingDocumentContributor);
 
 		if (!objectFields.isEmpty()) {
 			values = objectEntry.getIndexedValues();
@@ -367,7 +385,7 @@ public class ObjectEntryModelDocumentContributor
 							document, fieldArray, objectField.getName(),
 							entry.getValue(), entry.getKey(),
 							objectContentHelper, objectDefinition, objectEntry,
-							objectField);
+							objectField, values, textEmbeddingContentHelper);
 					}
 				}
 				else {
@@ -375,7 +393,7 @@ public class ObjectEntryModelDocumentContributor
 						document, fieldArray, objectField.getName(),
 						values.get(objectField.getName()), null,
 						objectContentHelper, objectDefinition, objectEntry,
-						objectField);
+						objectField, values, textEmbeddingContentHelper);
 				}
 			}
 
@@ -415,6 +433,8 @@ public class ObjectEntryModelDocumentContributor
 
 		if (FeatureFlagManagerUtil.isEnabled(
 				objectEntry.getCompanyId(), "LPS-122920")) {
+
+			textEmbeddingContentHelper.contribute(document);
 
 			_contributeTextEmbeddings(
 				document, objectContentHelper, objectEntry);
