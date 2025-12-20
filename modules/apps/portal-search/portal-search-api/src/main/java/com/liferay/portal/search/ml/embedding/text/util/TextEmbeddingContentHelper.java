@@ -35,7 +35,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		_model = model;
 		_textEmbeddingDocumentContributor = textEmbeddingDocumentContributor;
 
-		_nonlocalizedContentSB = new StringBundler(size);
+		_nonlocalizedContentSB = new StringBundler((size * 2) - 1);
 
 		if (!localizationEnabled) {
 			return;
@@ -48,13 +48,13 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		}
 	}
 
-	public void appendToAll(StringBundler sb) {
-		_append(_nonlocalizedContentSB, sb);
+	public void appendToAll(String value) {
+		_append(_nonlocalizedContentSB, value);
 
 		for (StringBundler localizedContentSB :
 				_localizedContentSBMap.values()) {
 
-			_append(localizedContentSB, sb);
+			_append(localizedContentSB, value);
 		}
 	}
 
@@ -62,22 +62,11 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		_append(_localizedContentSBMap.get(languageId), value);
 	}
 
-	public void appendToLocale(String languageId, StringBundler sb) {
-		_append(_localizedContentSBMap.get(languageId), sb);
-	}
-
 	public void appendToLocalizedAndNonlocalized(
 		String languageId, String value) {
 
 		_append(_nonlocalizedContentSB, value);
 		_append(_localizedContentSBMap.get(languageId), value);
-	}
-
-	public void appendToLocalizedAndNonlocalized(
-		String languageId, StringBundler sb) {
-
-		_append(_nonlocalizedContentSB, sb);
-		_append(_localizedContentSBMap.get(languageId), sb);
 	}
 
 	public void contribute(Document document) {
@@ -139,18 +128,6 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		}
 
 		sb.append(value);
-	}
-
-	private void _append(StringBundler sb1, StringBundler sb2) {
-		if (sb1 == null) {
-			return;
-		}
-
-		if (sb1.length() > 0) {
-			sb1.append(_delimiter);
-		}
-
-		sb1.append(sb2);
 	}
 
 	private final long _companyId;
