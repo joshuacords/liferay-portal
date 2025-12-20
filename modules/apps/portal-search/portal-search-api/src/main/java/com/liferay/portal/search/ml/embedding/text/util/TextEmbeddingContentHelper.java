@@ -21,7 +21,7 @@ import java.util.TreeMap;
 public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 
 	public TextEmbeddingContentHelper(
-		long companyId, boolean localizationEnabled, T model,
+		long companyId, String delimiter, boolean localizationEnabled, T model,
 		boolean nonlocalizedEnabled, int size,
 		TextEmbeddingDocumentContributor textEmbeddingDocumentContributor) {
 
@@ -30,6 +30,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		}
 
 		_companyId = companyId;
+		_delimiter = delimiter;
 		_localizationEnabled = localizationEnabled;
 		_model = model;
 		_textEmbeddingDocumentContributor = textEmbeddingDocumentContributor;
@@ -48,57 +49,35 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 	}
 
 	public void appendToAll(StringBundler sb) {
-		_nonlocalizedContentSB.append(sb);
+		_append(_nonlocalizedContentSB, sb);
 
 		for (StringBundler localizedContentSB :
 				_localizedContentSBMap.values()) {
 
-			localizedContentSB.append(sb);
+			_append(localizedContentSB, sb);
 		}
 	}
 
 	public void appendToLocale(String languageId, String value) {
-		StringBundler localizedContentSB = _localizedContentSBMap.get(
-			languageId);
-
-		if (localizedContentSB != null) {
-			localizedContentSB.append(value);
-		}
+		_append(_localizedContentSBMap.get(languageId), value);
 	}
 
 	public void appendToLocale(String languageId, StringBundler sb) {
-		StringBundler localizedContentSB = _localizedContentSBMap.get(
-			languageId);
-
-		if (localizedContentSB != null) {
-			localizedContentSB.append(sb);
-		}
+		_append(_localizedContentSBMap.get(languageId), sb);
 	}
 
 	public void appendToLocalizedAndNonlocalized(
 		String languageId, String value) {
 
-		_nonlocalizedContentSB.append(value);
-
-		StringBundler localizedContentSB = _localizedContentSBMap.get(
-			languageId);
-
-		if (localizedContentSB != null) {
-			localizedContentSB.append(value);
-		}
+		_append(_nonlocalizedContentSB, value);
+		_append(_localizedContentSBMap.get(languageId), value);
 	}
 
 	public void appendToLocalizedAndNonlocalized(
 		String languageId, StringBundler sb) {
 
-		_nonlocalizedContentSB.append(sb);
-
-		StringBundler localizedContentSB = _localizedContentSBMap.get(
-			languageId);
-
-		if (localizedContentSB != null) {
-			localizedContentSB.append(sb);
-		}
+		_append(_nonlocalizedContentSB, sb);
+		_append(_localizedContentSBMap.get(languageId), sb);
 	}
 
 	public void contribute(Document document) {
@@ -150,7 +129,32 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		return _nonlocalizedContentSB.toString();
 	}
 
+	private void _append(StringBundler sb, String value) {
+		if (sb == null) {
+			return;
+		}
+
+		if (sb.length() > 0) {
+			sb.append(_delimiter);
+		}
+
+		sb.append(value);
+	}
+
+	private void _append(StringBundler sb1, StringBundler sb2) {
+		if (sb1 == null) {
+			return;
+		}
+
+		if (sb1.length() > 0) {
+			sb1.append(_delimiter);
+		}
+
+		sb1.append(sb2);
+	}
+
 	private final long _companyId;
+	private final String _delimiter;
 	private final boolean _localizationEnabled;
 	private final Map<String, StringBundler> _localizedContentSBMap =
 		new TreeMap<>();
