@@ -58,7 +58,7 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		}
 	}
 
-	public void appendToLocale(String languageId, String value) {
+	public void appendToLocalized(String languageId, String value) {
 		_append(_localizedContentSBMap.get(languageId), value);
 	}
 
@@ -66,6 +66,10 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		String languageId, String value) {
 
 		_append(_nonlocalizedContentSB, value);
+		_append(_localizedContentSBMap.get(languageId), value);
+	}
+
+	public void appendToNonlocalized(String languageId, String value) {
 		_append(_localizedContentSBMap.get(languageId), value);
 	}
 
