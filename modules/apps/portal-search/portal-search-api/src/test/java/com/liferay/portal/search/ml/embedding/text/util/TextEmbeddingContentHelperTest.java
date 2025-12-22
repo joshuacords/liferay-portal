@@ -32,29 +32,7 @@ public class TextEmbeddingContentHelperTest {
 		LiferayUnitTestRule.INSTANCE;
 
 	@Test
-	public void testAppendDelimiterBehavior() {
-		TextEmbeddingContentHelper<TestBaseModel> textEmbeddingContentHelper =
-			_createTextEmbeddingContentHelper();
-
-		textEmbeddingContentHelper.appendToLocale("en_US", "alpha");
-
-		Map<String, String> localizedContentMap =
-			textEmbeddingContentHelper.getLocalizedContentMap();
-
-		Assert.assertEquals("alpha", localizedContentMap.get("en_US"));
-
-		textEmbeddingContentHelper.appendToLocale("en_US", "beta");
-
-		localizedContentMap =
-			textEmbeddingContentHelper.getLocalizedContentMap();
-
-		Assert.assertEquals(
-			StringBundler.concat("alpha", _DELIMITER, "beta"),
-			localizedContentMap.get("en_US"));
-	}
-
-	@Test
-	public void testAppendMethodsPopulateCorrectStringBundlers() {
+	public void testAppend() {
 		TextEmbeddingContentHelper<TestBaseModel> textEmbeddingContentHelper =
 			_createTextEmbeddingContentHelper();
 
@@ -62,18 +40,20 @@ public class TextEmbeddingContentHelperTest {
 
 		textEmbeddingContentHelper.appendToNonlocalized("nonlocalized");
 
-		textEmbeddingContentHelper.appendToLocale("en_US", "localized_en_US");
+		textEmbeddingContentHelper.appendToLanguageId(
+			"en_US", "localized_en_US");
 
-		textEmbeddingContentHelper.appendToLocale("pt_BR", "localized_pt_BR");
+		textEmbeddingContentHelper.appendToLanguageId(
+			"pt_BR", "localized_pt_BR");
 
-		textEmbeddingContentHelper.appendToLocalizedAndNonlocalized(
+		textEmbeddingContentHelper.appendToLanguageIdAndNonlocalized(
 			"en_US", "both_en_US_and_nonlocalized");
 
-		textEmbeddingContentHelper.appendToLocalizedAndNonlocalized(
+		textEmbeddingContentHelper.appendToLanguageIdAndNonlocalized(
 			"pt_BR", "both_pt_BR_and_nonlocalized");
 
 		Map<String, String> localizedContentMap =
-			textEmbeddingContentHelper.getLocalizedContentMap();
+			textEmbeddingContentHelper.getLanguageIdToContentMap();
 
 		Assert.assertEquals(
 			StringBundler.concat(
@@ -91,7 +71,46 @@ public class TextEmbeddingContentHelperTest {
 				"all", _DELIMITER, "nonlocalized", _DELIMITER,
 				"both_en_US_and_nonlocalized", _DELIMITER,
 				"both_pt_BR_and_nonlocalized"),
-			textEmbeddingContentHelper.getNonlocalizedContent());
+			textEmbeddingContentHelper.getContent());
+	}
+
+	@Test
+	public void testDefaultLanguageId() {
+		TextEmbeddingContentHelper<TestBaseModel> textEmbeddingContentHelper =
+			_createTextEmbeddingContentHelper();
+
+		textEmbeddingContentHelper.appendToLanguageId(
+			"en_US", "default_localized_value");
+
+		Map<String, String> languageIdToContentMap =
+			textEmbeddingContentHelper.getLanguageIdToContentMap();
+
+		Assert.assertEquals(
+			"default_localized_value", languageIdToContentMap.get("en_US"));
+		Assert.assertEquals(
+			"default_localized_value", languageIdToContentMap.get("pt_BR"));
+	}
+
+	@Test
+	public void testDelimiter() {
+		TextEmbeddingContentHelper<TestBaseModel> textEmbeddingContentHelper =
+			_createTextEmbeddingContentHelper();
+
+		textEmbeddingContentHelper.appendToLanguageId("en_US", "alpha");
+
+		Map<String, String> localizedContentMap =
+			textEmbeddingContentHelper.getLanguageIdToContentMap();
+
+		Assert.assertEquals("alpha", localizedContentMap.get("en_US"));
+
+		textEmbeddingContentHelper.appendToLanguageId("en_US", "beta");
+
+		localizedContentMap =
+			textEmbeddingContentHelper.getLanguageIdToContentMap();
+
+		Assert.assertEquals(
+			StringBundler.concat("alpha", _DELIMITER, "beta"),
+			localizedContentMap.get("en_US"));
 	}
 
 	private TextEmbeddingContentHelper<TestBaseModel>
@@ -109,11 +128,14 @@ public class TextEmbeddingContentHelperTest {
 		);
 
 		return new TextEmbeddingContentHelper<>(
-			1L, _DELIMITER, true, Mockito.mock(TestBaseModel.class), true, 10,
+			1L, "en_US", _DELIMITER, _LANGUAGE_IDS, true,
+			Mockito.mock(TestBaseModel.class), 10,
 			textEmbeddingDocumentContributor);
 	}
 
 	private static final String _DELIMITER = StringPool.COMMA_AND_SPACE;
+
+	private static final String[] _LANGUAGE_IDS = {"en_US", "pt_BR"};
 
 	private interface TestBaseModel extends BaseModel<TestBaseModel> {
 	}
