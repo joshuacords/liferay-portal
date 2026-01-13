@@ -75,6 +75,13 @@ public class SearchBarPortletPreferencesImpl
 	}
 
 	@Override
+	public boolean isAllowEmptySearches() {
+		return getBoolean(
+			SearchBarPortletPreferences.PREFERENCE_KEY_ALLOW_EMPTY_SEARCHES,
+			false);
+	}
+
+	@Override
 	public boolean isIncludeAttachments() {
 		return getBoolean(
 			SearchBarPortletPreferences.PREFERENCE_KEY_INCLUDE_ATTACHMENTS,

@@ -156,7 +156,8 @@ public class SearchBarPortletDisplayContextFactory {
 				searchBarPortletInstanceConfiguration, themeDisplay));
 
 		if (searchRequest == null) {
-			searchBarPortletDisplayContext.setEmptySearchEnabled(false);
+			searchBarPortletDisplayContext.setEmptySearchEnabled(
+				searchBarPortletPreferences.isAllowEmptySearches());
 		}
 		else {
 			searchBarPortletDisplayContext.setEmptySearchEnabled(

@@ -151,6 +151,8 @@ String suggestionsContributorConfiguration = StringBundler.concat(StringPool.OPE
 				<aui:input disabled="<%= searchBarPortletDisplayContext.isDisplayWarningIgnoredConfiguration() %>" helpMessage="include-attachments-in-search-help" label="include-attachments-in-search" name="<%= PortletPreferencesJspUtil.getInputName(SearchBarPortletPreferences.PREFERENCE_KEY_INCLUDE_ATTACHMENTS) %>" type="checkbox" value="<%= searchBarPortletPreferences.isIncludeAttachments() %>" />
 			</c:if>
 
+			<aui:input disabled="<%= searchBarPortletDisplayContext.isDisplayWarningIgnoredConfiguration() %>" helpMessage="allow-empty-searches-help" label="allow-empty-searches" name="<%= PortletPreferencesJspUtil.getInputName(SearchBarPortletPreferences.PREFERENCE_KEY_ALLOW_EMPTY_SEARCHES) %>" type="checkbox" value="<%= searchBarPortletPreferences.isAllowEmptySearches() %>" />
+
 			<aui:input helpMessage="enter-the-key-of-an-alternate-search-this-widget-is-participating-on-if-not-set-widget-participates-on-default-search" label="federated-search-key" name="<%= PortletPreferencesJspUtil.getInputName(SearchBarPortletPreferences.PREFERENCE_KEY_FEDERATED_SEARCH_KEY) %>" type="text" value="<%= searchBarPortletPreferences.getFederatedSearchKey() %>" />
 		</liferay-frontend:fieldset>
 	</liferay-frontend:edit-form-body>

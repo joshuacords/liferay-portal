@@ -62,6 +62,10 @@ public class SearchBarPortletSharedSearchContributor
 			return;
 		}
 
+		if (searchBarPortletPreferences.isAllowEmptySearches()) {
+			searchRequestBuilder.emptySearchEnabled(true);
+		}
+
 		searchRequestBuilder.withSearchContext(
 			searchContext -> {
 				searchContext.setAttribute(

@@ -12,6 +12,9 @@ import com.liferay.portal.search.web.internal.display.context.SearchScopePrefere
  */
 public interface SearchBarPortletPreferences {
 
+	public static final String PREFERENCE_KEY_ALLOW_EMPTY_SEARCHES =
+		"allowEmptySearches";
+
 	public static final String PREFERENCE_KEY_DESTINATION = "destination";
 
 	public static final String PREFERENCE_KEY_FEDERATED_SEARCH_KEY =
@@ -62,6 +65,8 @@ public interface SearchBarPortletPreferences {
 	public SearchScopePreference getSearchScopePreference();
 
 	public String getSearchScopePreferenceString();
+
+	public boolean isAllowEmptySearches();
 
 	public boolean isIncludeAttachments();
 
