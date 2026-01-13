@@ -286,6 +286,56 @@ public class SearchBarPortletDisplayContextFactoryTest {
 	}
 
 	@Test
+	public void testDifferentDestinationUsesAllowEmptySearchPreference()
+		throws Exception {
+
+		String destination = StringPool.SLASH.concat(
+			RandomTestUtil.randomString());
+
+		Layout destinationLayout = Mockito.mock(Layout.class);
+
+		_whenLayoutLocalServiceFetchLayoutByFriendlyURL(
+			destination, destinationLayout);
+
+		String destinationFriendlyURL = RandomTestUtil.randomString();
+
+		_whenPortalGetLayoutFriendlyURL(
+			destinationLayout, destinationFriendlyURL);
+
+		Layout currentLayout = Mockito.mock(Layout.class);
+
+		Mockito.doReturn(
+			currentLayout
+		).when(
+			_themeDisplay
+		).getLayout();
+
+		Mockito.doReturn(
+			"/web/guest/current"
+		).when(
+			_themeDisplay
+		).getLayoutFriendlyURL(
+			currentLayout
+		);
+
+		SearchBarPortletDisplayContextFactory
+			searchBarPortletDisplayContextFactory =
+				_createSearchBarPortletDisplayContextFactory(
+					destination, false, false, null, null, null, true);
+
+		SearchBarPortletDisplayContext searchBarPortletDisplayContext =
+			searchBarPortletDisplayContextFactory.create(
+				_portletPreferencesLookup, _portletSharedSearchRequest,
+				_searchBarPrecedenceHelper, _searchCapabilities);
+
+		Assert.assertTrue(
+			searchBarPortletDisplayContext.isEmptySearchEnabled());
+		Assert.assertEquals(
+			destinationFriendlyURL,
+			searchBarPortletDisplayContext.getSearchURL());
+	}
+
+	@Test
 	public void testGetDisplayStyleGroup() throws Exception {
 		_setUpGroupLocalServiceUtil(_getGroup());
 		_setUpPortletDisplayStyleGroupExternalReferenceCode(null);
@@ -562,6 +612,19 @@ public class SearchBarPortletDisplayContextFactoryTest {
 				String scopeParameterName, String scopeParameterValue)
 		throws Exception {
 
+		return _createSearchBarPortletDisplayContextFactory(
+			destination, enableSuggestionsPoint, includeAttachments, scope,
+			scopeParameterName, scopeParameterValue, false);
+	}
+
+	private SearchBarPortletDisplayContextFactory
+			_createSearchBarPortletDisplayContextFactory(
+				String destination, boolean enableSuggestionsPoint,
+				boolean includeAttachments, String scope,
+				String scopeParameterName, String scopeParameterValue,
+				boolean allowEmptySearches)
+		throws Exception {
+
 		RenderRequest renderRequest = Mockito.mock(RenderRequest.class);
 
 		Mockito.when(
@@ -586,6 +649,9 @@ public class SearchBarPortletDisplayContextFactoryTest {
 			Boolean.toString(includeAttachments));
 		portletPreferences.setValue(
 			SearchBarPortletPreferences.PREFERENCE_KEY_SEARCH_SCOPE, scope);
+		portletPreferences.setValue(
+			SearchBarPortletPreferences.PREFERENCE_KEY_ALLOW_EMPTY_SEARCHES,
+			Boolean.toString(allowEmptySearches));
 
 		if (scopeParameterName != null) {
 			portletPreferences.setValue(
@@ -763,6 +829,20 @@ public class SearchBarPortletDisplayContextFactoryTest {
 	}
 
 	private void _setUpThemeDisplay() throws ConfigurationException {
+		Layout layout = Mockito.mock(Layout.class);
+
+		Mockito.when(
+			_themeDisplay.getLayout()
+		).thenReturn(
+			layout
+		);
+
+		Mockito.when(
+			_themeDisplay.getLayoutFriendlyURL(layout)
+		).thenReturn(
+			"/web/guest/home"
+		);
+
 		Mockito.when(
 			_themeDisplay.getScopeGroup()
 		).thenReturn(
