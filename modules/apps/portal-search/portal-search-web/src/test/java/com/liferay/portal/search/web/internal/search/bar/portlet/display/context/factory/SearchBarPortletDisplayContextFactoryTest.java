@@ -229,6 +229,63 @@ public class SearchBarPortletDisplayContextFactoryTest {
 	}
 
 	@Test
+	public void testDifferentDestinationSkipsSearch() throws Exception {
+		String destination = StringPool.SLASH.concat(
+			RandomTestUtil.randomString());
+
+		Layout destinationLayout = Mockito.mock(Layout.class);
+
+		_whenLayoutLocalServiceFetchLayoutByFriendlyURL(
+			destination, destinationLayout);
+
+		String destinationFriendlyURL = RandomTestUtil.randomString();
+
+		_whenPortalGetLayoutFriendlyURL(
+			destinationLayout, destinationFriendlyURL);
+
+		Layout currentLayout = Mockito.mock(Layout.class);
+
+		Mockito.doReturn(
+			currentLayout
+		).when(
+			_themeDisplay
+		).getLayout();
+
+		Mockito.doReturn(
+			"/web/guest/current"
+		).when(
+			_themeDisplay
+		).getLayoutFriendlyURL(
+			currentLayout
+		);
+
+		SearchBarPortletDisplayContextFactory
+			searchBarPortletDisplayContextFactory =
+				_createSearchBarPortletDisplayContextFactory(destination);
+
+		SearchBarPortletDisplayContext searchBarPortletDisplayContext =
+			searchBarPortletDisplayContextFactory.create(
+				_portletPreferencesLookup, _portletSharedSearchRequest,
+				_searchBarPrecedenceHelper, _searchCapabilities);
+
+		Mockito.verify(
+			_portletSharedSearchRequest, Mockito.never()
+		).search(
+			Mockito.any()
+		);
+
+		Assert.assertEquals(
+			destinationFriendlyURL,
+			searchBarPortletDisplayContext.getSearchURL());
+		Assert.assertSame(
+			_searchBarPortletInstanceConfiguration,
+			searchBarPortletDisplayContext.
+				getSearchBarPortletInstanceConfiguration());
+		Assert.assertFalse(
+			searchBarPortletDisplayContext.isDestinationUnreachable());
+	}
+
+	@Test
 	public void testGetDisplayStyleGroup() throws Exception {
 		_setUpGroupLocalServiceUtil(_getGroup());
 		_setUpPortletDisplayStyleGroupExternalReferenceCode(null);
