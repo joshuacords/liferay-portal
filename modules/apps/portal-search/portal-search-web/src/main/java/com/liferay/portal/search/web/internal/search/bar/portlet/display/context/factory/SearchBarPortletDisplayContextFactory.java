@@ -119,12 +119,32 @@ public class SearchBarPortletDisplayContextFactory {
 			searchBarPortletDisplayContext.setSearchURL(destinationURL);
 		}
 
-		PortletSharedSearchResponse portletSharedSearchResponse =
-			portletSharedSearchRequest.search(_renderRequest);
-
 		SearchBarPortletInstanceConfiguration
 			searchBarPortletInstanceConfiguration =
 				getSearchBarPortletInstanceConfiguration(themeDisplay);
+
+		PortletSharedSearchResponse portletSharedSearchResponse = null;
+
+		SearchRequest searchRequest = null;
+
+		if (SearchBarPortletDestinationUtil.isSameDestination(
+				searchBarPortletPreferences, themeDisplay)) {
+
+			portletSharedSearchResponse = portletSharedSearchRequest.search(
+				_renderRequest);
+
+			SearchResponse searchResponse =
+				portletSharedSearchResponse.getFederatedSearchResponse(
+					searchBarPortletPreferences.getFederatedSearchKey());
+
+			searchRequest = searchResponse.getRequest();
+		}
+
+		SearchSettings searchSettings = null;
+
+		if (portletSharedSearchResponse != null) {
+			searchSettings = portletSharedSearchResponse.getSearchSettings();
+		}
 
 		searchBarPortletDisplayContext.setAvailableEverythingSearchScope(
 			isAvailableEverythingSearchScope());
@@ -135,14 +155,13 @@ public class SearchBarPortletDisplayContextFactory {
 			getDisplayStyleGroupId(
 				searchBarPortletInstanceConfiguration, themeDisplay));
 
-		SearchResponse searchResponse =
-			portletSharedSearchResponse.getFederatedSearchResponse(
-				searchBarPortletPreferences.getFederatedSearchKey());
-
-		SearchRequest searchRequest = searchResponse.getRequest();
-
-		searchBarPortletDisplayContext.setEmptySearchEnabled(
-			searchRequest.isEmptySearchEnabled());
+		if (searchRequest == null) {
+			searchBarPortletDisplayContext.setEmptySearchEnabled(false);
+		}
+		else {
+			searchBarPortletDisplayContext.setEmptySearchEnabled(
+				searchRequest.isEmptySearchEnabled());
+		}
 
 		searchBarPortletDisplayContext.setEverythingSearchScopeParameterString(
 			SearchScope.EVERYTHING.getParameterString());
@@ -153,31 +172,35 @@ public class SearchBarPortletDisplayContextFactory {
 				searchBarPortletPreferences.getInputPlaceholder()));
 
 		String keywordsParameterName = _getKeywordsParameterName(
-			portletPreferencesLookup,
-			portletSharedSearchResponse.getSearchSettings(),
-			searchBarPrecedenceHelper, searchBarPortletPreferences,
-			themeDisplay);
+			portletPreferencesLookup, searchSettings, searchBarPrecedenceHelper,
+			searchBarPortletPreferences, themeDisplay);
 
 		searchBarPortletDisplayContext.setKeywords(
 			GetterUtil.getString(
-				portletSharedSearchResponse.getParameter(
-					keywordsParameterName, _renderRequest)));
+				_getParameter(
+					portletSharedSearchResponse, keywordsParameterName)));
 		searchBarPortletDisplayContext.setKeywordsParameterName(
 			keywordsParameterName);
 
-		searchBarPortletDisplayContext.setPaginationStartParameterName(
-			GetterUtil.getString(
-				searchRequest.getPaginationStartParameterName()));
-		searchBarPortletDisplayContext.setRetainFacetSelections(
-			searchRequest.isRetainFacetSelections());
+		if (searchRequest == null) {
+			searchBarPortletDisplayContext.setPaginationStartParameterName(
+				StringPool.BLANK);
+			searchBarPortletDisplayContext.setRetainFacetSelections(false);
+		}
+		else {
+			searchBarPortletDisplayContext.setPaginationStartParameterName(
+				GetterUtil.getString(
+					searchRequest.getPaginationStartParameterName()));
+			searchBarPortletDisplayContext.setRetainFacetSelections(
+				searchRequest.isRetainFacetSelections());
+		}
 
 		String scopeParameterName = _getScopeParameterName(
-			portletPreferencesLookup, searchBarPrecedenceHelper,
-			portletSharedSearchResponse.getSearchSettings(),
+			portletPreferencesLookup, searchBarPrecedenceHelper, searchSettings,
 			searchBarPortletPreferences, themeDisplay);
 
-		String scopeParameterValue = portletSharedSearchResponse.getParameter(
-			scopeParameterName, _renderRequest);
+		String scopeParameterValue = _getParameter(
+			portletSharedSearchResponse, scopeParameterName);
 
 		searchBarPortletDisplayContext.setScopeParameterName(
 			scopeParameterName);
@@ -190,8 +213,7 @@ public class SearchBarPortletDisplayContextFactory {
 		_setSelectedSearchScopePreference(
 			portletPreferencesLookup, scopeParameterValue,
 			searchBarPortletDisplayContext, searchBarPrecedenceHelper,
-			searchBarPortletPreferences,
-			portletSharedSearchResponse.getSearchSettings(), themeDisplay);
+			searchBarPortletPreferences, searchSettings, themeDisplay);
 
 		searchBarPortletDisplayContext.setSearchExperiencesSupported(
 			searchCapabilities.isSearchExperiencesSupported());
@@ -213,8 +235,8 @@ public class SearchBarPortletDisplayContextFactory {
 						themeDisplay.getCompanyId(),
 						_isIncludeAttachments(
 							portletPreferencesLookup, searchBarPrecedenceHelper,
-							portletSharedSearchResponse.getSearchSettings(),
-							searchBarPortletPreferences, themeDisplay),
+							searchSettings, searchBarPortletPreferences,
+							themeDisplay),
 						searchBarPortletInstanceConfiguration.
 							suggestionsContributorConfigurations()));
 			searchBarPortletDisplayContext.setSuggestionsDisplayThreshold(
@@ -315,7 +337,8 @@ public class SearchBarPortletDisplayContextFactory {
 
 		if ((portletPreferences == null) ||
 			!SearchBarPortletDestinationUtil.isSameDestination(
-				portletPreferences, themeDisplay)) {
+				portletPreferences, themeDisplay) ||
+			(searchSettings == null)) {
 
 			return searchBarPortletPreferences.getSearchScopePreference();
 		}
@@ -400,7 +423,8 @@ public class SearchBarPortletDisplayContextFactory {
 
 		if ((portletPreferences == null) ||
 			!SearchBarPortletDestinationUtil.isSameDestination(
-				portletPreferences, themeDisplay)) {
+				portletPreferences, themeDisplay) ||
+			(searchSettings == null)) {
 
 			return searchBarPortletPreferences.getKeywordsParameterName();
 		}
@@ -408,6 +432,22 @@ public class SearchBarPortletDisplayContextFactory {
 		return GetterUtil.getString(
 			searchSettings.getKeywordsParameterName(),
 			searchBarPortletPreferences.getKeywordsParameterName());
+	}
+
+	private String _getParameter(
+		PortletSharedSearchResponse portletSharedSearchResponse,
+		String parameterName) {
+
+		if (Validator.isNull(parameterName)) {
+			return null;
+		}
+
+		if (portletSharedSearchResponse == null) {
+			return _renderRequest.getParameter(parameterName);
+		}
+
+		return portletSharedSearchResponse.getParameter(
+			parameterName, _renderRequest);
 	}
 
 	private String _getScopeParameterName(
@@ -430,7 +470,8 @@ public class SearchBarPortletDisplayContextFactory {
 
 		if ((portletPreferences == null) ||
 			!SearchBarPortletDestinationUtil.isSameDestination(
-				portletPreferences, themeDisplay)) {
+				portletPreferences, themeDisplay) ||
+			(searchSettings == null)) {
 
 			return searchBarPortletPreferences.getScopeParameterName();
 		}
@@ -515,8 +556,14 @@ public class SearchBarPortletDisplayContextFactory {
 			return searchBarPortletPreferences.isIncludeAttachments();
 		}
 
+		Boolean includeAttachments = null;
+
+		if (searchSettings != null) {
+			includeAttachments = searchSettings.isIncludeAttachments();
+		}
+
 		return GetterUtil.getBoolean(
-			searchSettings.isIncludeAttachments(),
+			includeAttachments,
 			searchBarPortletPreferences.isIncludeAttachments());
 	}
 
