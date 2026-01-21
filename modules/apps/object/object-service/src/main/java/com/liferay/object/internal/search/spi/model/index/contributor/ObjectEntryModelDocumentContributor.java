@@ -18,6 +18,7 @@ import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.ObjectEntryFolder;
 import com.liferay.object.model.ObjectField;
+import com.liferay.object.model.ObjectFieldTable;
 import com.liferay.object.model.ObjectFolder;
 import com.liferay.object.model.bag.ObjectFieldBag;
 import com.liferay.object.rest.dto.v1_0.ListEntry;
@@ -58,6 +59,7 @@ import java.sql.Types;
 
 import java.text.Format;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -137,8 +139,7 @@ public class ObjectEntryModelDocumentContributor
 		Document document, FieldArray fieldArray, String fieldName,
 		Object fieldValue, String locale, ObjectDefinition objectDefinition,
 		ObjectEntry objectEntry, ObjectField objectField,
-		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper,
-		Map<String, Serializable> values) {
+		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper) {
 
 		if (!objectField.isIndexed()) {
 			return;
@@ -368,7 +369,7 @@ public class ObjectEntryModelDocumentContributor
 							document, fieldArray, objectField.getName(),
 							entry.getValue(), entry.getKey(), objectDefinition,
 							objectEntry, objectField,
-							textEmbeddingContentHelper, values);
+							textEmbeddingContentHelper);
 					}
 				}
 				else {
@@ -376,7 +377,7 @@ public class ObjectEntryModelDocumentContributor
 						document, fieldArray, objectField.getName(),
 						values.get(objectField.getName()), null,
 						objectDefinition, objectEntry, objectField,
-						textEmbeddingContentHelper, values);
+						textEmbeddingContentHelper);
 				}
 			}
 
@@ -647,5 +648,30 @@ public class ObjectEntryModelDocumentContributor
 	private final ObjectEntryFolderLocalService _objectEntryFolderLocalService;
 	private final TextEmbeddingDocumentContributor
 		_textEmbeddingDocumentContributor;
+
+	private static class ObjectFieldTable extends BaseTable<ObjectFieldTable> {
+
+		public DSLQuery buildDSLQuery() {
+			return DSLQueryFactoryUtil.select(
+				DLFileEntryTable.INSTANCE.fileEntryId,
+				DLFileEntryTable.INSTANCE.fileName
+			).from(
+				DLFileEntryTable.INSTANCE
+			).innerJoinON(
+				this, DLFileEntryTable.INSTANCE.fileEntryId.eq(_column)
+			);
+		}
+
+		private ObjectFieldTable(ObjectField objectField) {
+			super(objectField.getDBTableName(), () -> null);
+
+			_column = createColumn(
+				objectField.getDBColumnName(), Long.class, Types.BIGINT,
+				Column.FLAG_DEFAULT);
+		}
+
+		private final Column<ObjectFieldTable, Long> _column;
+
+	}
 
 }
