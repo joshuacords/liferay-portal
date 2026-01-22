@@ -18,7 +18,6 @@ import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.ObjectEntryFolder;
 import com.liferay.object.model.ObjectField;
-import com.liferay.object.model.ObjectFieldTable;
 import com.liferay.object.model.ObjectFolder;
 import com.liferay.object.model.bag.ObjectFieldBag;
 import com.liferay.object.rest.dto.v1_0.ListEntry;
@@ -127,8 +126,7 @@ public class ObjectEntryModelDocumentContributor
 		sb.append(valueString);
 
 		if (locale != null) {
-			textEmbeddingContentHelper.appendToLocalizedAndNonlocalized(
-				locale, sb.toString());
+			textEmbeddingContentHelper.appendToLocale(locale, sb.toString());
 		}
 		else {
 			textEmbeddingContentHelper.appendToAll(sb.toString());
@@ -345,8 +343,8 @@ public class ObjectEntryModelDocumentContributor
 
 		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper =
 			new TextEmbeddingContentHelper<>(
-				objectEntry.getCompanyId(), StringPool.COMMA_AND_SPACE, true,
-				objectEntry, false, objectFields.size(),
+				objectEntry.getCompanyId(), objectEntry.getDefaultLanguageId(),
+				StringPool.COMMA_AND_SPACE, objectEntry, objectFields.size(),
 				_textEmbeddingDocumentContributor);
 
 		if (!objectFields.isEmpty()) {
