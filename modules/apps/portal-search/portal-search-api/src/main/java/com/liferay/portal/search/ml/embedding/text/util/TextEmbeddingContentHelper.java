@@ -21,31 +21,18 @@ import java.util.TreeMap;
 public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 
 	public TextEmbeddingContentHelper(
-		long companyId, String delimiter, boolean localizationEnabled, T model,
-		boolean nonlocalizedEnabled, int size,
+		long companyId, String defaultLanguageId, String delimiter, T model,
+		int size,
 		TextEmbeddingDocumentContributor textEmbeddingDocumentContributor) {
 
-		if (!localizationEnabled && !nonlocalizedEnabled) {
-			throw new RuntimeException();
-		}
-
 		_companyId = companyId;
+		_defaultLanguageId = defaultLanguageId;
 		_delimiter = delimiter;
-		_localizationEnabled = localizationEnabled;
 		_model = model;
+		_size = size;
 		_textEmbeddingDocumentContributor = textEmbeddingDocumentContributor;
 
-		_nonlocalizedContentSB = new StringBundler((size * 2) - 1);
-
-		if (!localizationEnabled) {
-			return;
-		}
-
-		for (String languageId :
-				textEmbeddingDocumentContributor.getLanguageIds(model)) {
-
-			_languageContentSBMap.put(languageId, new StringBundler(size));
-		}
+		_nonlocalizedContentSB = new StringBundler((_size * 2) - 1);
 	}
 
 	public void appendToAll(String value) {
@@ -59,18 +46,8 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 	}
 
 	public void appendToLocale(String languageId, String value) {
-		_append(_languageContentSBMap.get(languageId), value);
-	}
-
-	public void appendToLocalizedAndNonlocalized(
-		String languageId, String value) {
-
 		_append(_nonlocalizedContentSB, value);
-		_append(_languageContentSBMap.get(languageId), value);
-	}
-
-	public void appendToNonlocalized(String value) {
-		_append(_nonlocalizedContentSB, value);
+		_append(_getLanguageContentStringBundler(languageId), value);
 	}
 
 	public void contribute(Document document) {
@@ -78,21 +55,43 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 			return;
 		}
 
-		if (_localizationEnabled) {
-			for (Map.Entry<String, StringBundler> localizedContent :
-					_languageContentSBMap.entrySet()) {
+		for (String languageId :
+				_textEmbeddingDocumentContributor.getLanguageIds(_model)) {
 
-				StringBundler localizedSB = localizedContent.getValue();
+			String localizedContent = getLocalizedContent(languageId);
 
-				_textEmbeddingDocumentContributor.contribute(
-					document, localizedContent.getKey(), _model,
-					localizedSB.toString());
+			if (localizedContent == null) {
+				localizedContent = getLocalizedContent(_defaultLanguageId);
+
+				if (localizedContent == null) {
+					continue;
+				}
+			}
+
+			_textEmbeddingDocumentContributor.contribute(
+				document, languageId, _model, localizedContent);
+		}
+	}
+
+	public String getLocalizedContent(String languageId) {
+		StringBundler languageContentSB = _languageContentSBMap.get(languageId);
+
+		if ((languageContentSB != null) && (languageContentSB.length() != 0)) {
+			return languageContentSB.toString();
+		}
+
+		if (!_defaultLanguageId.equals(languageId)) {
+			StringBundler defaultLanguageContentSB = _languageContentSBMap.get(
+				_defaultLanguageId);
+
+			if ((defaultLanguageContentSB != null) &&
+				(defaultLanguageContentSB.length() != 0)) {
+
+				return defaultLanguageContentSB.toString();
 			}
 		}
-		else {
-			_textEmbeddingDocumentContributor.contribute(
-				document, _model, _nonlocalizedContentSB.toString());
-		}
+
+		return null;
 	}
 
 	public Map<String, String> getLocalizedContentMap() {
@@ -134,13 +133,28 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 		sb.append(value);
 	}
 
+	private StringBundler _getLanguageContentStringBundler(String languageId) {
+		return _languageContentSBMap.computeIfAbsent(
+			languageId,
+			key -> {
+				StringBundler sb = new StringBundler(_size);
+
+				if (_nonlocalizedContentSB.length() != 0) {
+					sb.append(_nonlocalizedContentSB);
+				}
+
+				return sb;
+			});
+	}
+
 	private final long _companyId;
+	private final String _defaultLanguageId;
 	private final String _delimiter;
 	private final Map<String, StringBundler> _languageContentSBMap =
 		new TreeMap<>();
-	private final boolean _localizationEnabled;
 	private final T _model;
 	private final StringBundler _nonlocalizedContentSB;
+	private final int _size;
 	private final TextEmbeddingDocumentContributor
 		_textEmbeddingDocumentContributor;
 
