@@ -46,7 +46,6 @@ public class TextEmbeddingContentHelper<T extends BaseModel<T>> {
 	}
 
 	public void appendToLocale(String languageId, String value) {
-		_append(_nonlocalizedContentSB, value);
 		_append(_getLanguageContentStringBundler(languageId), value);
 	}
 
