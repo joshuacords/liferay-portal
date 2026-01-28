@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.facet.util.RangeParserUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.localization.SearchLocalizationHelper;
@@ -44,6 +45,7 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -125,9 +127,13 @@ public class ObjectEntryKeywordQueryContributor
 		}
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
-		String titleField = "objectEntryTitle";
 
-		queryConfig.addHighlightFieldNames(Field.ENTRY_CLASS_PK, titleField);
+		queryConfig.addHighlightFieldNames(Field.ENTRY_CLASS_PK);
+
+		_addLocalizedHighlightFieldNames(
+			objectFields, queryConfig, searchContext);
+
+		String titleField = "objectEntryTitle";
 
 		if (StringUtil.startsWith(keywords, CharPool.QUOTE) &&
 			StringUtil.endsWith(keywords, CharPool.QUOTE)) {
@@ -166,6 +172,43 @@ public class ObjectEntryKeywordQueryContributor
 					}
 				}
 			}
+		}
+	}
+
+	private void _addLocalizedHighlightFieldNames(
+		List<ObjectField> objectFields, QueryConfig queryConfig,
+		SearchContext searchContext) {
+
+		Locale locale = searchContext.getLocale();
+
+		if (locale == null) {
+			queryConfig.addHighlightFieldNames("objectEntryContent");
+			queryConfig.addHighlightFieldNames("objectEntryTitle");
+
+			return;
+		}
+
+		if (_hasLocalizedContent(objectFields)) {
+			queryConfig.addHighlightFieldNames(
+				"objectEntryContent_" + LocaleUtil.toLanguageId(locale));
+		}
+		else {
+			queryConfig.addHighlightFieldNames("objectEntryContent");
+		}
+
+		long titleObjectFieldId = _objectDefinition.getTitleObjectFieldId();
+
+		ObjectFieldBag objectFieldBag = _objectDefinition.getObjectFieldBag();
+
+		ObjectField titleObjectField = objectFieldBag.getObjectField(
+			titleObjectFieldId);
+
+		if ((titleObjectField != null) && titleObjectField.isLocalized()) {
+			queryConfig.addHighlightFieldNames(
+				"objectEntryTitle_" + LocaleUtil.toLanguageId(locale));
+		}
+		else {
+			queryConfig.addHighlightFieldNames("objectEntryTitle");
 		}
 	}
 
@@ -419,6 +462,20 @@ public class ObjectEntryKeywordQueryContributor
 		}
 
 		return value;
+	}
+
+	private boolean _hasLocalizedContent(List<ObjectField> objectFields) {
+		if (ListUtil.isEmpty(objectFields)) {
+			return false;
+		}
+
+		for (ObjectField objectField : objectFields) {
+			if ((objectField != null) && objectField.isLocalized()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean _isValidInput(String token, String type) {
