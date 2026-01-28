@@ -136,12 +136,16 @@ public class ObjectEntryKeywordQueryContributor
 
 		String titleField = "objectEntryTitle";
 
+		String localizedTitleFieldName = Field.getLocalizedName(
+			searchContext.getLocale(), titleField);
+
 		if (StringUtil.startsWith(keywords, CharPool.QUOTE) &&
 			StringUtil.endsWith(keywords, CharPool.QUOTE)) {
 
-			try {
-				booleanQuery.addTerm(titleField, keywords, false);
+			_addTerm(booleanQuery, titleField, keywords);
+			_addTerm(booleanQuery, localizedTitleFieldName, keywords);
 
+			try {
 				for (ObjectField objectField : objectFields) {
 					_contribute(
 						objectField, keywords, booleanQuery, searchContext);
@@ -152,6 +156,11 @@ public class ObjectEntryKeywordQueryContributor
 			}
 		}
 		else {
+			if (addObjectEntryTitle.get()) {
+				_addTerm(booleanQuery, titleField, keywords);
+				_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+			}
+
 			for (String token : _tokenizeKeywords(keywords)) {
 				if (addObjectEntryTitle.get() && !Validator.isBlank(token)) {
 					try {
@@ -256,6 +265,21 @@ public class ObjectEntryKeywordQueryContributor
 			BooleanClauseOccur.MUST);
 
 		return true;
+	}
+
+	private void _addTerm(
+		BooleanQuery booleanQuery, String fieldName, String value) {
+
+		if (Validator.isBlank(fieldName) || Validator.isBlank(value)) {
+			return;
+		}
+
+		try {
+			booleanQuery.addTerm(fieldName, value, false);
+		}
+		catch (ParseException parseException) {
+			throw new SystemException(parseException);
+		}
 	}
 
 	private void _contribute(
