@@ -2242,6 +2242,23 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 	}
 
 	@Override
+	public List<Group> getSpaceGroups(List<Group> groups) {
+		return ListUtil.filter(
+			groups,
+			group -> {
+				int depotEntryType = GetterUtil.getInteger(
+					group.getTypeSettingsProperty("depotEntryType"));
+
+				return depotEntryType == _DEPOT_ENTRY_TYPE_SPACE;
+			});
+	}
+
+	@Override
+	public List<Group> getSpaceGroups(long[] groupIds) throws PortalException {
+		return getSpaceGroups(getGroups(groupIds));
+	}
+
+	@Override
 	public List<Group> getStagedSites() {
 		return groupFinder.findByL_TS_S_RSGC(0, "staged=true", true, 0);
 	}
@@ -5552,6 +5569,8 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 				nameMap.get(defaultLocale), group.getType(), group.isSite());
 		}
 	}
+
+	private static final int _DEPOT_ENTRY_TYPE_SPACE = 1;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		GroupLocalServiceImpl.class);
