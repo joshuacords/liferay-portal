@@ -544,6 +544,13 @@ public class AssetVocabularyLocalServiceUtil {
 		return getService().getVocabularies(vocabularyIds);
 	}
 
+	public static List<AssetVocabulary> getVocabulariesByGroupIdsOrGroupRelIds(
+		long[] groups, long[] groupRelIds) {
+
+		return getService().getVocabulariesByGroupIdsOrGroupRelIds(
+			groups, groupRelIds);
+	}
+
 	public static AssetVocabulary getVocabulary(long vocabularyId)
 		throws PortalException {
 

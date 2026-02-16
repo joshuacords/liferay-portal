@@ -943,6 +943,13 @@ public interface GroupLocalService
 	public long[] getRolePrimaryKeys(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Group> getSpaceGroups(List<Group> groups)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Group> getSpaceGroups(long[] groupIds) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Group> getStagedSites();
 
 	/**

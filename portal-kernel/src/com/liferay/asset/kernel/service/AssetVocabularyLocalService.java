@@ -445,6 +445,10 @@ public interface AssetVocabularyLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AssetVocabulary> getVocabulariesByGroupIdsOrGroupRelIds(
+		long[] groups, long[] groupRelIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public AssetVocabulary getVocabulary(long vocabularyId)
 		throws PortalException;
 

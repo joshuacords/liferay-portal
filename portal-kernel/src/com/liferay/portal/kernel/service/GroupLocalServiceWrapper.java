@@ -1318,6 +1318,20 @@ public class GroupLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<Group> getSpaceGroups(java.util.List<Group> groups)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _groupLocalService.getSpaceGroups(groups);
+	}
+
+	@Override
+	public java.util.List<Group> getSpaceGroups(long[] groupIds)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _groupLocalService.getSpaceGroups(groupIds);
+	}
+
+	@Override
 	public java.util.List<Group> getStagedSites() {
 		return _groupLocalService.getStagedSites();
 	}

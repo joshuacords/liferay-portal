@@ -488,6 +488,12 @@ public class AssetCategoryLocalServiceUtil {
 		return getService().getChildCategoriesCount(parentCategoryId);
 	}
 
+	public static List<com.liferay.portal.kernel.model.Group> getCMSGroups(
+		List<com.liferay.portal.kernel.model.Group> groups) {
+
+		return getService().getCMSGroups(groups);
+	}
+
 	public static List<AssetCategory> getDescendantCategories(
 		AssetCategory category) {
 
@@ -537,6 +543,13 @@ public class AssetCategoryLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static List<com.liferay.portal.kernel.model.Group> getSpaceGroups(
+			long[] groupIds)
+		throws PortalException {
+
+		return getService().getSpaceGroups(groupIds);
 	}
 
 	public static List<Long> getSubcategoryIds(long parentCategoryId) {

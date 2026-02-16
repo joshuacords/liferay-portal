@@ -1191,6 +1191,18 @@ public class GroupLocalServiceUtil {
 		return getService().getRolePrimaryKeys(groupId);
 	}
 
+	public static List<Group> getSpaceGroups(List<Group> groups)
+		throws PortalException {
+
+		return getService().getSpaceGroups(groups);
+	}
+
+	public static List<Group> getSpaceGroups(long[] groupIds)
+		throws PortalException {
+
+		return getService().getSpaceGroups(groupIds);
+	}
+
 	public static List<Group> getStagedSites() {
 		return getService().getStagedSites();
 	}
