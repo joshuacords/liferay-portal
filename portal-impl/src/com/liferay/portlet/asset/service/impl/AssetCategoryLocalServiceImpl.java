@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.thread.local.ThreadLocalCachable;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
@@ -43,6 +45,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -421,6 +424,19 @@ public class AssetCategoryLocalServiceImpl
 	}
 
 	@Override
+	public List<Group> getCMSGroups(List<Group> groups) {
+		List<Group> cmsGroups = new ArrayList<>();
+
+		for (Group group : groups) {
+			cmsGroups.add(
+				_groupLocalService.fetchGroup(
+					group.getCompanyId(), GroupConstants.CMS));
+		}
+
+		return cmsGroups;
+	}
+
+	@Override
 	public List<AssetCategory> getDescendantCategories(AssetCategory category) {
 		return assetCategoryPersistence.findByG_LikeT_V(
 			category.getGroupId(), category.getTreePath() + "%",
@@ -448,6 +464,11 @@ public class AssetCategoryLocalServiceImpl
 			externalReferenceCode,
 			this::fetchAssetCategoryByExternalReferenceCode,
 			this::getAssetCategoryByExternalReferenceCode, groupId, "category");
+	}
+
+	@Override
+	public List<Group> getSpaceGroups(long[] groupIds) throws PortalException {
+		return _groupLocalService.getSpaceGroups(groupIds);
 	}
 
 	@Override
@@ -896,6 +917,9 @@ public class AssetCategoryLocalServiceImpl
 
 	@BeanReference(type = ClassNameLocalService.class)
 	private ClassNameLocalService _classNameLocalService;
+
+	@BeanReference(type = GroupLocalService.class)
+	private GroupLocalService _groupLocalService;
 
 	@BeanReference(type = ResourceLocalService.class)
 	private ResourceLocalService _resourceLocalService;
