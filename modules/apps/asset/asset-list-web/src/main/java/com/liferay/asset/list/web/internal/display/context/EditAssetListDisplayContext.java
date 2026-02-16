@@ -16,6 +16,7 @@ import com.liferay.asset.kernel.model.ClassTypeField;
 import com.liferay.asset.kernel.model.ClassTypeReader;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
 import com.liferay.asset.list.constants.AssetListPortletKeys;
 import com.liferay.asset.list.model.AssetListEntry;
@@ -109,6 +110,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1003,10 +1005,43 @@ public class EditAssetListDisplayContext {
 	}
 
 	public List<Long> getVocabularyIds() throws PortalException {
+		long[] groupIds = PortalUtil.getCurrentAndAncestorSiteGroupIds(
+			getReferencedModelsGroupIds());
+
+		List<AssetVocabulary> groupsVocabularies = new ArrayList<>();
+
+		List<Group> spaceGroups = GroupLocalServiceUtil.getSpaceGroups(
+			groupIds);
+
+		if (ListUtil.isNotEmpty(spaceGroups)) {
+			List<Long> spaceGroupIds = ListUtil.toList(
+				spaceGroups, Group.GROUP_ID_ACCESSOR);
+
+			spaceGroupIds.add(_GROUP_ID_ALL);
+
+			Set<Long> filteredGroupIds = new LinkedHashSet<>();
+
+			for (long groupId : groupIds) {
+				filteredGroupIds.add(groupId);
+			}
+
+			for (long groupId : spaceGroupIds) {
+				filteredGroupIds.remove(groupId);
+			}
+
+			groupsVocabularies.addAll(
+				AssetVocabularyLocalServiceUtil.
+					getVocabulariesByGroupIdsOrGroupRelIds(
+						ArrayUtil.toLongArray(filteredGroupIds),
+						ArrayUtil.toLongArray(spaceGroupIds)));
+		}
+		else {
+			groupsVocabularies.addAll(
+				AssetVocabularyServiceUtil.getGroupsVocabularies(groupIds));
+		}
+
 		List<AssetVocabulary> assetVocabularies = ListUtil.filter(
-			AssetVocabularyServiceUtil.getGroupsVocabularies(
-				PortalUtil.getCurrentAndAncestorSiteGroupIds(
-					getReferencedModelsGroupIds())),
+			groupsVocabularies,
 			vocabulary -> {
 				long[] classNameIds = vocabulary.getSelectedClassNameIds();
 
@@ -1469,6 +1504,8 @@ public class EditAssetListDisplayContext {
 	}
 
 	private static final long _DEFAULT_SUBTYPE_SELECTION_ID = -1;
+
+	private static final long _GROUP_ID_ALL = -1;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EditAssetListDisplayContext.class);
