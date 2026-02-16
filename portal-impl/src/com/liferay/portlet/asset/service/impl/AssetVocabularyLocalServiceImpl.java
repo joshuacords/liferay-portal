@@ -12,8 +12,13 @@ import com.liferay.asset.kernel.exception.VocabularyVisibilityTypeException;
 import com.liferay.asset.kernel.model.AssetCategoryConstants;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.model.AssetVocabularyConstants;
+import com.liferay.asset.kernel.model.AssetVocabularyGroupRelTable;
+import com.liferay.asset.kernel.model.AssetVocabularyTable;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.exportimport.kernel.empty.model.EmptyModelManagerUtil;
+import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
+import com.liferay.petra.sql.dsl.expression.Predicate;
+import com.liferay.petra.sql.dsl.query.JoinStep;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -473,6 +478,30 @@ public class AssetVocabularyLocalServiceImpl
 	}
 
 	@Override
+	public List<AssetVocabulary> getVocabulariesByGroupIdsOrGroupRelIds(
+		long[] groups, long[] groupRelIds) {
+
+		JoinStep joinStep = DSLQueryFactoryUtil.select(
+			AssetVocabularyTable.INSTANCE
+		).from(
+			AssetVocabularyTable.INSTANCE
+		).leftJoinOn(
+			AssetVocabularyGroupRelTable.INSTANCE,
+			AssetVocabularyGroupRelTable.INSTANCE.vocabularyId.eq(
+				AssetVocabularyTable.INSTANCE.vocabularyId)
+		);
+
+		Predicate predicate = _predicateGetVocabulariesByGroupIdsOrGroupRelIds(
+			groups, groupRelIds);
+
+		if (predicate != null) {
+			return dslQuery(joinStep.where(predicate));
+		}
+
+		return dslQuery(joinStep);
+	}
+
+	@Override
 	public AssetVocabulary getVocabulary(long vocabularyId)
 		throws PortalException {
 
@@ -690,6 +719,36 @@ public class AssetVocabularyLocalServiceImpl
 		}
 
 		return StringPool.BLANK;
+	}
+
+	private Predicate _predicateGetVocabulariesByGroupIdsOrGroupRelIds(
+		long[] groups, long[] groupRelIds) {
+
+		Predicate groupPredicate = null;
+		Predicate groupRelPredicate = null;
+
+		if (ArrayUtil.isNotEmpty(groups)) {
+			groupPredicate = AssetVocabularyTable.INSTANCE.groupId.in(
+				ArrayUtil.toArray(groups));
+		}
+
+		if (ArrayUtil.isNotEmpty(groupRelIds)) {
+			groupRelPredicate =
+				AssetVocabularyGroupRelTable.INSTANCE.groupId.in(
+					ArrayUtil.toArray(groupRelIds));
+		}
+
+		if ((groupPredicate != null) && (groupRelPredicate != null)) {
+			return groupPredicate.or(
+				groupRelPredicate
+			).withParentheses();
+		}
+
+		if (groupPredicate != null) {
+			return groupPredicate;
+		}
+
+		return groupRelPredicate;
 	}
 
 	private void _validateExternalReferenceCode(
