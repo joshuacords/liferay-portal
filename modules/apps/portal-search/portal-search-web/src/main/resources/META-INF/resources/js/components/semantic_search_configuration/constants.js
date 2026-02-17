@@ -4,8 +4,8 @@
  */
 
 export const TEXT_EMBEDDING_PROVIDER_TYPES = {
-	HUGGING_FACE_INFERENCE_API: 'huggingFaceInferenceAPI',
-	HUGGING_FACE_INFERENCE_ENDPOINT: 'huggingFaceInferenceEndpoint',
+	HUGGING_FACE_INFERENCE_API: 'hugging-face-inference-api',
+	HUGGING_FACE_INFERENCE_ENDPOINT: 'hugging-face-inference-endpoint',
 	OPENAI: 'openai',
 	TXTAI: 'txtai',
 	VERTEX_AI: 'vertexAI',
