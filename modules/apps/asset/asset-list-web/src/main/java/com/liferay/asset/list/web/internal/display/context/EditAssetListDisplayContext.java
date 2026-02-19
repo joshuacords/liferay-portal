@@ -11,11 +11,14 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.model.AssetVocabularyGroupRel;
 import com.liferay.asset.kernel.model.ClassType;
 import com.liferay.asset.kernel.model.ClassTypeField;
 import com.liferay.asset.kernel.model.ClassTypeReader;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyGroupRelLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
 import com.liferay.asset.list.constants.AssetListPortletKeys;
 import com.liferay.asset.list.model.AssetListEntry;
@@ -30,6 +33,9 @@ import com.liferay.asset.tags.item.selector.AssetTagsItemSelectorCriterion;
 import com.liferay.asset.tags.item.selector.AssetTagsItemSelectorReturnType;
 import com.liferay.asset.util.AssetRendererFactoryClassProvider;
 import com.liferay.asset.util.comparator.AssetRendererFactoryTypeNameComparator;
+import com.liferay.depot.constants.DepotConstants;
+import com.liferay.depot.model.DepotEntry;
+import com.liferay.depot.service.DepotEntryServiceUtil;
 import com.liferay.dynamic.data.mapping.util.DDMIndexer;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
@@ -109,6 +115,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1003,10 +1010,36 @@ public class EditAssetListDisplayContext {
 	}
 
 	public List<Long> getVocabularyIds() throws PortalException {
+		long[] groupIds = _getConnectedGroupIds();
+
+		// Probably should be a Set to remove duplicates
+		List<AssetVocabulary> groupsVocabularies = new ArrayList<>(
+			AssetVocabularyServiceUtil.getGroupsVocabularies(groupIds));	//replace all utils with Variables in the constructor
+
+		long[] assetVocabularyGroupRelGroupIds = groupIds;
+
+		// I'm not sure if Vocabs from All Spaces need to be connected somehow to show up or not
+		if (!ArrayUtil.contains(assetVocabularyGroupRelGroupIds, -1)) {
+			assetVocabularyGroupRelGroupIds = ArrayUtil.append(
+				assetVocabularyGroupRelGroupIds, -1);
+		}
+
+		for (long groupId : assetVocabularyGroupRelGroupIds) {
+			List<AssetVocabularyGroupRel> assetVocabularyGroupRels =
+				AssetVocabularyGroupRelLocalServiceUtil.
+					getAssetVocabularyGroupRelsByGroupId(groupId);
+
+			for (AssetVocabularyGroupRel assetVocabularyGroupRel :
+					assetVocabularyGroupRels) {
+
+				groupsVocabularies.add(
+					AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(
+						assetVocabularyGroupRel.getVocabularyId()));
+			}
+		}
+
 		List<AssetVocabulary> assetVocabularies = ListUtil.filter(
-			AssetVocabularyServiceUtil.getGroupsVocabularies(
-				PortalUtil.getCurrentAndAncestorSiteGroupIds(
-					getReferencedModelsGroupIds())),
+			groupsVocabularies,
 			vocabulary -> {
 				long[] classNameIds = vocabulary.getSelectedClassNameIds();
 
@@ -1332,6 +1365,42 @@ public class EditAssetListDisplayContext {
 		return _getUnsafeConsumer(
 			assetRendererFactory, classType.getClassTypeId(),
 			classType.getName());
+	}
+
+	private long[] _getConnectedGroupIds() throws PortalException {
+		long[] groupIds = PortalUtil.getCurrentAndAncestorSiteGroupIds(
+			getReferencedModelsGroupIds());
+
+		try {
+			Set<Long> connectedGroupIds = new LinkedHashSet<>();
+
+			for (long groupId : groupIds) {
+				connectedGroupIds.add(groupId);
+
+				List<DepotEntry> depotEntries =
+					DepotEntryServiceUtil.
+						getCurrentAndGroupConnectedDepotEntries(
+							groupId, DepotConstants.TYPE_ANY, QueryUtil.ALL_POS,
+							QueryUtil.ALL_POS);
+
+				for (DepotEntry depotEntry : depotEntries) {
+					connectedGroupIds.add(depotEntry.getGroupId());
+				}
+			}
+
+			// this might return duplicates
+			return ArrayUtil.toLongArray(connectedGroupIds);
+		}
+		catch (PortalException portalException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to retrieve connected group IDs, defaulting to " +
+						"site groups",
+					portalException);
+			}
+
+			return groupIds;
+		}
 	}
 
 	private long[] _getDefaultClassNameIds() {
