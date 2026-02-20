@@ -349,6 +349,9 @@ public class ObjectEntryModelDocumentContributor
 			_log.debug("Object entry " + objectEntry);
 		}
 
+		document.addText(
+			"defaultLanguageId", objectEntry.getDefaultLanguageId());
+
 		document.add(
 			new Field(
 				Field.getSortableFieldName(Field.ENTRY_CLASS_PK),
@@ -435,7 +438,8 @@ public class ObjectEntryModelDocumentContributor
 
 				document.add(
 					new Field(
-						"objectEntryContent_" + entry.getKey(),
+						Field.getLocalizedName(
+							entry.getKey(), "objectEntryContent"),
 						entry.getValue()));
 			}
 
