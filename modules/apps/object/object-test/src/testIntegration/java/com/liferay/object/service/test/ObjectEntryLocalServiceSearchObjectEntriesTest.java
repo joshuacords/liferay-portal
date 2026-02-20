@@ -293,18 +293,18 @@ public class ObjectEntryLocalServiceSearchObjectEntriesTest {
 			).build());
 
 		_assertKeywords("[ 2020 TO 2022 ]", 0);
-		_assertKeywords("[ 2021 TO 2021 ]", 0);
+		_assertKeywords("[ 2021 TO 2021 ]", 2);
 		_assertKeywords("[2020 TO 2022]", 0);
-		_assertKeywords("[2021 TO 2021]", 0);
+		_assertKeywords("[2021 TO 2021]", 2);
 		_assertKeywords("[20210922183413 TO 20210922183415]", 0);
 		_assertKeywords("[20210922183413 TO 20210923183415]", 0);
-		_assertKeywords("09", 0);
+		_assertKeywords("09", 2);
 		_assertKeywords("1632335654272", 0);
 		_assertKeywords("18", 0);
 		_assertKeywords("2021", 2);
 		_assertKeywords("2021-09", 2);
-		_assertKeywords("2021-09-22", 1);
-		_assertKeywords("2021-09-22 18:34:14.272", 1);
+		_assertKeywords("2021-09-22", 2);
+		_assertKeywords("2021-09-22 18:34:14.272", 2);
 		_assertKeywords("20210922183414", 0);
 	}
 
@@ -688,7 +688,7 @@ public class ObjectEntryLocalServiceSearchObjectEntriesTest {
 			).build());
 
 		if (indexedAsKeyword) {
-			_assertKeywords("quick", 0);
+			_assertKeywords("quick", 1);
 			_assertKeywords("The quick", 1);
 			_assertKeywords("THE QUICK", 1);
 			_assertKeywords("the quick", 1);
