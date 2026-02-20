@@ -130,19 +130,33 @@ public class ObjectEntryKeywordQueryContributor
 
 		queryConfig.addHighlightFieldNames(Field.ENTRY_CLASS_PK);
 
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			_objectDefinition.getDefaultLanguageId());
+
+		if (Objects.equals(defaultLocale, searchContext.getLocale())) {
+			defaultLocale = null;
+		}
+
 		_addLocalizedHighlightFieldNames(
-			objectFields, queryConfig, searchContext);
+			defaultLocale, objectFields, queryConfig, searchContext);
 
 		String titleField = "objectEntryTitle";
 
+		String defaultLocalizedTitleFieldName = Field.getLocalizedName(
+			defaultLocale, titleField);
 		String localizedTitleFieldName = Field.getLocalizedName(
 			searchContext.getLocale(), titleField);
 
 		if (StringUtil.startsWith(keywords, CharPool.QUOTE) &&
 			StringUtil.endsWith(keywords, CharPool.QUOTE)) {
 
-			_addTerm(booleanQuery, titleField, keywords);
+			if (defaultLocale != null) {
+				_addTerm(
+					booleanQuery, defaultLocalizedTitleFieldName, keywords);
+			}
+
 			_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+			_addTerm(booleanQuery, titleField, keywords);
 
 			try {
 				for (ObjectField objectField : objectFields) {
@@ -156,8 +170,13 @@ public class ObjectEntryKeywordQueryContributor
 		}
 		else {
 			if (addObjectEntryTitle.get()) {
-				_addTerm(booleanQuery, titleField, keywords);
+				if (defaultLocale != null) {
+					_addTerm(
+						booleanQuery, defaultLocalizedTitleFieldName, keywords);
+				}
+
 				_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+				_addTerm(booleanQuery, titleField, keywords);
 			}
 
 			for (String token : _tokenizeKeywords(keywords)) {
@@ -185,21 +204,20 @@ public class ObjectEntryKeywordQueryContributor
 	}
 
 	private void _addLocalizedHighlightFieldNames(
-		List<ObjectField> objectFields, QueryConfig queryConfig,
-		SearchContext searchContext) {
+		Locale defaultLocale, List<ObjectField> objectFields,
+		QueryConfig queryConfig, SearchContext searchContext) {
 
 		Locale locale = searchContext.getLocale();
 
-		if (locale == null) {
-			queryConfig.addHighlightFieldNames("objectEntryContent");
-			queryConfig.addHighlightFieldNames("objectEntryTitle");
-
-			return;
-		}
-
-		if (_hasLocalizedContent(objectFields)) {
+		if (_isLocalized(objectFields)) {
 			queryConfig.addHighlightFieldNames(
-				"objectEntryContent_" + LocaleUtil.toLanguageId(locale));
+				Field.getLocalizedName(locale, "objectEntryContent"));
+
+			if (defaultLocale != null) {
+				queryConfig.addHighlightFieldNames(
+					Field.getLocalizedName(
+						defaultLocale, "objectEntryContent"));
+			}
 		}
 		else {
 			queryConfig.addHighlightFieldNames("objectEntryContent");
@@ -214,7 +232,12 @@ public class ObjectEntryKeywordQueryContributor
 
 		if ((titleObjectField != null) && titleObjectField.isLocalized()) {
 			queryConfig.addHighlightFieldNames(
-				"objectEntryTitle_" + LocaleUtil.toLanguageId(locale));
+				Field.getLocalizedName(locale, "objectEntryTitle"));
+
+			if (defaultLocale != null) {
+				queryConfig.addHighlightFieldNames(
+					Field.getLocalizedName(defaultLocale, "objectEntryTitle"));
+			}
 		}
 		else {
 			queryConfig.addHighlightFieldNames("objectEntryTitle");
@@ -488,7 +511,7 @@ public class ObjectEntryKeywordQueryContributor
 		return value;
 	}
 
-	private boolean _hasLocalizedContent(List<ObjectField> objectFields) {
+	private boolean _isLocalized(List<ObjectField> objectFields) {
 		if (ListUtil.isEmpty(objectFields)) {
 			return false;
 		}
