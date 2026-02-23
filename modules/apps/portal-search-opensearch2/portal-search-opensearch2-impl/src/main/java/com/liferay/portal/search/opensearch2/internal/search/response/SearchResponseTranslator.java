@@ -49,6 +49,7 @@ import org.opensearch.client.opensearch._types.aggregations.TopHitsAggregate;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.search.Hit;
 import org.opensearch.client.opensearch.core.search.HitsMetadata;
+import org.opensearch.client.opensearch.core.search.InnerHitsResult;
 import org.opensearch.client.opensearch.core.search.TotalHits;
 
 /**
@@ -93,6 +94,30 @@ public class SearchResponseTranslator {
 			_statsTranslator.translateResponse(aggregates, _translate(stats)));
 	}
 
+	private void _addInnerHitsSnippets(
+		Document document, Hit<JsonData> hit, Locale locale) {
+
+		Map<String, InnerHitsResult> innerHits = hit.innerHits();
+
+		if (MapUtil.isEmpty(innerHits)) {
+			return;
+		}
+
+		for (InnerHitsResult innerHitsResult : innerHits.values()) {
+			HitsMetadata<JsonData> hitsMetadata = innerHitsResult.hits();
+
+			if ((hitsMetadata == null) ||
+				ListUtil.isEmpty(hitsMetadata.hits())) {
+
+				continue;
+			}
+
+			for (Hit<JsonData> innerHit : hitsMetadata.hits()) {
+				_addSnippets(document, innerHit, locale);
+			}
+		}
+	}
+
 	private void _addSnippets(
 		Document document, Hit<JsonData> hit, Locale locale) {
 
@@ -102,6 +127,8 @@ public class SearchResponseTranslator {
 			hit.highlight(),
 			(fieldName, fragments) -> _addSnippets(
 				document, fieldName, highlights, locale));
+
+		_addInnerHitsSnippets(document, hit, locale);
 	}
 
 	private void _addSnippets(
