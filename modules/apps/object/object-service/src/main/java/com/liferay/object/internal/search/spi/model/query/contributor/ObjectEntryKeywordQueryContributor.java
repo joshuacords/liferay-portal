@@ -385,6 +385,8 @@ public class ObjectEntryKeywordQueryContributor
 				new TermQueryImpl(fieldName, lowerCaseToken),
 				BooleanClauseOccur.SHOULD);
 
+			queryConfig.addHighlightFieldNames(fieldName);
+
 			highlightFieldNames = new String[] {fieldName};
 		}
 		else if (Objects.equals(
@@ -410,6 +412,8 @@ public class ObjectEntryKeywordQueryContributor
 					localizedNestedBooleanQuery.add(
 						new MatchQuery(localizedFieldName, token),
 						BooleanClauseOccur.SHOULD);
+
+					queryConfig.addHighlightFieldNames(localizedFieldName);
 				}
 
 				nestedBooleanQuery.add(
@@ -429,6 +433,8 @@ public class ObjectEntryKeywordQueryContributor
 			if (!objectField.isLocalized()) {
 				nestedBooleanQuery.add(
 					new MatchQuery(fieldName, token), BooleanClauseOccur.MUST);
+
+				queryConfig.addHighlightFieldNames(fieldName);
 
 				highlightFieldNames = new String[] {fieldName};
 			}
@@ -468,6 +474,8 @@ public class ObjectEntryKeywordQueryContributor
 				nestedBooleanQuery.add(
 					new TermQueryImpl(fieldName, StringUtil.toLowerCase(token)),
 					BooleanClauseOccur.MUST);
+
+				queryConfig.addHighlightFieldNames(fieldName);
 			}
 		}
 		else if (Objects.equals(
@@ -546,6 +554,16 @@ public class ObjectEntryKeywordQueryContributor
 					defaultLocale, _NESTED_FIELD_ARRAY_VALUE));
 		}
 
+		if (fieldNames.isEmpty()) {
+			for (Locale availableLocale :
+					_searchLocalizationHelper.getLocales(searchContext)) {
+
+				fieldNames.add(
+					Field.getLocalizedName(
+						availableLocale, _NESTED_FIELD_ARRAY_VALUE));
+			}
+		}
+
 		return fieldNames.toArray(new String[0]);
 	}
 
@@ -586,20 +604,6 @@ public class ObjectEntryKeywordQueryContributor
 		}
 
 		return value;
-	}
-
-	private boolean _isLocalized(List<ObjectField> objectFields) {
-		if (ListUtil.isEmpty(objectFields)) {
-			return false;
-		}
-
-		for (ObjectField objectField : objectFields) {
-			if ((objectField != null) && objectField.isLocalized()) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private boolean _isValidInput(String token, String type) {
