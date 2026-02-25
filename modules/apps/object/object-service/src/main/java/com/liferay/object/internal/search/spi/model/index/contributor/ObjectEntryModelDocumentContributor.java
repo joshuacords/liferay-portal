@@ -116,7 +116,7 @@ public class ObjectEntryModelDocumentContributor
 		fieldArray.addField(field);
 	}
 
-	private void _addLocalizedTitleFields(
+	private void _addTitleFields(
 			Document document, ObjectDefinition objectDefinition,
 			ObjectEntry objectEntry)
 		throws Exception {
@@ -141,6 +141,9 @@ public class ObjectEntryModelDocumentContributor
 			titleObjectField.getI18nObjectFieldName());
 
 		if (MapUtil.isEmpty(localizedValues)) {
+			document.add(
+				new Field("objectEntryTitle", objectEntry.getTitleValue()));
+
 			return;
 		}
 
@@ -454,7 +457,7 @@ public class ObjectEntryModelDocumentContributor
 
 		document.addKeyword("objectEntryId", objectEntry.getObjectEntryId());
 
-		_addLocalizedTitleFields(document, objectDefinition, objectEntry);
+		_addTitleFields(document, objectDefinition, objectEntry);
 
 		ObjectFolder objectFolder = objectDefinition.getObjectFolder();
 
