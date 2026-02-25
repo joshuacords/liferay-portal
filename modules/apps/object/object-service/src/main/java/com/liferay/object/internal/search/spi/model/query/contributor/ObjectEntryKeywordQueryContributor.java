@@ -295,7 +295,13 @@ public class ObjectEntryKeywordQueryContributor
 			booleanQuery.addTerm(fieldName, value, false);
 		}
 		catch (ParseException parseException) {
-			throw new SystemException(parseException);
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"Unable to add term for field ", fieldName,
+						" and value ", value),
+					parseException);
+			}
 		}
 	}
 
