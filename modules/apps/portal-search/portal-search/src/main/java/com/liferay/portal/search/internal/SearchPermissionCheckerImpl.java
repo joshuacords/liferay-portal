@@ -5,13 +5,19 @@
 
 package com.liferay.portal.search.internal;
 
+import com.liferay.depot.constants.DepotConstants;
 import com.liferay.depot.constants.DepotRolesConstants;
+import com.liferay.depot.model.DepotEntry;
+import com.liferay.depot.model.DepotEntryGroupRel;
+import com.liferay.depot.service.DepotEntryGroupRelLocalService;
+import com.liferay.depot.service.DepotEntryLocalService;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -37,6 +43,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.security.permission.UserBag;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -53,6 +60,7 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -208,6 +216,69 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		}
 	}
 
+	private int _addInheritedDepotGroups(
+			Role assetLibraryMemberRole, boolean filterSearch,
+			Set<Long> inheritedDepotGroupIds, Group group,
+			int permissionTermsLimit, Set<Role> roles, UserBag userBag,
+			List<SearchPermissionCheckerImpl.UsersGroupIdRoles>
+				usersGroupIdsRoles,
+			int termsCount)
+		throws Exception {
+
+		List<DepotEntryGroupRel> depotEntryGroupRels =
+			_depotEntryGroupRelLocalService.getDepotEntryGroupRels(
+				group.getGroupId(), DepotConstants.TYPE_ANY, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS);
+
+		for (DepotEntryGroupRel depotEntryGroupRel : depotEntryGroupRels) {
+			if (filterSearch && (termsCount > permissionTermsLimit)) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						StringBundler.concat(
+							"Skipping presearch permission checking due to ",
+							"too many roles, groups, and group roles: ",
+							termsCount, " > ", permissionTermsLimit));
+				}
+
+				return -1;
+			}
+
+			DepotEntry depotEntry = _depotEntryLocalService.fetchDepotEntry(
+				depotEntryGroupRel.getDepotEntryId());
+
+			if (depotEntry == null) {
+				continue;
+			}
+
+			long depotGroupId = depotEntry.getGroupId();
+
+			if (!inheritedDepotGroupIds.add(depotGroupId)) {
+				continue;
+			}
+
+			Group depotGroup = _groupLocalService.fetchGroup(depotGroupId);
+
+			if ((depotGroup == null) || userBag.hasUserGroup(depotGroup)) {
+				continue;
+			}
+
+			List<Role> depotGroupRoles = Collections.singletonList(
+				assetLibraryMemberRole);
+
+			roles.add(assetLibraryMemberRole);
+
+			_addGroup(depotGroup, depotGroupRoles, usersGroupIdsRoles);
+
+			_addGroup(
+				depotGroup.getStagingGroup(), depotGroupRoles,
+				usersGroupIdsRoles);
+
+			termsCount += depotGroupRoles.size();
+		}
+
+		return termsCount;
+	}
+
 	private void _addPermissionFields(
 			long companyId, long groupId, String className, long classPK,
 			String viewActionId, Document document)
@@ -324,6 +395,8 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		Role siteMemberRole = _roleLocalService.getRole(
 			companyId, RoleConstants.SITE_MEMBER);
 
+		Set<Long> inheritedDepotGroupIds = new HashSet<>();
+
 		for (Group group : groups) {
 			List<Role> groupRoles = _roleLocalService.getRoles(
 				permissionChecker.getRoleIds(userId, group.getGroupId()));
@@ -374,6 +447,15 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 							termsCount, " > ", permissionTermsLimit));
 				}
 
+				return null;
+			}
+
+			termsCount = _addInheritedDepotGroups(
+				assetLibraryMemberRole, filterSearch, inheritedDepotGroupIds,
+				group, permissionTermsLimit, roles, userBag, usersGroupIdsRoles,
+				termsCount);
+
+			if (termsCount == -1) {
 				return null;
 			}
 		}
@@ -592,6 +674,15 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionCheckerImpl.class);
+
+	@Reference
+	private DepotEntryGroupRelLocalService _depotEntryGroupRelLocalService;
+
+	@Reference
+	private DepotEntryLocalService _depotEntryLocalService;
+
+	@Reference
+	private GroupLocalService _groupLocalService;
 
 	@Reference
 	private IndexerRegistry _indexerRegistry;
