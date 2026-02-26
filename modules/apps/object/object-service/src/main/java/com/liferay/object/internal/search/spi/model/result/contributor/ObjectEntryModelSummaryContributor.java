@@ -10,7 +10,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Summary;
-import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.spi.model.result.contributor.ModelSummaryContributor;
 
@@ -29,70 +29,65 @@ public class ObjectEntryModelSummaryContributor
 
 		String defaultLanguageId = document.get("defaultLanguageId");
 
-		return new Summary(
+		Summary summary = new Summary(
 			_getTitle(defaultLanguageId, document, locale),
 			_getContent(defaultLanguageId, document, locale));
+
+		summary.setMaxContentLength(200);
+
+		return summary;
 	}
 
 	private String _getContent(
 		String defaultLanguageId, Document document, Locale locale) {
 
-		String localizedFieldName = Field.getLocalizedName(
-			locale, _OBJECT_ENTRY_CONTENT);
+		String content = _getLocalizedNestedFieldSnippet(document, locale);
+
+		if (!Validator.isBlank(content)) {
+			return content;
+		}
+
+		if (!Validator.isBlank(defaultLanguageId)) {
+			content = _getLocalizedNestedFieldSnippet(
+				document, LocaleUtil.fromLanguageId(defaultLanguageId));
+
+			if (!Validator.isBlank(content)) {
+				return content;
+			}
+		}
+
+		content = document.get(
+			Field.getLocalizedName(locale, _OBJECT_ENTRY_CONTENT));
+
+		if (!Validator.isBlank(content)) {
+			return content;
+		}
+
+		if (!Validator.isBlank(defaultLanguageId)) {
+			content = document.get(
+				Field.getLocalizedName(
+					defaultLanguageId, _OBJECT_ENTRY_CONTENT));
+
+			if (!Validator.isBlank(content)) {
+				return content;
+			}
+		}
+
+		return document.get(_OBJECT_ENTRY_CONTENT);
+	}
+
+	private String _getLocalizedNestedFieldSnippet(
+		Document document, Locale locale) {
+
+		if (locale == null) {
+			return StringPool.BLANK;
+		}
 
 		String localizedSnippetFieldName = StringBundler.concat(
-			Field.SNIPPET, StringPool.UNDERLINE, localizedFieldName);
+			Field.SNIPPET, StringPool.UNDERLINE,
+			Field.getLocalizedName(locale, _NESTED_FIELD_ARRAY_VALUE));
 
-		String content = document.get(localizedSnippetFieldName);
-
-		if (Validator.isBlank(content)) {
-			String localizedContent = document.get(localizedFieldName);
-
-			if (Validator.isNotNull(localizedContent)) {
-				content = StringUtil.shorten(
-					localizedContent, 300, StringPool.TRIPLE_PERIOD);
-			}
-		}
-
-		if (Validator.isBlank(content) &&
-			!Validator.isBlank(defaultLanguageId)) {
-
-			String defaultLocalizedFieldName = Field.getLocalizedName(
-				defaultLanguageId, _OBJECT_ENTRY_CONTENT);
-
-			String defaultLocalizedSnippetFieldName = StringBundler.concat(
-				Field.SNIPPET, StringPool.UNDERLINE, defaultLocalizedFieldName);
-
-			content = document.get(defaultLocalizedSnippetFieldName);
-
-			if (Validator.isBlank(content)) {
-				String localizedContent = document.get(
-					defaultLocalizedFieldName);
-
-				if (Validator.isNotNull(localizedContent)) {
-					content = StringUtil.shorten(
-						localizedContent, 300, StringPool.TRIPLE_PERIOD);
-				}
-			}
-		}
-
-		if (Validator.isBlank(content)) {
-			content = document.get(
-				StringBundler.concat(
-					Field.SNIPPET, StringPool.UNDERLINE,
-					_OBJECT_ENTRY_CONTENT));
-		}
-
-		if (Validator.isBlank(content)) {
-			String nonlocalizedContent = document.get(_OBJECT_ENTRY_CONTENT);
-
-			if (Validator.isNotNull(nonlocalizedContent)) {
-				content = StringUtil.shorten(
-					nonlocalizedContent, 300, StringPool.TRIPLE_PERIOD);
-			}
-		}
-
-		return content;
+		return document.get(localizedSnippetFieldName);
 	}
 
 	private String _getTitle(
@@ -144,6 +139,9 @@ public class ObjectEntryModelSummaryContributor
 
 		return title;
 	}
+
+	private static final String _NESTED_FIELD_ARRAY_VALUE =
+		"nestedFieldArray.value";
 
 	private static final String _OBJECT_ENTRY_CONTENT = "objectEntryContent";
 
