@@ -5,15 +5,11 @@
 
 package com.liferay.portal.search.internal.permission.contributor;
 
-import com.liferay.depot.constants.DepotConstants;
 import com.liferay.depot.constants.DepotRolesConstants;
 import com.liferay.depot.model.DepotEntry;
-import com.liferay.depot.model.DepotEntryGroupRel;
-import com.liferay.depot.service.DepotEntryGroupRelLocalService;
 import com.liferay.depot.service.DepotEntryLocalService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -29,6 +25,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.search.spi.model.permission.contributor.SearchPermissionFilterContributor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
@@ -61,72 +58,6 @@ public class AssetLibraryMemberRoleSearchPermissionFilterContributor
 		}
 	}
 
-	private void _add(BooleanFilter booleanFilter, TermsFilter termsFilter) {
-		if (!termsFilter.isEmpty()) {
-			booleanFilter.add(termsFilter, BooleanClauseOccur.SHOULD);
-		}
-	}
-
-	private void _addGroup(
-		Group group, Role assetLibraryMemberRole,
-		TermsFilter groupIdsTermsFilter, TermsFilter groupRolesTermsFilter) {
-
-		if (group == null) {
-			return;
-		}
-
-		groupIdsTermsFilter.addValue(String.valueOf(group.getGroupId()));
-
-		groupRolesTermsFilter.addValue(
-			StringBundler.concat(
-				group.getGroupId(), StringPool.DASH,
-				assetLibraryMemberRole.getRoleId()));
-	}
-
-	private void _addInheritedDepotGroups(
-			Group group, Role assetLibraryMemberRole,
-			TermsFilter groupIdsTermsFilter, TermsFilter groupRolesTermsFilter,
-			Set<Long> inheritedDepotGroupIds, UserBag userBag)
-		throws Exception {
-
-		if (group == null) {
-			return;
-		}
-
-		for (DepotEntryGroupRel depotEntryGroupRel :
-				_depotEntryGroupRelLocalService.getDepotEntryGroupRels(
-					group.getGroupId(), DepotConstants.TYPE_ANY,
-					QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
-
-			DepotEntry depotEntry = _depotEntryLocalService.fetchDepotEntry(
-				depotEntryGroupRel.getDepotEntryId());
-
-			if (depotEntry == null) {
-				continue;
-			}
-
-			long depotGroupId = depotEntry.getGroupId();
-
-			if (!inheritedDepotGroupIds.add(depotGroupId)) {
-				continue;
-			}
-
-			Group depotGroup = _groupLocalService.fetchGroup(depotGroupId);
-
-			if ((depotGroup == null) || userBag.hasUserGroup(depotGroup)) {
-				continue;
-			}
-
-			_addGroup(
-				depotGroup, assetLibraryMemberRole, groupIdsTermsFilter,
-				groupRolesTermsFilter);
-
-			_addGroup(
-				depotGroup.getStagingGroup(), assetLibraryMemberRole,
-				groupIdsTermsFilter, groupRolesTermsFilter);
-		}
-	}
-
 	private void _contribute(
 			BooleanFilter booleanFilter, long companyId, UserBag userBag)
 		throws Exception {
@@ -142,27 +73,55 @@ public class AssetLibraryMemberRoleSearchPermissionFilterContributor
 			return;
 		}
 
-		TermsFilter groupIdsTermsFilter = new TermsFilter(Field.GROUP_ID);
 		TermsFilter groupRolesTermsFilter = new TermsFilter(
 			Field.GROUP_ROLE_ID);
 
-		Set<Long> inheritedDepotGroupIds = new HashSet<>();
+		Set<Long> depotGroupIds = new HashSet<>();
 
 		for (Group group : userBag.getGroups()) {
-			_addInheritedDepotGroups(
-				group, assetLibraryMemberRole, groupIdsTermsFilter,
-				groupRolesTermsFilter, inheritedDepotGroupIds, userBag);
+			if (group == null) {
+				continue;
+			}
+
+			if (group.isDepot()) {
+				depotGroupIds.add(group.getGroupId());
+			}
+			else if (group.isOrganization()) {
+				List<Group> organizationGroups =
+					_groupLocalService.getOrganizationGroups(
+						group.getOrganizationId());
+
+				for (Group organizationGroup : organizationGroups) {
+					if (organizationGroup.isDepot()) {
+						depotGroupIds.add(organizationGroup.getGroupId());
+					}
+				}
+			}
 		}
 
-		_add(booleanFilter, groupIdsTermsFilter);
-		_add(booleanFilter, groupRolesTermsFilter);
+		for (long depotGroupId : depotGroupIds) {
+			DepotEntry depotEntry = _depotEntryLocalService.getGroupDepotEntry(
+				depotGroupId);
+
+			if (depotEntry == null) {
+				continue;
+			}
+
+			Group depotGroup = depotEntry.getGroup();
+
+			groupRolesTermsFilter.addValue(
+				StringBundler.concat(
+					depotGroup.getGroupId(), StringPool.DASH,
+					assetLibraryMemberRole.getRoleId()));
+		}
+
+		if (!groupRolesTermsFilter.isEmpty()) {
+			booleanFilter.add(groupRolesTermsFilter, BooleanClauseOccur.SHOULD);
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		AssetLibraryMemberRoleSearchPermissionFilterContributor.class);
-
-	@Reference
-	private DepotEntryGroupRelLocalService _depotEntryGroupRelLocalService;
 
 	@Reference
 	private DepotEntryLocalService _depotEntryLocalService;
