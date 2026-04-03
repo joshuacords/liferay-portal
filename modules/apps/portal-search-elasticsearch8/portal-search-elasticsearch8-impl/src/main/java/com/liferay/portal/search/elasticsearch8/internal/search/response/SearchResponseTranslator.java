@@ -129,6 +129,7 @@ public class SearchResponseTranslator {
 		_addInnerHitsSnippets(document, hit, locale);
 	}
 
+	//this adds snippets to com.liferay.portal.kernel.search.Documents
 	private void _addSnippets(
 		Document document, String fieldName,
 		Map<String, List<String>> highlights, Locale locale) {

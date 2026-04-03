@@ -16,6 +16,7 @@ import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.highlight.HighlightUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -138,9 +139,9 @@ public class ObjectEntrySearchHighlightTest {
 		SearchHit searchHit = _search(
 			LocaleUtil.US, _nonlocalizedObjectDefinition,
 			_nonlocalizedObjectEntry);
-
-		_assertHighlight("objectEntryContent", searchHit);
-		_assertNoLocalizedHighlight("objectEntryContent", searchHit);
+//this might not be expected, do Objects always use the Default Locale for non-localized fields?
+		_assertHighlight(_NESTED_FIELD_ARRAY_VALUE, searchHit);
+		_assertNoLocalizedHighlight(_NESTED_FIELD_ARRAY_VALUE, searchHit);
 	}
 
 	@Test
@@ -311,7 +312,7 @@ public class ObjectEntrySearchHighlightTest {
 	}
 
 	private String _getContentFieldName(Locale locale) {
-		return "objectEntryContent_" + LocaleUtil.toLanguageId(locale);
+		return StringBundler.concat(_NESTED_FIELD_ARRAY_VALUE, StringPool.UNDERLINE, LocaleUtil.toLanguageId(locale));
 	}
 
 	private String _getTitleFieldName(Locale locale) {
@@ -361,6 +362,8 @@ public class ObjectEntrySearchHighlightTest {
 		ObjectEntrySearchHighlightTest._KEYWORD,
 		HighlightUtil.HIGHLIGHT_TAG_CLOSE);
 
+	private static final String _NESTED_FIELD_ARRAY_VALUE =
+			"nestedFieldArray.value";
 	private static final String _KEYWORD = "keyword";
 
 	private static final String _LOCALIZED_CONTENT_FIELD_NAME = "localizedText";
