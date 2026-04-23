@@ -49,12 +49,10 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -246,13 +244,7 @@ public class DDMFormValuesInfoFieldValuesProviderImpl
 					locale = LocaleUtil.getSiteDefault();
 				}
 
-				DateFormat dateFormat = DateFormat.getDateInstance(
-					DateFormat.SHORT, locale);
-
-				Date date = DateUtil.parseDate(
-					"yyyy-MM-dd", valueString, locale);
-
-				return dateFormat.format(date);
+				return DateUtil.parseDate("yyyy-MM-dd", valueString, locale);
 			}
 
 			if (Objects.equals(
