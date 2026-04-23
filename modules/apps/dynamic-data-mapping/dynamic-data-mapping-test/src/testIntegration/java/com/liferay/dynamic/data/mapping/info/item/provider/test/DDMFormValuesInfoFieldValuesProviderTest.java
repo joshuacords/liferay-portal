@@ -50,7 +50,10 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
+import java.text.SimpleDateFormat;
+
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -120,6 +123,52 @@ public class DDMFormValuesInfoFieldValuesProviderTest
 				).put(
 					expectedKey2, expectedLabel2
 				).build()));
+	}
+
+	@Test
+	public void testGetInfoFieldValuesDateDDMFormFieldType() throws Exception {
+		DDMFormField ddmFormField = new DDMFormField(
+			"name", DDMFormFieldTypeConstants.DATE);
+
+		ddmFormField.setDataType("date");
+		ddmFormField.setIndexType("keyword");
+		ddmFormField.setLocalizable(true);
+
+		LocalizedValue localizedValue = new LocalizedValue(LocaleUtil.US);
+
+		localizedValue.addString(
+			LocaleUtil.US, RandomTestUtil.randomString(10));
+
+		ddmFormField.setLabel(localizedValue);
+
+		JournalArticle journalArticle = JournalTestUtil.addJournalArticle(
+			_dataDefinitionResourceFactory, ddmFormField,
+			_ddmFormValuesToFieldsConverter, "2026-04-21", _group.getGroupId(),
+			_journalConverter);
+
+		_assertGetInfoFieldValues(
+			Collections.singletonList(ddmFormField), journalArticle,
+			value -> {
+				String actualType;
+
+				if (value == null) {
+					actualType = "null";
+				}
+				else {
+					actualType = value.getClass(
+					).getName();
+				}
+
+				Assert.assertTrue(
+					"Expected Date but got " + actualType,
+					value instanceof Date);
+
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd");
+
+				Assert.assertEquals(
+					"2026-04-21", simpleDateFormat.format((Date)value));
+			});
 	}
 
 	@Test
