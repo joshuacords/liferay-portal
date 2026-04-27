@@ -139,9 +139,11 @@ public class ObjectEntrySearchHighlightTest {
 		SearchHit searchHit = _search(
 			LocaleUtil.US, _nonlocalizedObjectDefinition,
 			_nonlocalizedObjectEntry);
-//this might not be expected, do Objects always use the Default Locale for non-localized fields?
-		_assertHighlight(_NESTED_FIELD_ARRAY_VALUE, searchHit);
-		_assertNoLocalizedHighlight(_NESTED_FIELD_ARRAY_VALUE, searchHit);
+
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			_localizedObjectDefinition.getDefaultLanguageId());
+
+		_assertHighlight(_getContentFieldName(defaultLocale), searchHit);
 	}
 
 	@Test
@@ -312,7 +314,9 @@ public class ObjectEntrySearchHighlightTest {
 	}
 
 	private String _getContentFieldName(Locale locale) {
-		return StringBundler.concat(_NESTED_FIELD_ARRAY_VALUE, StringPool.UNDERLINE, LocaleUtil.toLanguageId(locale));
+		return StringBundler.concat(
+			_NESTED_FIELD_ARRAY_VALUE, StringPool.UNDERLINE,
+			LocaleUtil.toLanguageId(locale));
 	}
 
 	private String _getTitleFieldName(Locale locale) {
@@ -362,13 +366,14 @@ public class ObjectEntrySearchHighlightTest {
 		ObjectEntrySearchHighlightTest._KEYWORD,
 		HighlightUtil.HIGHLIGHT_TAG_CLOSE);
 
-	private static final String _NESTED_FIELD_ARRAY_VALUE =
-			"nestedFieldArray.value";
 	private static final String _KEYWORD = "keyword";
 
 	private static final String _LOCALIZED_CONTENT_FIELD_NAME = "localizedText";
 
 	private static final String _LOCALIZED_TITLE_FIELD_NAME = "localizedTitle";
+
+	private static final String _NESTED_FIELD_ARRAY_VALUE =
+		"nestedFieldArray.value";
 
 	private static final String _NONLOCALIZED_CONTENT_FIELD_NAME =
 		"nonlocalizedText";
