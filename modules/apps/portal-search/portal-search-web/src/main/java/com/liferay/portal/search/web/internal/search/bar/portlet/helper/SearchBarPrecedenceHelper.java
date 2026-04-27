@@ -5,6 +5,7 @@
 
 package com.liferay.portal.search.web.internal.search.bar.portlet.helper;
 
+import com.liferay.fragment.model.FragmentEntryLink;
 import com.liferay.fragment.processor.PortletRegistry;
 import com.liferay.fragment.service.FragmentEntryLinkLocalService;
 import com.liferay.portal.kernel.model.Layout;
@@ -35,9 +36,14 @@ import org.osgi.service.component.annotations.Reference;
 public class SearchBarPrecedenceHelper {
 
 	public Portlet findHeaderSearchBarPortlet(ThemeDisplay themeDisplay) {
-		List<Portlet> portlets = _getPortlets(themeDisplay);
+		Portlet headerSearchBarPortlet =
+			_findMasterLayoutHeaderSearchBarPortlet(themeDisplay);
 
-		Portlet headerSearchBarPortlet = null;
+		if (headerSearchBarPortlet != null) {
+			return headerSearchBarPortlet;
+		}
+
+		List<Portlet> portlets = _getPortlets(themeDisplay);
 
 		for (Portlet portlet : portlets) {
 			if (_isHeaderSearchBar(portlet)) {
@@ -111,6 +117,48 @@ public class SearchBarPrecedenceHelper {
 		return Objects.equals(
 			searchBarPortletPreferences1.getFederatedSearchKey(),
 			searchBarPortletPreferences2.getFederatedSearchKey());
+	}
+
+	private Portlet _findMasterLayoutHeaderSearchBarPortlet(
+		ThemeDisplay themeDisplay) {
+
+		Layout layout = themeDisplay.getLayout();
+
+		if ((!layout.isTypeAssetDisplay() && !layout.isTypeContent()) ||
+			(layout.getMasterLayoutPlid() <= 0)) {
+
+			return null;
+		}
+
+		Layout masterLayout = _layoutLocalService.fetchLayout(
+			layout.getMasterLayoutPlid());
+
+		if (masterLayout == null) {
+			return null;
+		}
+
+		for (FragmentEntryLink fragmentEntryLink :
+				_fragmentEntryLinkLocalService.getFragmentEntryLinksByPlid(
+					masterLayout.getGroupId(), masterLayout.getPlid())) {
+
+			for (String portletId :
+					_portletRegistry.getFragmentEntryLinkPortletIds(
+						fragmentEntryLink)) {
+
+				Portlet portlet = _portletLocalService.getPortletById(
+					themeDisplay.getCompanyId(), portletId);
+
+				if ((portlet != null) &&
+					Objects.equals(
+						portlet.getPortletName(),
+						SearchBarPortletKeys.SEARCH_BAR)) {
+
+					return portlet;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	private List<Portlet> _getPortlets(ThemeDisplay themeDisplay) {
