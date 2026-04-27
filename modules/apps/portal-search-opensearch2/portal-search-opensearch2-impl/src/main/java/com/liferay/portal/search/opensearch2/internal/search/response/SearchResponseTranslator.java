@@ -152,11 +152,18 @@ public class SearchResponseTranslator {
 			return;
 		}
 
-		document.add(
-			new Field(
-				StringBundler.concat(
-					Field.SNIPPET, StringPool.UNDERLINE, snippetFieldName),
-				StringUtil.merge(fragments, StringPool.TRIPLE_PERIOD)));
+		String snippetName = StringBundler.concat(
+			Field.SNIPPET, StringPool.UNDERLINE, snippetFieldName);
+		String snippetValue = StringUtil.merge(
+			fragments, StringPool.TRIPLE_PERIOD);
+
+		if (document.getField(snippetName) != null) {
+			snippetValue = StringBundler.concat(
+				document.get(snippetName), StringPool.TRIPLE_PERIOD,
+				snippetValue);
+		}
+
+		document.add(new Field(snippetName, snippetValue));
 	}
 
 	private FacetCollector _getFacetCollector(
