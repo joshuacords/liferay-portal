@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.spi.model.result.contributor.ModelSummaryContributor;
 
@@ -30,9 +29,13 @@ public class ObjectEntryModelSummaryContributor
 
 		String defaultLanguageId = document.get("defaultLanguageId");
 
-		return new Summary(
+		Summary summary = new Summary(
 			_getTitle(defaultLanguageId, document, locale),
-			_getShortenedContent(defaultLanguageId, document, locale));
+			_getContent(defaultLanguageId, document, locale));
+
+		summary.setMaxContentLength(200);
+
+		return summary;
 	}
 
 	private String _getContent(
@@ -85,14 +88,6 @@ public class ObjectEntryModelSummaryContributor
 			Field.getLocalizedName(locale, _NESTED_FIELD_ARRAY_VALUE));
 
 		return document.get(localizedSnippetFieldName);
-	}
-
-	private String _getShortenedContent(
-		String defaultLanguageId, Document document, Locale locale) {
-
-		return StringUtil.shorten(
-			_getContent(defaultLanguageId, document, locale), 300,
-			StringPool.TRIPLE_PERIOD);
 	}
 
 	private String _getTitle(
