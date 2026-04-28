@@ -8,6 +8,9 @@ package com.liferay.portal.search.web.internal.search.bar.portlet.helper;
 import com.liferay.fragment.model.FragmentEntryLink;
 import com.liferay.fragment.processor.PortletRegistry;
 import com.liferay.fragment.service.FragmentEntryLinkLocalService;
+import com.liferay.layout.page.template.constants.LayoutPageTemplateEntryTypeConstants;
+import com.liferay.layout.page.template.model.LayoutPageTemplateEntry;
+import com.liferay.layout.page.template.service.LayoutPageTemplateEntryService;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
@@ -21,6 +24,7 @@ import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.web.constants.SearchBarPortletKeys;
 import com.liferay.portal.search.web.internal.portlet.preferences.PortletPreferencesLookup;
 import com.liferay.portal.search.web.internal.search.bar.portlet.SearchBarPortletPreferences;
@@ -59,6 +63,20 @@ public class SearchBarPrecedenceHelperTest {
 
 		_searchBarPrecedenceHelper = _createSearchBarPrecedenceHelper();
 		_themeDisplay = _createThemeDisplay(layout);
+	}
+
+	@Test
+	public void testContentPageWithDefaultMasterLayoutHeaderSearchBar() {
+		_setThemeDisplayLayoutFriendlyURL(_DESTINATION);
+
+		String federatedSearchKey = RandomTestUtil.randomString();
+
+		_addSearchBarPortletToDefaultMasterLayout(federatedSearchKey);
+
+		Portlet portlet = _addSearchBarPortletToPage(federatedSearchKey);
+
+		Assert.assertTrue(
+			isSearchBarInBodyWithHeaderSearchBarAlreadyPresent(portlet));
 	}
 
 	@Test
@@ -205,6 +223,86 @@ public class SearchBarPrecedenceHelperTest {
 		);
 
 		return portlet;
+	}
+
+	private void _addSearchBarPortletToDefaultMasterLayout(
+		String federatedSearchKey) {
+
+		Mockito.when(
+			_layout.isTypeContent()
+		).thenReturn(
+			true
+		);
+
+		long masterLayoutPlid = RandomTestUtil.randomLong();
+
+		LayoutPageTemplateEntry layoutPageTemplateEntry = Mockito.mock(
+			LayoutPageTemplateEntry.class);
+
+		Mockito.when(
+			layoutPageTemplateEntry.getPlid()
+		).thenReturn(
+			masterLayoutPlid
+		);
+
+		Mockito.when(
+			_layoutPageTemplateEntryService.fetchDefaultLayoutPageTemplateEntry(
+				0L, LayoutPageTemplateEntryTypeConstants.MASTER_LAYOUT,
+				WorkflowConstants.STATUS_APPROVED)
+		).thenReturn(
+			layoutPageTemplateEntry
+		);
+
+		Layout masterLayout = Mockito.mock(Layout.class);
+
+		Mockito.when(
+			masterLayout.getPlid()
+		).thenReturn(
+			masterLayoutPlid
+		);
+
+		Mockito.when(
+			_layoutLocalService.fetchLayout(masterLayoutPlid)
+		).thenReturn(
+			masterLayout
+		);
+
+		String defaultMasterHeaderSearchBarPortletId =
+			"defaultMasterHeaderSearchBarPortletId";
+
+		Portlet portlet = _createPortlet(
+			false, defaultMasterHeaderSearchBarPortletId);
+
+		Mockito.when(
+			_portletLocalService.getPortletById(
+				0, defaultMasterHeaderSearchBarPortletId)
+		).thenReturn(
+			portlet
+		);
+
+		Mockito.doReturn(
+			_createPortletPreferences(federatedSearchKey, _DESTINATION)
+		).when(
+			_portletPreferencesLookup
+		).fetchPreferences(
+			portlet, _themeDisplay
+		);
+
+		FragmentEntryLink fragmentEntryLink = Mockito.mock(
+			FragmentEntryLink.class);
+
+		Mockito.when(
+			_fragmentEntryLinkLocalService.getFragmentEntryLinksByPlid(
+				0L, masterLayoutPlid)
+		).thenReturn(
+			Collections.singletonList(fragmentEntryLink)
+		);
+
+		Mockito.when(
+			_portletRegistry.getFragmentEntryLinkPortletIds(fragmentEntryLink)
+		).thenReturn(
+			Collections.singletonList(defaultMasterHeaderSearchBarPortletId)
+		);
 	}
 
 	private void _addSearchBarPortletToHeader(String federatedSearchKey) {
@@ -402,6 +500,9 @@ public class SearchBarPrecedenceHelperTest {
 			searchBarPrecedenceHelper, "_layoutLocalService",
 			_layoutLocalService);
 		ReflectionTestUtil.setFieldValue(
+			searchBarPrecedenceHelper, "_layoutPageTemplateEntryService",
+			_layoutPageTemplateEntryService);
+		ReflectionTestUtil.setFieldValue(
 			searchBarPrecedenceHelper, "_portletLocalService",
 			_portletLocalService);
 		ReflectionTestUtil.setFieldValue(
@@ -452,6 +553,9 @@ public class SearchBarPrecedenceHelperTest {
 	private Layout _layout;
 	private final LayoutLocalService _layoutLocalService = Mockito.mock(
 		LayoutLocalService.class);
+	private final LayoutPageTemplateEntryService
+		_layoutPageTemplateEntryService = Mockito.mock(
+			LayoutPageTemplateEntryService.class);
 	private final PortletLocalService _portletLocalService = Mockito.mock(
 		PortletLocalService.class);
 	private final PortletPreferencesLookup _portletPreferencesLookup =
