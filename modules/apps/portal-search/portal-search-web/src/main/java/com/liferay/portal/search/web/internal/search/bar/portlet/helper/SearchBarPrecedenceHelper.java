@@ -8,6 +8,8 @@ package com.liferay.portal.search.web.internal.search.bar.portlet.helper;
 import com.liferay.fragment.model.FragmentEntryLink;
 import com.liferay.fragment.processor.PortletRegistry;
 import com.liferay.fragment.service.FragmentEntryLinkLocalService;
+import com.liferay.layout.page.template.constants.LayoutPageTemplateEntryTypeConstants;
+import com.liferay.layout.page.template.model.LayoutPageTemplateEntry;
 import com.liferay.layout.page.template.service.LayoutPageTemplateEntryService;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
@@ -18,6 +20,7 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.web.constants.SearchBarPortletKeys;
 import com.liferay.portal.search.web.internal.portlet.preferences.PortletPreferencesLookup;
 import com.liferay.portal.search.web.internal.search.bar.portlet.SearchBarPortletDestinationUtil;
@@ -125,14 +128,11 @@ public class SearchBarPrecedenceHelper {
 
 		Layout layout = themeDisplay.getLayout();
 
-		if ((!layout.isTypeAssetDisplay() && !layout.isTypeContent()) ||
-			(layout.getMasterLayoutPlid() <= 0)) {
-
+		if (!layout.isTypeAssetDisplay() && !layout.isTypeContent()) {
 			return null;
 		}
 
-		Layout masterLayout = _layoutLocalService.fetchLayout(
-			layout.getMasterLayoutPlid());
+		Layout masterLayout = _getMasterLayout(layout);
 
 		if (masterLayout == null) {
 			return null;
@@ -160,6 +160,26 @@ public class SearchBarPrecedenceHelper {
 		}
 
 		return null;
+	}
+
+	private Layout _getMasterLayout(Layout layout) {
+		if (layout.getMasterLayoutPlid() > 0) {
+			return _layoutLocalService.fetchLayout(
+				layout.getMasterLayoutPlid());
+		}
+
+		LayoutPageTemplateEntry layoutPageTemplateEntry =
+			_layoutPageTemplateEntryService.fetchDefaultLayoutPageTemplateEntry(
+				layout.getGroupId(),
+				LayoutPageTemplateEntryTypeConstants.MASTER_LAYOUT,
+				WorkflowConstants.STATUS_APPROVED);
+
+		if (layoutPageTemplateEntry == null) {
+			return null;
+		}
+
+		return _layoutLocalService.fetchLayout(
+			layoutPageTemplateEntry.getPlid());
 	}
 
 	private List<Portlet> _getPortlets(ThemeDisplay themeDisplay) {
