@@ -132,8 +132,6 @@ public class ObjectEntryKeywordQueryContributor
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
-		String titleField = ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE;
-
 		Locale defaultLocale = LocaleUtil.fromLanguageId(
 			_objectDefinition.getDefaultLanguageId());
 
@@ -144,14 +142,15 @@ public class ObjectEntryKeywordQueryContributor
 		}
 		else {
 			defaultLocalizedTitleFieldName = Field.getLocalizedName(
-				defaultLocale, titleField);
+				defaultLocale, ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
 		}
 
 		String localizedTitleFieldName = null;
 
 		if (Validator.isNotNull(searchContext.getLocale())) {
 			localizedTitleFieldName = Field.getLocalizedName(
-				searchContext.getLocale(), titleField);
+				searchContext.getLocale(),
+				ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
 		}
 
 		_addLocalizedHighlightFieldNames(
@@ -169,7 +168,9 @@ public class ObjectEntryKeywordQueryContributor
 				_addTerm(booleanQuery, localizedTitleFieldName, keywords);
 			}
 
-			_addTerm(booleanQuery, titleField, keywords);
+			_addTerm(
+				booleanQuery, ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE,
+				keywords);
 
 			try {
 				for (ObjectField objectField : objectFields) {
@@ -193,7 +194,9 @@ public class ObjectEntryKeywordQueryContributor
 					_addTerm(booleanQuery, localizedTitleFieldName, keywords);
 				}
 
-				_addTerm(booleanQuery, titleField, keywords);
+				_addTerm(
+					booleanQuery, ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE,
+					keywords);
 			}
 
 			for (String token : _tokenizeKeywords(keywords)) {
@@ -203,7 +206,9 @@ public class ObjectEntryKeywordQueryContributor
 						BooleanClauseOccur.SHOULD);
 
 					booleanQuery.add(
-						new WildcardQuery(titleField, token + StringPool.STAR),
+						new WildcardQuery(
+							ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE,
+							token + StringPool.STAR),
 						BooleanClauseOccur.SHOULD);
 				}
 
