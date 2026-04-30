@@ -131,8 +131,6 @@ public class ObjectEntryKeywordQueryContributor
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
-		queryConfig.addHighlightFieldNames(Field.ENTRY_CLASS_PK);
-
 		Locale defaultLocale = LocaleUtil.fromLanguageId(
 			_objectDefinition.getDefaultLanguageId());
 
