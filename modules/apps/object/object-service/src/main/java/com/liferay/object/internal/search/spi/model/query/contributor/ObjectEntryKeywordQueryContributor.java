@@ -131,22 +131,30 @@ public class ObjectEntryKeywordQueryContributor
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
+		String titleField = "objectEntryTitle";
+
 		Locale defaultLocale = LocaleUtil.fromLanguageId(
 			_objectDefinition.getDefaultLanguageId());
+
+		String defaultLocalizedTitleFieldName = null;
 
 		if (Objects.equals(defaultLocale, searchContext.getLocale())) {
 			defaultLocale = null;
 		}
+		else {
+			defaultLocalizedTitleFieldName = Field.getLocalizedName(
+				defaultLocale, titleField);
+		}
+
+		String localizedTitleFieldName = null;
+
+		if (Validator.isNotNull(searchContext.getLocale())) {
+			localizedTitleFieldName = Field.getLocalizedName(
+				searchContext.getLocale(), titleField);
+		}
 
 		_addLocalizedHighlightFieldNames(
 			defaultLocale, queryConfig, searchContext);
-
-		String titleField = "objectEntryTitle";
-
-		String defaultLocalizedTitleFieldName = Field.getLocalizedName(
-			defaultLocale, titleField);
-		String localizedTitleFieldName = Field.getLocalizedName(
-			searchContext.getLocale(), titleField);
 
 		if (StringUtil.startsWith(keywords, CharPool.QUOTE) &&
 			StringUtil.endsWith(keywords, CharPool.QUOTE)) {
@@ -156,7 +164,10 @@ public class ObjectEntryKeywordQueryContributor
 					booleanQuery, defaultLocalizedTitleFieldName, keywords);
 			}
 
-			_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+			if (Validator.isNotNull(searchContext.getLocale())) {
+				_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+			}
+
 			_addTerm(booleanQuery, titleField, keywords);
 
 			try {
@@ -177,7 +188,10 @@ public class ObjectEntryKeywordQueryContributor
 						booleanQuery, defaultLocalizedTitleFieldName, keywords);
 				}
 
-				_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+				if (Validator.isNotNull(searchContext.getLocale())) {
+					_addTerm(booleanQuery, localizedTitleFieldName, keywords);
+				}
+
 				_addTerm(booleanQuery, titleField, keywords);
 			}
 
