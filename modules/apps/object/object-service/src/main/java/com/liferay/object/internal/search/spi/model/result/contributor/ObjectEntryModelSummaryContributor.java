@@ -5,6 +5,7 @@
 
 package com.liferay.object.internal.search.spi.model.result.contributor;
 
+import com.liferay.object.constants.ObjectEntrySearchConstants;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Document;
@@ -27,7 +28,8 @@ public class ObjectEntryModelSummaryContributor
 	public Summary getSummary(
 		Document document, Locale locale, String snippet) {
 
-		String defaultLanguageId = document.get("defaultLanguageId");
+		String defaultLanguageId = document.get(
+			ObjectEntrySearchConstants.DEFAULT_LANGUAGE_ID);
 
 		Summary summary = new Summary(
 			_getTitle(defaultLanguageId, document, locale),
@@ -57,7 +59,8 @@ public class ObjectEntryModelSummaryContributor
 		}
 
 		content = document.get(
-			Field.getLocalizedName(locale, _OBJECT_ENTRY_CONTENT));
+			Field.getLocalizedName(
+				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
 
 		if (!Validator.isBlank(content)) {
 			return content;
@@ -66,14 +69,15 @@ public class ObjectEntryModelSummaryContributor
 		if (!Validator.isBlank(defaultLanguageId)) {
 			content = document.get(
 				Field.getLocalizedName(
-					defaultLanguageId, _OBJECT_ENTRY_CONTENT));
+					defaultLanguageId,
+					ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
 
 			if (!Validator.isBlank(content)) {
 				return content;
 			}
 		}
 
-		return document.get(_OBJECT_ENTRY_CONTENT);
+		return document.get(ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT);
 	}
 
 	private String _getLocalizedNestedFieldSnippet(
@@ -85,7 +89,8 @@ public class ObjectEntryModelSummaryContributor
 
 		String localizedSnippetFieldName = StringBundler.concat(
 			Field.SNIPPET, StringPool.UNDERLINE,
-			Field.getLocalizedName(locale, _NESTED_FIELD_ARRAY_VALUE));
+			Field.getLocalizedName(
+				locale, ObjectEntrySearchConstants.NESTED_FIELD_ARRAY_VALUE));
 
 		return document.get(localizedSnippetFieldName);
 	}
@@ -94,7 +99,7 @@ public class ObjectEntryModelSummaryContributor
 		String defaultLanguageId, Document document, Locale locale) {
 
 		String localizedFieldName = Field.getLocalizedName(
-			locale, _OBJECT_ENTRY_TITLE);
+			locale, ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
 
 		String localizedSnippetFieldName = StringBundler.concat(
 			Field.SNIPPET, StringPool.UNDERLINE, localizedFieldName);
@@ -107,7 +112,8 @@ public class ObjectEntryModelSummaryContributor
 
 		if (Validator.isBlank(title) && !Validator.isBlank(defaultLanguageId)) {
 			String defaultLocalizedFieldName = Field.getLocalizedName(
-				defaultLanguageId, _OBJECT_ENTRY_TITLE);
+				defaultLanguageId,
+				ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
 
 			String defaultLocalizedSnippetFieldName = StringBundler.concat(
 				Field.SNIPPET, StringPool.UNDERLINE, defaultLocalizedFieldName);
@@ -122,11 +128,12 @@ public class ObjectEntryModelSummaryContributor
 		if (Validator.isBlank(title)) {
 			title = document.get(
 				StringBundler.concat(
-					Field.SNIPPET, StringPool.UNDERLINE, _OBJECT_ENTRY_TITLE));
+					Field.SNIPPET, StringPool.UNDERLINE,
+					ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE));
 		}
 
 		if (Validator.isBlank(title)) {
-			title = document.get(_OBJECT_ENTRY_TITLE);
+			title = document.get(ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
 		}
 
 		if (Validator.isBlank(title)) {
@@ -139,12 +146,5 @@ public class ObjectEntryModelSummaryContributor
 
 		return title;
 	}
-
-	private static final String _NESTED_FIELD_ARRAY_VALUE =
-		"nestedFieldArray.value";
-
-	private static final String _OBJECT_ENTRY_CONTENT = "objectEntryContent";
-
-	private static final String _OBJECT_ENTRY_TITLE = "objectEntryTitle";
 
 }
