@@ -395,7 +395,8 @@ public class ObjectEntryModelDocumentContributor
 		TextEmbeddingContentHelper<ObjectEntry> textEmbeddingContentHelper =
 			new TextEmbeddingContentHelper<>(
 				objectEntry.getCompanyId(), objectEntry.getDefaultLanguageId(),
-				StringPool.COMMA_AND_SPACE, objectEntry, objectFields.size(),
+				StringPool.COMMA_AND_SPACE, objectEntry,
+				(objectFields.size() * 4) - 1,
 				_textEmbeddingDocumentContributor);
 
 		if (!objectFields.isEmpty()) {
