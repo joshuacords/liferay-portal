@@ -464,9 +464,6 @@ public class ObjectEntryKeywordQueryContributor
 					 objectField.getDBType(),
 					 ObjectFieldConstants.DB_TYPE_STRING)) {
 
-			String fieldName =
-				ObjectEntrySearchConstants.NESTED_FIELD_ARRAY_VALUE_TEXT;
-
 			if (objectField.isLocalized()) {
 				String[] localizedFieldNames = _getLocalizedNestedFieldNames(
 					defaultLocale, searchContext);
@@ -487,16 +484,12 @@ public class ObjectEntryKeywordQueryContributor
 
 				highlightFieldNames = localizedFieldNames;
 			}
-			else if (Objects.equals(
-						objectField.getIndexedLanguageId(),
-						searchContext.getLanguageId())) {
-
-				fieldName = StringBundler.concat(
+			else {
+				String fieldName = StringBundler.concat(
 					ObjectEntrySearchConstants.NESTED_FIELD_ARRAY_VALUE,
-					StringPool.UNDERLINE, objectField.getIndexedLanguageId());
-			}
+					StringPool.UNDERLINE,
+					_objectDefinition.getDefaultLanguageId());
 
-			if (!objectField.isLocalized()) {
 				nestedBooleanQuery.add(
 					_createMatchQuery(fieldName, searchContext, token),
 					BooleanClauseOccur.MUST);
