@@ -33,7 +33,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Tina Tian
  */
-@Component(enabled = true, service = {})
+@Component(enabled = false, service = {})
 public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 	@Override
