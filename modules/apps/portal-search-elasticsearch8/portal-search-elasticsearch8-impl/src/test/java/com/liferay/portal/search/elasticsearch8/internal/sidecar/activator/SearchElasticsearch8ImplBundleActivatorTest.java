@@ -87,6 +87,12 @@ public class SearchElasticsearch8ImplBundleActivatorTest {
 
 			Mockito.verify(
 				bundleContext
+			).getServiceReference(
+				ServiceComponentRuntime.class
+			);
+
+			Mockito.verify(
+				bundleContext, Mockito.never()
 			).addBundleListener(
 				Mockito.any(BundleListener.class)
 			);
@@ -168,6 +174,12 @@ public class SearchElasticsearch8ImplBundleActivatorTest {
 
 			Mockito.verify(
 				bundleContext
+			).getServiceReference(
+				ServiceComponentRuntime.class
+			);
+
+			Mockito.verify(
+				bundleContext, Mockito.never()
 			).addBundleListener(
 				Mockito.any(BundleListener.class)
 			);
@@ -284,6 +296,12 @@ public class SearchElasticsearch8ImplBundleActivatorTest {
 
 			Mockito.verify(
 				bundleContext, Mockito.never()
+			).getServiceReference(
+				ServiceComponentRuntime.class
+			);
+
+			Mockito.verify(
+				bundleContext, Mockito.never()
 			).addBundleListener(
 				Mockito.any(BundleListener.class)
 			);
@@ -299,12 +317,6 @@ public class SearchElasticsearch8ImplBundleActivatorTest {
 			bundle.getSymbolicName()
 		).thenReturn(
 			"com.liferay.portal.search.elasticsearch8.impl"
-		);
-
-		Mockito.when(
-			bundle.getState()
-		).thenReturn(
-			Bundle.STARTING
 		);
 
 		Mockito.when(

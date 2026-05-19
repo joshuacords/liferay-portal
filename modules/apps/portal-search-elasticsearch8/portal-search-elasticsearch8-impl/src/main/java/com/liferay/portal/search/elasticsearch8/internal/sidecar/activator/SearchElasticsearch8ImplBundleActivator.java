@@ -29,8 +29,6 @@ import java.util.concurrent.Future;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.BundleEvent;
-import org.osgi.framework.BundleListener;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.Configuration;
@@ -97,14 +95,9 @@ public class SearchElasticsearch8ImplBundleActivator
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-		if (_bundleListener != null) {
-			bundleContext.removeBundleListener(_bundleListener);
-
-			_bundleListener = null;
-		}
 	}
 
-	private void _doEnableSidecarManager(BundleContext bundleContext) {
+	private void _enableSidecarManager(BundleContext bundleContext) {
 		ServiceReference<ServiceComponentRuntime> serviceReference =
 			bundleContext.getServiceReference(ServiceComponentRuntime.class);
 
@@ -121,37 +114,6 @@ public class SearchElasticsearch8ImplBundleActivator
 		finally {
 			bundleContext.ungetService(serviceReference);
 		}
-	}
-
-	private void _enableSidecarManager(BundleContext bundleContext) {
-		Bundle bundle = bundleContext.getBundle();
-
-		if (bundle.getState() == Bundle.ACTIVE) {
-			_doEnableSidecarManager(bundleContext);
-
-			return;
-		}
-
-		_bundleListener = new BundleListener() {
-
-			@Override
-			public void bundleChanged(BundleEvent bundleEvent) {
-				if ((bundleEvent.getType() != BundleEvent.STARTED) ||
-					!bundle.equals(bundleEvent.getBundle())) {
-
-					return;
-				}
-
-				bundleContext.removeBundleListener(this);
-
-				_doEnableSidecarManager(bundleContext);
-
-				_bundleListener = null;
-			}
-
-		};
-
-		bundleContext.addBundleListener(_bundleListener);
 	}
 
 	private boolean _hasLegacyElasticsearch7Configuration(
@@ -200,7 +162,5 @@ public class SearchElasticsearch8ImplBundleActivator
 
 	private static volatile Future
 		<ObjectValuePair<ProcessChannel<Serializable>, byte[]>> _future;
-
-	private BundleListener _bundleListener;
 
 }
