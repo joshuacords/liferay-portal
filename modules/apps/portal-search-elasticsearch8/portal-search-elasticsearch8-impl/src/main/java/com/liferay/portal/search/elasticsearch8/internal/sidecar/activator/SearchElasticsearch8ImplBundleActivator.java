@@ -16,7 +16,7 @@ import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.module.util.ServiceLatch;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.PersistedProcessUtil;
-import com.liferay.portal.search.elasticsearch8.internal.sidecar.SidecarManager;
+import com.liferay.portal.search.elasticsearch8.internal.sidecar.SidecarManagerReady;
 import com.liferay.portal.tools.DBUpgrader;
 
 import java.io.File;
@@ -31,10 +31,9 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
-import org.osgi.service.component.runtime.ServiceComponentRuntime;
-import org.osgi.service.component.runtime.dto.ComponentDescriptionDTO;
 
 /**
  * @author Tina Tian
@@ -69,13 +68,13 @@ public class SearchElasticsearch8ImplBundleActivator
 			!DBUpgrader.isUpgradeDatabaseAutoRunEnabled() &&
 			!StartupHelperUtil.isUpgrading()) {
 
-			_enableSidecarManager(bundleContext);
+			_publishSidecarManagerReady(bundleContext);
 
 			return;
 		}
 
 		if (!_hasLegacyElasticsearchConfiguration(bundleContext)) {
-			_enableSidecarManager(bundleContext);
+			_publishSidecarManagerReady(bundleContext);
 
 			return;
 		}
@@ -90,29 +89,15 @@ public class SearchElasticsearch8ImplBundleActivator
 				")(release.bundle.symbolic.name=", bundle.getSymbolicName(),
 				")(release.schema.version>=1.0.0))"));
 
-		serviceLatch.openOn(() -> _enableSidecarManager(bundleContext));
+		serviceLatch.openOn(() -> _publishSidecarManagerReady(bundleContext));
 	}
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-	}
+		if (_sidecarManagerReadyServiceRegistration != null) {
+			_sidecarManagerReadyServiceRegistration.unregister();
 
-	private void _enableSidecarManager(BundleContext bundleContext) {
-		ServiceReference<ServiceComponentRuntime> serviceReference =
-			bundleContext.getServiceReference(ServiceComponentRuntime.class);
-
-		ServiceComponentRuntime serviceComponentRuntime =
-			bundleContext.getService(serviceReference);
-
-		try {
-			ComponentDescriptionDTO componentDescriptionDTO =
-				serviceComponentRuntime.getComponentDescriptionDTO(
-					bundleContext.getBundle(), SidecarManager.class.getName());
-
-			serviceComponentRuntime.enableComponent(componentDescriptionDTO);
-		}
-		finally {
-			bundleContext.ungetService(serviceReference);
+			_sidecarManagerReadyServiceRegistration = null;
 		}
 	}
 
@@ -187,10 +172,21 @@ public class SearchElasticsearch8ImplBundleActivator
 		}
 	}
 
+	private void _publishSidecarManagerReady(BundleContext bundleContext) {
+		_sidecarManagerReadyServiceRegistration = bundleContext.registerService(
+			SidecarManagerReady.class,
+			new SidecarManagerReady() {
+			},
+			null);
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchElasticsearch8ImplBundleActivator.class);
 
 	private static volatile Future
 		<ObjectValuePair<ProcessChannel<Serializable>, byte[]>> _future;
+
+	private ServiceRegistration<SidecarManagerReady>
+		_sidecarManagerReadyServiceRegistration;
 
 }
