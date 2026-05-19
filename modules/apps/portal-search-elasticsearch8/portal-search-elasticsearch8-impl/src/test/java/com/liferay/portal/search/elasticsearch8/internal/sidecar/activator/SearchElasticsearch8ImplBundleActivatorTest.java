@@ -196,13 +196,30 @@ public class SearchElasticsearch8ImplBundleActivatorTest {
 
 		BundleContext bundleContext = _createBundleContext();
 
+		Bundle bundle = bundleContext.getBundle();
+
+		Mockito.when(
+			bundle.loadClass(Mockito.anyString())
+		).thenThrow(
+			new ClassNotFoundException()
+		);
+
 		ConfigurationAdmin configurationAdmin = Mockito.mock(
 			ConfigurationAdmin.class);
+
+		Configuration configuration = Mockito.mock(Configuration.class);
+
+		Mockito.when(
+			configuration.getFactoryPid()
+		).thenReturn(
+			"com.liferay.portal.search.elasticsearch7.configuration." +
+				"ElasticsearchConnectionConfiguration"
+		);
 
 		Mockito.when(
 			configurationAdmin.listConfigurations(Mockito.anyString())
 		).thenReturn(
-			new Configuration[] {Mockito.mock(Configuration.class)}
+			new Configuration[] {configuration}
 		);
 
 		@SuppressWarnings("unchecked")

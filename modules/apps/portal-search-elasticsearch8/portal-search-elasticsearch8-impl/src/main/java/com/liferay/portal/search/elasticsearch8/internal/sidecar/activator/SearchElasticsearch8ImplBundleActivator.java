@@ -74,7 +74,7 @@ public class SearchElasticsearch8ImplBundleActivator
 			return;
 		}
 
-		if (!_hasLegacyElasticsearch7Configuration(bundleContext)) {
+		if (!_hasLegacyElasticsearchConfiguration(bundleContext)) {
 			_enableSidecarManager(bundleContext);
 
 			return;
@@ -116,7 +116,7 @@ public class SearchElasticsearch8ImplBundleActivator
 		}
 	}
 
-	private boolean _hasLegacyElasticsearch7Configuration(
+	private boolean _hasLegacyElasticsearchConfiguration(
 		BundleContext bundleContext) {
 
 		ServiceReference<ConfigurationAdmin> serviceReference =
@@ -132,12 +132,23 @@ public class SearchElasticsearch8ImplBundleActivator
 		try {
 			Configuration[] configurations =
 				configurationAdmin.listConfigurations(
-					"(|(service.pid=com.liferay.portal.search.elasticsearch7." +
-						"configuration.*)(service.factoryPid=com.liferay." +
-							"portal.search.elasticsearch7.configuration.*))");
+					"(|(service.pid=*Elasticsearch*Configuration)" +
+						"(service.factoryPid=*Elasticsearch*Configuration))");
 
-			if ((configurations != null) && (configurations.length > 0)) {
-				return true;
+			if (configurations == null) {
+				return false;
+			}
+
+			for (Configuration configuration : configurations) {
+				String className = configuration.getFactoryPid();
+
+				if (className == null) {
+					className = configuration.getPid();
+				}
+
+				if (!_isClassLoadable(bundleContext, className)) {
+					return true;
+				}
 			}
 
 			return false;
@@ -146,7 +157,7 @@ public class SearchElasticsearch8ImplBundleActivator
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"Unable to query ConfigurationAdmin for legacy " +
-						"Elasticsearch 7 configurations",
+						"Elasticsearch configurations",
 					exception);
 			}
 
@@ -154,6 +165,25 @@ public class SearchElasticsearch8ImplBundleActivator
 		}
 		finally {
 			bundleContext.ungetService(serviceReference);
+		}
+	}
+
+	private boolean _isClassLoadable(
+		BundleContext bundleContext, String className) {
+
+		Bundle bundle = bundleContext.getBundle();
+
+		try {
+			bundle.loadClass(className);
+
+			return true;
+		}
+		catch (ClassNotFoundException classNotFoundException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(classNotFoundException);
+			}
+
+			return false;
 		}
 	}
 
