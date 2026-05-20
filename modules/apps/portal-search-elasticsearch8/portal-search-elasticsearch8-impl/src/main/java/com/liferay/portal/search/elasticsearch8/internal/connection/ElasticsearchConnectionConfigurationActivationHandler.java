@@ -6,6 +6,8 @@
 package com.liferay.portal.search.elasticsearch8.internal.connection;
 
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.search.elasticsearch8.configuration.ElasticsearchConnectionConfiguration;
 
@@ -26,10 +28,14 @@ public class ElasticsearchConnectionConfigurationActivationHandler {
 
 	@Activate
 	protected void activate(Map<String, Object> properties) {
+		_log.error("[LPD-82794] ElasticsearchConnectionConfigurationActivationHandler.@Activate fired with properties=" + properties);
+
 		ElasticsearchConnectionConfiguration
 			elasticsearchConnectionConfiguration =
 				ConfigurableUtil.createConfigurable(
 					ElasticsearchConnectionConfiguration.class, properties);
+
+		_log.error("[LPD-82794] Handler resolved connectionId=" + elasticsearchConnectionConfiguration.connectionId() + " active=" + elasticsearchConnectionConfiguration.active());
 
 		ElasticsearchConnection.Builder builder =
 			new ElasticsearchConnection.Builder(
@@ -63,9 +69,16 @@ public class ElasticsearchConnectionConfigurationActivationHandler {
 			elasticsearchConnectionConfiguration.username()
 		);
 
+		_log.error("[LPD-82794] Handler about to addElasticsearchConnection for connectionId=" + elasticsearchConnectionConfiguration.connectionId());
+
 		elasticsearchConnectionManager.addElasticsearchConnection(
 			builder.build());
+
+		_log.error("[LPD-82794] Handler.@Activate returning");
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ElasticsearchConnectionConfigurationActivationHandler.class);
 
 	protected ProxyConfig createProxyConfig(
 		ElasticsearchConnectionConfiguration

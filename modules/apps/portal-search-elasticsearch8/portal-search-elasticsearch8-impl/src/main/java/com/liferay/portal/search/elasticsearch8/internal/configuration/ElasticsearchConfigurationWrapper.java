@@ -7,6 +7,8 @@ package com.liferay.portal.search.elasticsearch8.internal.configuration;
 
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -259,6 +261,8 @@ public class ElasticsearchConfigurationWrapper
 	@Activate
 	@Modified
 	protected void activate(Map<String, Object> map) {
+		_log.error("[LPD-82794] ElasticsearchConfigurationWrapper.@Activate/@Modified fired; incoming map keys=" + map.keySet() + " productionModeEnabled=" + map.get("productionModeEnabled"));
+
 		Map<String, Object> propsMap = _getPropsMap(
 			_PROPS_KEYS, ElasticsearchConfiguration.class);
 
@@ -268,9 +272,13 @@ public class ElasticsearchConfigurationWrapper
 			ElasticsearchConfiguration.class, propsMap);
 		_propsMap = propsMap;
 
+		_log.error("[LPD-82794] Wrapper resolved productionModeEnabled=" + _elasticsearchConfiguration.productionModeEnabled() + "; notifying " + _elasticsearchConfigurationObservers.size() + " observer(s)");
+
 		_elasticsearchConfigurationObservers.forEach(
-			ElasticsearchConfigurationObserver::
-				onElasticsearchConfigurationUpdate);
+			observer -> {
+				_log.error("[LPD-82794] Wrapper notifying observer=" + observer);
+				observer.onElasticsearchConfigurationUpdate();
+			});
 	}
 
 	protected void setElasticsearchConfiguration(
@@ -300,6 +308,9 @@ public class ElasticsearchConfigurationWrapper
 
 		return propsMap;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ElasticsearchConfigurationWrapper.class);
 
 	private static final String[] _PROPS_KEYS = {"sidecarJVMOptions"};
 

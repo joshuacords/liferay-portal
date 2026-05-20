@@ -174,9 +174,13 @@ public class CompanyIndexHelper {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		_log.error("[LPD-82794] CompanyIndexHelper.@Activate fired");
+
 		_companyIndexListenerServiceTrackerList =
 			ServiceTrackerListFactory.open(
 				bundleContext, CompanyIndexListener.class);
+
+		_log.error("[LPD-82794] CompanyIndexHelper opened CompanyIndexListener tracker; about to open CompanyIndexConfigurationContributor tracker (EAGER)");
 
 		_companyIndexConfigurationContributorServiceTrackerList =
 			ServiceTrackerListFactory.open(
@@ -189,6 +193,8 @@ public class CompanyIndexHelper {
 					public CompanyIndexConfigurationContributor addingService(
 						ServiceReference<CompanyIndexConfigurationContributor>
 							serviceReference) {
+
+						_log.error("[LPD-82794] CompanyIndexHelper EagerServiceTrackerCustomizer.addingService fired for " + serviceReference);
 
 						CompanyIndexConfigurationContributor
 							companyIndexConfigurationContributor =
@@ -380,16 +386,20 @@ public class CompanyIndexHelper {
 		CompanyIndexConfigurationContributor
 			companyIndexConfigurationContributor) {
 
+		_log.error("[LPD-82794] CompanyIndexHelper._processCompanyIndexConfigurationContributor entered for contributor=" + companyIndexConfigurationContributor + "; about to getElasticsearchClient");
+
 		ElasticsearchClient elasticsearchClient = null;
 
 		try {
 			elasticsearchClient =
 				_elasticsearchConnectionManager.getElasticsearchClient();
+
+			_log.error("[LPD-82794] CompanyIndexHelper._processCompanyIndexConfigurationContributor got client=" + elasticsearchClient);
 		}
 		catch (ElasticsearchConnectionNotInitializedException
 					elasticsearchConnectionNotInitializedException) {
 
-			_log.error(elasticsearchConnectionNotInitializedException);
+			_log.error("[LPD-82794] CompanyIndexHelper._processCompanyIndexConfigurationContributor FAILED to get client", elasticsearchConnectionNotInitializedException);
 
 			return;
 		}

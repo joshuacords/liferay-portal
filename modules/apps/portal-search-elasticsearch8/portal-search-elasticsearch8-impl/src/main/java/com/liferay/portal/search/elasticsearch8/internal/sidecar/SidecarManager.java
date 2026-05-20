@@ -56,11 +56,15 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		_log.error("[LPD-82794] SidecarManager.@Activate fired; productionModeEnabled=" + elasticsearchConfigurationWrapper.productionModeEnabled());
+
 		_bundleContext = bundleContext;
 
 		elasticsearchConfigurationWrapper.register(this);
 
 		applyConfigurations();
+
+		_log.error("[LPD-82794] SidecarManager.@Activate returning");
 	}
 
 	protected void applyConfigurations() {

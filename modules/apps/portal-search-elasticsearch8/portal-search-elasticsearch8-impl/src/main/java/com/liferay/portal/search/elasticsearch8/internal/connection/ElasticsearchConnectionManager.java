@@ -58,6 +58,8 @@ public class ElasticsearchConnectionManager
 
 		String connectionId = elasticsearchConnection.getConnectionId();
 
+		_log.error("[LPD-82794] ECM.addElasticsearchConnection called with connectionId=" + connectionId + " active=" + elasticsearchConnection.isActive());
+
 		if (connectionId == null) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Skipping connection because connection ID is null");
@@ -282,6 +284,8 @@ public class ElasticsearchConnectionManager
 
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
+		_log.error("[LPD-82794] ECM.onElasticsearchConfigurationUpdate fired; productionModeEnabled=" + elasticsearchConfigurationWrapper.productionModeEnabled());
+
 		applyConfigurations();
 	}
 
@@ -307,6 +311,8 @@ public class ElasticsearchConnectionManager
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
+		_log.error("[LPD-82794] ElasticsearchConnectionManager.@Activate fired; productionModeEnabled=" + elasticsearchConfigurationWrapper.productionModeEnabled());
+
 		_serviceRegistration = bundleContext.registerService(
 			PortalInetSocketAddressEventListener.class,
 			new ElasticsearchPortalInetSocketAddressEventListener(), null);
@@ -314,22 +320,35 @@ public class ElasticsearchConnectionManager
 		elasticsearchConfigurationWrapper.register(this);
 
 		applyConfigurations();
+
+		_log.error("[LPD-82794] ElasticsearchConnectionManager.@Activate returning. Currently registered connection IDs: " + _elasticsearchConnectionSuppliers.keySet());
 	}
 
 	protected void applyConfigurations() {
-		if (elasticsearchConfigurationWrapper.productionModeEnabled()) {
-			if (Validator.isBlank(
-					elasticsearchConfigurationWrapper.
-						remoteClusterConnectionId())) {
+		boolean productionModeEnabled = elasticsearchConfigurationWrapper.productionModeEnabled();
+		String remoteClusterConnectionId = elasticsearchConfigurationWrapper.remoteClusterConnectionId();
+
+		_log.error("[LPD-82794] ECM.applyConfigurations entered; productionModeEnabled=" + productionModeEnabled + " remoteClusterConnectionId=" + remoteClusterConnectionId);
+
+		if (productionModeEnabled) {
+			if (Validator.isBlank(remoteClusterConnectionId)) {
+				_log.error("[LPD-82794] ECM.applyConfigurations adding REMOTE connection");
 
 				addElasticsearchConnection(
 					_createRemoteElasticsearchConnection());
 			}
+			else {
+				_log.error("[LPD-82794] ECM.applyConfigurations skipping REMOTE add (remoteClusterConnectionId is set)");
+			}
 		}
 		else {
+			_log.error("[LPD-82794] ECM.applyConfigurations removing REMOTE_CONNECTION_ID (productionModeEnabled=false)");
+
 			removeElasticsearchConnection(
 				ConnectionConstants.REMOTE_CONNECTION_ID);
 		}
+
+		_log.error("[LPD-82794] ECM.applyConfigurations returning. Currently registered connection IDs: " + _elasticsearchConnectionSuppliers.keySet());
 	}
 
 	protected ProxyConfig createProxyConfig() {
@@ -365,6 +384,8 @@ public class ElasticsearchConnectionManager
 
 	protected ElasticsearchConnection getElasticsearchConnection(
 		String connectionId, boolean preferLocalCluster) {
+
+		_log.error("[LPD-82794] ECM.getElasticsearchConnection requested for connectionId=" + connectionId + " preferLocalCluster=" + preferLocalCluster + " productionModeEnabled=" + elasticsearchConfigurationWrapper.productionModeEnabled() + " registered connectionIds=" + _elasticsearchConnectionSuppliers.keySet());
 
 		if (_log.isInfoEnabled()) {
 			_log.info("Connection requested for ID: " + connectionId);
