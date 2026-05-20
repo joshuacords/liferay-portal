@@ -49,9 +49,20 @@ public class SearchElasticsearch8ImplBundleActivator
 
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
+		Bundle bundle = bundleContext.getBundle();
+
+		_log.error(
+			StringBundler.concat(
+				"[LPD-82794] Activator.start entered. Bundle=",
+				bundle.getSymbolicName(), " state=", bundle.getState()));
+
 		File sidecarProcessFile = bundleContext.getDataFile("sidecar.process");
 
 		if (sidecarProcessFile.exists()) {
+			_log.error(
+				"[LPD-82794] sidecar.process exists; submitting persisted " +
+					"process resume task");
+
 			ServiceReference<ProcessExecutor> serviceReference =
 				bundleContext.getServiceReference(ProcessExecutor.class);
 
@@ -63,51 +74,104 @@ public class SearchElasticsearch8ImplBundleActivator
 					bundleContext.getService(serviceReference),
 					sidecarProcessFile));
 		}
+		else {
+			_log.error("[LPD-82794] sidecar.process does not exist");
+		}
 
-		if (!DBUpgrader.isUpgradeClient() &&
-			!DBUpgrader.isUpgradeDatabaseAutoRunEnabled() &&
-			!StartupHelperUtil.isUpgrading()) {
+		boolean upgradeClient = DBUpgrader.isUpgradeClient();
+		boolean upgradeDatabaseAutoRunEnabled =
+			DBUpgrader.isUpgradeDatabaseAutoRunEnabled();
+		boolean startupHelperUpgrading = StartupHelperUtil.isUpgrading();
+
+		_log.error(
+			StringBundler.concat(
+				"[LPD-82794] Upgrade signals: DBUpgrader.isUpgradeClient=",
+				upgradeClient, ", DBUpgrader.isUpgradeDatabaseAutoRunEnabled=",
+				upgradeDatabaseAutoRunEnabled,
+				", StartupHelperUtil.isUpgrading=", startupHelperUpgrading));
+
+		if (!upgradeClient && !upgradeDatabaseAutoRunEnabled &&
+			!startupHelperUpgrading) {
+
+			_log.error(
+				"[LPD-82794] Fast path: not upgrading; publishing " +
+					"SidecarManagerReady immediately");
 
 			_publishSidecarManagerReady(bundleContext);
 
+			_log.error("[LPD-82794] Activator.start returning (fast path)");
+
 			return;
 		}
+
+		_log.error(
+			"[LPD-82794] Upgrade in progress; checking for legacy " +
+				"Elasticsearch configurations");
 
 		if (!_hasLegacyElasticsearchConfiguration(bundleContext)) {
+			_log.error(
+				"[LPD-82794] Fast path: no legacy Elasticsearch configuration; " +
+					"publishing SidecarManagerReady immediately");
+
 			_publishSidecarManagerReady(bundleContext);
+
+			_log.error("[LPD-82794] Activator.start returning (fast path)");
 
 			return;
 		}
 
-		Bundle bundle = bundleContext.getBundle();
+		String filterString = StringBundler.concat(
+			"(&(objectClass=", Release.class.getName(),
+			")(release.bundle.symbolic.name=", bundle.getSymbolicName(),
+			")(release.schema.version>=1.0.0))");
+
+		_log.error(
+			"[LPD-82794] Slow path: arming ServiceLatch with filter=" +
+				filterString);
 
 		ServiceLatch serviceLatch = new ServiceLatch(bundleContext);
 
-		serviceLatch.waitFor(
-			StringBundler.concat(
-				"(&(objectClass=", Release.class.getName(),
-				")(release.bundle.symbolic.name=", bundle.getSymbolicName(),
-				")(release.schema.version>=1.0.0))"));
+		serviceLatch.waitFor(filterString);
 
-		serviceLatch.openOn(() -> _publishSidecarManagerReady(bundleContext));
+		serviceLatch.openOn(
+			() -> {
+				_log.error(
+					"[LPD-82794] ServiceLatch fired (Release v1_0_0+ " +
+						"available); publishing SidecarManagerReady");
+
+				_publishSidecarManagerReady(bundleContext);
+			});
+
+		_log.error(
+			"[LPD-82794] Activator.start returning (slow path; latch armed)");
 	}
 
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
+		_log.error("[LPD-82794] Activator.stop entered");
+
 		if (_sidecarManagerReadyServiceRegistration != null) {
 			_sidecarManagerReadyServiceRegistration.unregister();
 
 			_sidecarManagerReadyServiceRegistration = null;
+
+			_log.error("[LPD-82794] SidecarManagerReady service unregistered");
 		}
 	}
 
 	private boolean _hasLegacyElasticsearchConfiguration(
 		BundleContext bundleContext) {
 
+		_log.error("[LPD-82794] _hasLegacyElasticsearchConfiguration entered");
+
 		ServiceReference<ConfigurationAdmin> serviceReference =
 			bundleContext.getServiceReference(ConfigurationAdmin.class);
 
 		if (serviceReference == null) {
+			_log.error(
+				"[LPD-82794] ConfigurationAdmin serviceReference is null; " +
+					"returning false");
+
 			return false;
 		}
 
@@ -121,8 +185,17 @@ public class SearchElasticsearch8ImplBundleActivator
 						"(service.factoryPid=*Elasticsearch*Configuration))");
 
 			if (configurations == null) {
+				_log.error(
+					"[LPD-82794] listConfigurations returned null; returning " +
+						"false");
+
 				return false;
 			}
+
+			_log.error(
+				StringBundler.concat(
+					"[LPD-82794] listConfigurations returned ",
+					configurations.length, " configuration(s)"));
 
 			for (Configuration configuration : configurations) {
 				String className = configuration.getFactoryPid();
@@ -131,10 +204,25 @@ public class SearchElasticsearch8ImplBundleActivator
 					className = configuration.getPid();
 				}
 
-				if (!_isClassLoadable(bundleContext, className)) {
+				boolean classLoadable = _isClassLoadable(
+					bundleContext, className);
+
+				_log.error(
+					StringBundler.concat(
+						"[LPD-82794] Configuration className=", className,
+						" classLoadable=", classLoadable));
+
+				if (!classLoadable) {
+					_log.error(
+						"[LPD-82794] Found legacy configuration; returning " +
+							"true");
+
 					return true;
 				}
 			}
+
+			_log.error(
+				"[LPD-82794] No legacy configuration found; returning false");
 
 			return false;
 		}
@@ -173,11 +261,17 @@ public class SearchElasticsearch8ImplBundleActivator
 	}
 
 	private void _publishSidecarManagerReady(BundleContext bundleContext) {
+		_log.error(
+			"[LPD-82794] _publishSidecarManagerReady entered; calling " +
+				"registerService");
+
 		_sidecarManagerReadyServiceRegistration = bundleContext.registerService(
 			SidecarManagerReady.class,
 			new SidecarManagerReady() {
 			},
 			null);
+
+		_log.error("[LPD-82794] SidecarManagerReady service registered");
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

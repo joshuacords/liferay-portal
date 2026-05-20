@@ -6,6 +6,8 @@
 package com.liferay.portal.search.elasticsearch8.internal.component.enabler;
 
 import com.liferay.osgi.util.ComponentUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.SidecarManager;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.SidecarManagerReady;
 
@@ -21,9 +23,21 @@ public class ComponentEnabler {
 
 	@Activate
 	protected void activate(ComponentContext componentContext) {
+		_log.error(
+			"[LPD-82794] ComponentEnabler.@Activate fired; calling " +
+				"ComponentUtil.enableComponents to wait for " +
+					"SidecarManagerReady");
+
 		ComponentUtil.enableComponents(
 			SidecarManagerReady.class, null, componentContext,
 			SidecarManager.class);
+
+		_log.error(
+			"[LPD-82794] ComponentEnabler.@Activate returning; " +
+				"ServiceTracker is now watching for SidecarManagerReady");
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ComponentEnabler.class);
 
 }
