@@ -88,7 +88,8 @@ import org.osgi.service.component.annotations.Reference;
  * @author Michael C. Han
  */
 @Component(
-	property = "search.engine.impl=Elasticsearch", service = SearchEngine.class
+	enabled = false, property = "search.engine.impl=Elasticsearch",
+	service = SearchEngine.class
 )
 public class ElasticsearchSearchEngine
 	implements ElasticsearchConfigurationObserver, SearchEngine {

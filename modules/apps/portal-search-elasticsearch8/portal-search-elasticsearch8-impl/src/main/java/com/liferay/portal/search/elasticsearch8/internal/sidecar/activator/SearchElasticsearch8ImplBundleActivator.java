@@ -15,8 +15,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.module.util.ServiceLatch;
 import com.liferay.portal.kernel.util.ObjectValuePair;
+import com.liferay.portal.search.elasticsearch8.internal.component.enabler.ElasticsearchConfigurationReady;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.PersistedProcessUtil;
-import com.liferay.portal.search.elasticsearch8.internal.sidecar.SidecarManagerReady;
 import com.liferay.portal.tools.DBUpgrader;
 
 import java.io.File;
@@ -97,7 +97,7 @@ public class SearchElasticsearch8ImplBundleActivator
 				"[LPD-82794] Fast path: not upgrading; publishing " +
 					"SidecarManagerReady immediately");
 
-			_publishSidecarManagerReady(bundleContext);
+			_publishElasticsearchConfigurationReady(bundleContext);
 
 			_log.error("[LPD-82794] Activator.start returning (fast path)");
 
@@ -113,7 +113,7 @@ public class SearchElasticsearch8ImplBundleActivator
 				"[LPD-82794] Fast path: no legacy Elasticsearch configuration; " +
 					"publishing SidecarManagerReady immediately");
 
-			_publishSidecarManagerReady(bundleContext);
+			_publishElasticsearchConfigurationReady(bundleContext);
 
 			_log.error("[LPD-82794] Activator.start returning (fast path)");
 
@@ -139,7 +139,7 @@ public class SearchElasticsearch8ImplBundleActivator
 					"[LPD-82794] ServiceLatch fired (Release v1_0_0+ " +
 						"available); publishing SidecarManagerReady");
 
-				_publishSidecarManagerReady(bundleContext);
+				_publishElasticsearchConfigurationReady(bundleContext);
 			});
 
 		_log.error(
@@ -150,10 +150,10 @@ public class SearchElasticsearch8ImplBundleActivator
 	public void stop(BundleContext bundleContext) throws Exception {
 		_log.error("[LPD-82794] Activator.stop entered");
 
-		if (_sidecarManagerReadyServiceRegistration != null) {
-			_sidecarManagerReadyServiceRegistration.unregister();
+		if (_elasticsearchConfigurationReadyServiceRegistration != null) {
+			_elasticsearchConfigurationReadyServiceRegistration.unregister();
 
-			_sidecarManagerReadyServiceRegistration = null;
+			_elasticsearchConfigurationReadyServiceRegistration = null;
 
 			_log.error("[LPD-82794] SidecarManagerReady service unregistered");
 		}
@@ -260,16 +260,19 @@ public class SearchElasticsearch8ImplBundleActivator
 		}
 	}
 
-	private void _publishSidecarManagerReady(BundleContext bundleContext) {
+	private void _publishElasticsearchConfigurationReady(
+		BundleContext bundleContext) {
+
 		_log.error(
 			"[LPD-82794] _publishSidecarManagerReady entered; calling " +
 				"registerService");
 
-		_sidecarManagerReadyServiceRegistration = bundleContext.registerService(
-			SidecarManagerReady.class,
-			new SidecarManagerReady() {
-			},
-			null);
+		_elasticsearchConfigurationReadyServiceRegistration =
+			bundleContext.registerService(
+				ElasticsearchConfigurationReady.class,
+				new ElasticsearchConfigurationReady() {
+				},
+				null);
 
 		_log.error("[LPD-82794] SidecarManagerReady service registered");
 	}
@@ -280,7 +283,7 @@ public class SearchElasticsearch8ImplBundleActivator
 	private static volatile Future
 		<ObjectValuePair<ProcessChannel<Serializable>, byte[]>> _future;
 
-	private ServiceRegistration<SidecarManagerReady>
-		_sidecarManagerReadyServiceRegistration;
+	private ServiceRegistration<ElasticsearchConfigurationReady>
+		_elasticsearchConfigurationReadyServiceRegistration;
 
 }
