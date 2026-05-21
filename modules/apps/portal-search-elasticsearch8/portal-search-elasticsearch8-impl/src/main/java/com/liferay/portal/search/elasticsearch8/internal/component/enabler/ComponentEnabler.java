@@ -8,8 +8,7 @@ package com.liferay.portal.search.elasticsearch8.internal.component.enabler;
 import com.liferay.osgi.util.ComponentUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.search.elasticsearch8.internal.ElasticsearchSearchEngine;
-import com.liferay.portal.search.elasticsearch8.internal.index.CompanyIndexHelper;
+import com.liferay.portal.search.elasticsearch8.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.SidecarManager;
 
 import org.osgi.service.component.ComponentContext;
@@ -31,8 +30,7 @@ public class ComponentEnabler {
 
 		ComponentUtil.enableComponents(
 			ElasticsearchConfigurationReady.class, null, componentContext,
-			CompanyIndexHelper.class, ElasticsearchSearchEngine.class,
-			SidecarManager.class);
+			ElasticsearchConfigurationWrapper.class, SidecarManager.class);
 
 		_log.error(
 			"[LPD-82794] ComponentEnabler.@Activate returning; " +

@@ -63,7 +63,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author João Victor Alves
  */
-@Component(enabled = false, service = CompanyIndexHelper.class)
+@Component(service = CompanyIndexHelper.class)
 public class CompanyIndexHelper {
 
 	public void createIndex(
