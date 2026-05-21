@@ -27,7 +27,7 @@ public class ComponentEnabler {
 		_log.error(
 			"[LPD-82794] ComponentEnabler.@Activate fired; calling " +
 				"ComponentUtil.enableComponents to wait for " +
-					"SidecarManagerReady");
+					"ElasticsearchConfigurationReady");
 
 		ComponentUtil.enableComponents(
 			ElasticsearchConfigurationReady.class, null, componentContext,
@@ -36,7 +36,7 @@ public class ComponentEnabler {
 
 		_log.error(
 			"[LPD-82794] ComponentEnabler.@Activate returning; " +
-				"ServiceTracker is now watching for SidecarManagerReady");
+				"ServiceTracker is now watching for ElasticsearchConfigurationReady");
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

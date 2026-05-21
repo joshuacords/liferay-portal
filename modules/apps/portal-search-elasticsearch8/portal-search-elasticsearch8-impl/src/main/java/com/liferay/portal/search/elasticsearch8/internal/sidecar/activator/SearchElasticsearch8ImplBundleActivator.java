@@ -95,7 +95,7 @@ public class SearchElasticsearch8ImplBundleActivator
 
 			_log.error(
 				"[LPD-82794] Fast path: not upgrading; publishing " +
-					"SidecarManagerReady immediately");
+					"ElasticsearchConfigurationReady immediately");
 
 			_publishElasticsearchConfigurationReady(bundleContext);
 
@@ -111,7 +111,7 @@ public class SearchElasticsearch8ImplBundleActivator
 		if (!_hasLegacyElasticsearchConfiguration(bundleContext)) {
 			_log.error(
 				"[LPD-82794] Fast path: no legacy Elasticsearch configuration; " +
-					"publishing SidecarManagerReady immediately");
+					"publishing ElasticsearchConfigurationReady immediately");
 
 			_publishElasticsearchConfigurationReady(bundleContext);
 
@@ -137,7 +137,7 @@ public class SearchElasticsearch8ImplBundleActivator
 			() -> {
 				_log.error(
 					"[LPD-82794] ServiceLatch fired (Release v1_0_0+ " +
-						"available); publishing SidecarManagerReady");
+						"available); publishing ElasticsearchConfigurationReady");
 
 				_publishElasticsearchConfigurationReady(bundleContext);
 			});
@@ -155,7 +155,7 @@ public class SearchElasticsearch8ImplBundleActivator
 
 			_elasticsearchConfigurationReadyServiceRegistration = null;
 
-			_log.error("[LPD-82794] SidecarManagerReady service unregistered");
+			_log.error("[LPD-82794] ElasticsearchConfigurationReady service unregistered");
 		}
 	}
 
@@ -264,7 +264,7 @@ public class SearchElasticsearch8ImplBundleActivator
 		BundleContext bundleContext) {
 
 		_log.error(
-			"[LPD-82794] _publishSidecarManagerReady entered; calling " +
+			"[LPD-82794] _publishElasticsearchConfigurationReady entered; calling " +
 				"registerService");
 
 		_elasticsearchConfigurationReadyServiceRegistration =
@@ -274,7 +274,7 @@ public class SearchElasticsearch8ImplBundleActivator
 				},
 				null);
 
-		_log.error("[LPD-82794] SidecarManagerReady service registered");
+		_log.error("[LPD-82794] ElasticsearchConfigurationReady service registered");
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
