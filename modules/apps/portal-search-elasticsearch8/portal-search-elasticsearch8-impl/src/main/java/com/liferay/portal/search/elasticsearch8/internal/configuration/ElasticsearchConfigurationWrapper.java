@@ -29,7 +29,7 @@ import org.osgi.service.component.annotations.Modified;
  */
 @Component(
 	configurationPid = "com.liferay.portal.search.elasticsearch8.configuration.ElasticsearchConfiguration",
-	service = ElasticsearchConfigurationWrapper.class
+	enabled = false, service = ElasticsearchConfigurationWrapper.class
 )
 public class ElasticsearchConfigurationWrapper
 	implements Comparator<ElasticsearchConfigurationObserver> {
