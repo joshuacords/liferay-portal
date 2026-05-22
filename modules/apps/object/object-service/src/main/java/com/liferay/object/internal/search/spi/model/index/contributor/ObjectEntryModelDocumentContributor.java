@@ -15,7 +15,6 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.object.constants.ObjectEntryFolderConstants;
 import com.liferay.object.constants.ObjectEntrySearchConstants;
 import com.liferay.object.constants.ObjectFieldConstants;
-import com.liferay.object.entry.util.ObjectEntryValuesUtil;
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
 import com.liferay.object.internal.field.business.type.AssigneeObjectFieldBusinessType;
 import com.liferay.object.model.ObjectDefinition;
@@ -157,11 +156,13 @@ public class ObjectEntryModelDocumentContributor
 		}
 
 		for (Map.Entry<String, Object> entry : localizedValues.entrySet()) {
-			String languageId = entry.getKey();
+			Object value = entry.getValue();
 
-			String titleValue = String.valueOf(
-				ObjectEntryValuesUtil.getValue(
-					languageId, titleObjectField, values));
+			if (value == null) {
+				continue;
+			}
+
+			String titleValue = String.valueOf(value);
 
 			if (Validator.isBlank(titleValue)) {
 				continue;
@@ -170,7 +171,7 @@ public class ObjectEntryModelDocumentContributor
 			document.add(
 				new Field(
 					Field.getLocalizedName(
-						languageId,
+						entry.getKey(),
 						ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE),
 					titleValue));
 		}
@@ -443,7 +444,7 @@ public class ObjectEntryModelDocumentContributor
 			new TextEmbeddingContentHelper<>(
 				objectEntry.getCompanyId(), objectEntry.getDefaultLanguageId(),
 				StringPool.COMMA_AND_SPACE, objectEntry,
-				(objectFields.size() * 4) - 1,
+				Math.max(0, (objectFields.size() * 4) - 1),
 				_textEmbeddingDocumentContributor);
 
 		if (!objectFields.isEmpty()) {
