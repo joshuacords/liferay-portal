@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.highlight.HighlightField;
@@ -82,6 +83,11 @@ public class ObjectEntrySearchHighlightTest {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		if (_indexedLanguageMismatchObjectDefinition != null) {
+			_objectDefinitionLocalService.deleteObjectDefinition(
+				_indexedLanguageMismatchObjectDefinition);
+		}
+
 		if (_localizedObjectDefinition != null) {
 			_objectDefinitionLocalService.deleteObjectDefinition(
 				_localizedObjectDefinition);
@@ -90,6 +96,11 @@ public class ObjectEntrySearchHighlightTest {
 		if (_nonlocalizedObjectDefinition != null) {
 			_objectDefinitionLocalService.deleteObjectDefinition(
 				_nonlocalizedObjectDefinition);
+		}
+
+		if (_unsuffixedTitleFallbackObjectDefinition != null) {
+			_objectDefinitionLocalService.deleteObjectDefinition(
+				_unsuffixedTitleFallbackObjectDefinition);
 		}
 	}
 
@@ -104,6 +115,24 @@ public class ObjectEntrySearchHighlightTest {
 
 		_assertHighlight(_getContentFieldName(defaultLocale), searchHit);
 		_assertHighlight(_getTitleFieldName(defaultLocale), searchHit);
+	}
+
+	@Test
+	public void testHighlightUnsuffixedTitleWhenLocalizedTitleEmpty()
+		throws Exception {
+
+		_unsuffixedTitleFallbackObjectDefinition =
+			_addLocalizedTitleDefinitionWithPlainTitleValue();
+
+		ObjectEntry objectEntry = _addLocalizedContentEntryWithPlainTitle(
+			_unsuffixedTitleFallbackObjectDefinition);
+
+		SearchHit searchHit = _search(
+			LocaleUtil.US, _unsuffixedTitleFallbackObjectDefinition,
+			objectEntry);
+
+		_assertHighlight(
+			ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE, searchHit);
 	}
 
 	@Test
@@ -142,6 +171,26 @@ public class ObjectEntrySearchHighlightTest {
 
 		Locale defaultLocale = LocaleUtil.fromLanguageId(
 			_localizedObjectDefinition.getDefaultLanguageId());
+
+		_assertHighlight(_getContentFieldName(defaultLocale), searchHit);
+	}
+
+	@Test
+	public void testNonlocalizedFieldIndexedLanguageMismatch()
+		throws Exception {
+
+		_indexedLanguageMismatchObjectDefinition =
+			_addIndexedLanguageMismatchDefinition();
+
+		ObjectEntry objectEntry = _addIndexedLanguageMismatchEntry(
+			_indexedLanguageMismatchObjectDefinition);
+
+		SearchHit searchHit = _search(
+			LocaleUtil.US, _indexedLanguageMismatchObjectDefinition,
+			objectEntry);
+
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			_indexedLanguageMismatchObjectDefinition.getDefaultLanguageId());
 
 		_assertHighlight(_getContentFieldName(defaultLocale), searchHit);
 	}
@@ -274,6 +323,98 @@ public class ObjectEntrySearchHighlightTest {
 		).build();
 	}
 
+	private ObjectDefinition _addIndexedLanguageMismatchDefinition()
+		throws Exception {
+
+		ObjectField objectField = new TextObjectFieldBuilder(
+		).indexed(
+			true
+		).indexedAsKeyword(
+			false
+		).indexedLanguageId(
+			LocaleUtil.toLanguageId(LocaleUtil.SPAIN)
+		).labelMap(
+			LocalizedMapUtil.getLocalizedMap("Mismatched Field")
+		).localized(
+			false
+		).name(
+			_INDEXED_LANGUAGE_MISMATCH_FIELD_NAME
+		).build();
+
+		ObjectDefinition objectDefinition =
+			ObjectDefinitionTestUtil.addCustomObjectDefinition(
+				ListUtil.fromArray(objectField));
+
+		return _objectDefinitionLocalService.publishCustomObjectDefinition(
+			TestPropsValues.getUserId(),
+			objectDefinition.getObjectDefinitionId());
+	}
+
+	private ObjectEntry _addIndexedLanguageMismatchEntry(
+			ObjectDefinition objectDefinition)
+		throws Exception {
+
+		return _objectEntryLocalService.addObjectEntry(
+			0, TestPropsValues.getUserId(),
+			objectDefinition.getObjectDefinitionId(),
+			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+			null,
+			HashMapBuilder.<String, Serializable>put(
+				_INDEXED_LANGUAGE_MISMATCH_FIELD_NAME, "foo " + _KEYWORD
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+	}
+
+	private ObjectEntry _addLocalizedContentEntryWithPlainTitle(
+			ObjectDefinition objectDefinition)
+		throws Exception {
+
+		return _objectEntryLocalService.addObjectEntry(
+			0, TestPropsValues.getUserId(),
+			objectDefinition.getObjectDefinitionId(),
+			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+			null,
+			HashMapBuilder.<String, Serializable>put(
+				_LOCALIZED_CONTENT_FIELD_NAME + "_i18n",
+				HashMapBuilder.put(
+					LocaleUtil.toLanguageId(LocaleUtil.US),
+					"English content " + _KEYWORD
+				).build()
+			).put(
+				_LOCALIZED_TITLE_FIELD_NAME, "Plain title with " + _KEYWORD
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+	}
+
+	private ObjectDefinition _addLocalizedTitleDefinitionWithPlainTitleValue()
+		throws Exception {
+
+		List<ObjectField> objectFields = new ArrayList<>();
+
+		objectFields.add(
+			_buildTextObjectField(
+				"Localized Field", true, _LOCALIZED_CONTENT_FIELD_NAME));
+
+		objectFields.add(
+			_buildTextObjectField(
+				"Localized Title", true, _LOCALIZED_TITLE_FIELD_NAME));
+
+		ObjectDefinition objectDefinition =
+			ObjectDefinitionTestUtil.addCustomObjectDefinition(objectFields);
+
+		ObjectField titleObjectField = _objectFieldLocalService.getObjectField(
+			objectDefinition.getObjectDefinitionId(),
+			_LOCALIZED_TITLE_FIELD_NAME);
+
+		_objectDefinitionLocalService.updateTitleObjectFieldId(
+			objectDefinition.getObjectDefinitionId(),
+			titleObjectField.getObjectFieldId());
+
+		return _objectDefinitionLocalService.publishCustomObjectDefinition(
+			TestPropsValues.getUserId(),
+			objectDefinition.getObjectDefinitionId());
+	}
+
 	private void _assertHighlight(
 		String highlightFieldName, SearchHit searchHit) {
 
@@ -370,6 +511,9 @@ public class ObjectEntrySearchHighlightTest {
 		ObjectEntrySearchHighlightTest._KEYWORD,
 		HighlightUtil.HIGHLIGHT_TAG_CLOSE);
 
+	private static final String _INDEXED_LANGUAGE_MISMATCH_FIELD_NAME =
+		"indexedLanguageMismatchText";
+
 	private static final String _KEYWORD = "keyword";
 
 	private static final String _LOCALIZED_CONTENT_FIELD_NAME = "localizedText";
@@ -381,6 +525,7 @@ public class ObjectEntrySearchHighlightTest {
 
 	private static final String _NONLOCALIZED_TITLE_FIELD_NAME = "title";
 
+	private static ObjectDefinition _indexedLanguageMismatchObjectDefinition;
 	private static ObjectDefinition _localizedObjectDefinition;
 	private static ObjectEntry _localizedObjectEntry;
 	private static ObjectDefinition _nonlocalizedObjectDefinition;
@@ -394,5 +539,7 @@ public class ObjectEntrySearchHighlightTest {
 
 	@Inject
 	private static ObjectFieldLocalService _objectFieldLocalService;
+
+	private static ObjectDefinition _unsuffixedTitleFallbackObjectDefinition;
 
 }
