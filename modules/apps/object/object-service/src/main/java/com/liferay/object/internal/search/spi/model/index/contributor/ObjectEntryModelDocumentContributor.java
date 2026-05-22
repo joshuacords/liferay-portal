@@ -368,7 +368,7 @@ public class ObjectEntryModelDocumentContributor
 			else {
 				_addField(
 					fieldArray, fieldName,
-					"value_" + objectField.getIndexedLanguageId(), valueString);
+					"value_" + objectEntry.getDefaultLanguageId(), valueString);
 			}
 
 			_addField(
