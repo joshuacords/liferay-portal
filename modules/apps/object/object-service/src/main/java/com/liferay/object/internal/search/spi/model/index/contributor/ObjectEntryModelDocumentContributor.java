@@ -147,10 +147,16 @@ public class ObjectEntryModelDocumentContributor
 			titleObjectField.getI18nObjectFieldName());
 
 		if (MapUtil.isEmpty(localizedValues)) {
-			document.add(
-				new Field(
-					ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE,
-					objectEntry.getTitleValue()));
+			String titleValue = objectEntry.getTitleValue();
+
+			if (!Validator.isBlank(titleValue)) {
+				document.add(
+					new Field(
+						Field.getLocalizedName(
+							objectEntry.getDefaultLanguageId(),
+							ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE),
+						titleValue));
+			}
 
 			return;
 		}
