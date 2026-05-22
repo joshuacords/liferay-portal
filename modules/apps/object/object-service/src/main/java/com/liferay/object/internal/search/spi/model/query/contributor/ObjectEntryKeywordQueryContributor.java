@@ -633,17 +633,6 @@ public class ObjectEntryKeywordQueryContributor
 					ObjectEntrySearchConstants.NESTED_FIELD_ARRAY_VALUE));
 		}
 
-		if (fieldNames.isEmpty()) {
-			for (Locale availableLocale :
-					_searchLocalizationHelper.getLocales(searchContext)) {
-
-				fieldNames.add(
-					Field.getLocalizedName(
-						availableLocale,
-						ObjectEntrySearchConstants.NESTED_FIELD_ARRAY_VALUE));
-			}
-		}
-
 		return fieldNames.toArray(new String[0]);
 	}
 
