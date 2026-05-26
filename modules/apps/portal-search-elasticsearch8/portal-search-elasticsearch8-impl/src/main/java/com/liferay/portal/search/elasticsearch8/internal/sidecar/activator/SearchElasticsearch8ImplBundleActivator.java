@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.module.util.ServiceLatch;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.search.elasticsearch8.internal.component.enabler.ElasticsearchConfigurationReady;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.PersistedProcessUtil;
@@ -25,6 +26,8 @@ import java.io.Serializable;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -97,6 +100,16 @@ public class SearchElasticsearch8ImplBundleActivator
 		}
 	}
 
+	private int _getElasticsearchVersion(String string) {
+		Matcher matcher = _elasticsearchVersionPattern.matcher(string);
+
+		if (matcher.find()) {
+			return GetterUtil.getInteger(matcher.group(1));
+		}
+
+		return -1;
+	}
+
 	private boolean _hasLegacyElasticsearchConfiguration(
 		BundleContext bundleContext) {
 
@@ -120,14 +133,23 @@ public class SearchElasticsearch8ImplBundleActivator
 				return false;
 			}
 
-			for (Configuration configuration : configurations) {
-				String className = configuration.getFactoryPid();
+			Bundle bundle = bundleContext.getBundle();
 
-				if (className == null) {
-					className = configuration.getPid();
+			int runtimeVersion = _getElasticsearchVersion(
+				bundle.getSymbolicName());
+
+			for (Configuration configuration : configurations) {
+				String pid = configuration.getFactoryPid();
+
+				if (pid == null) {
+					pid = configuration.getPid();
 				}
 
-				if (!_isClassLoadable(bundleContext, className)) {
+				int configurationVersion = _getElasticsearchVersion(pid);
+
+				if ((configurationVersion != -1) &&
+					(configurationVersion != runtimeVersion)) {
+
 					return true;
 				}
 			}
@@ -149,25 +171,6 @@ public class SearchElasticsearch8ImplBundleActivator
 		}
 	}
 
-	private boolean _isClassLoadable(
-		BundleContext bundleContext, String className) {
-
-		Bundle bundle = bundleContext.getBundle();
-
-		try {
-			bundle.loadClass(className);
-
-			return true;
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(classNotFoundException);
-			}
-
-			return false;
-		}
-	}
-
 	private void _publishElasticsearchConfigurationReady(
 		BundleContext bundleContext) {
 
@@ -182,6 +185,8 @@ public class SearchElasticsearch8ImplBundleActivator
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchElasticsearch8ImplBundleActivator.class);
 
+	private static final Pattern _elasticsearchVersionPattern = Pattern.compile(
+		"elasticsearch(\\d+)");
 	private static volatile Future
 		<ObjectValuePair<ProcessChannel<Serializable>, byte[]>> _future;
 
