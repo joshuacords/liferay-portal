@@ -15,8 +15,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Release;
 import com.liferay.portal.kernel.module.util.ServiceLatch;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.ObjectValuePair;
-import com.liferay.portal.search.elasticsearch8.internal.component.enabler.ElasticsearchConfigurationReady;
 import com.liferay.portal.search.elasticsearch8.internal.sidecar.PersistedProcessUtil;
 import com.liferay.portal.tools.DBUpgrader;
 
@@ -26,8 +26,6 @@ import java.io.Serializable;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -101,13 +99,29 @@ public class SearchElasticsearch8ImplBundleActivator
 	}
 
 	private int _getElasticsearchVersion(String string) {
-		Matcher matcher = _elasticsearchVersionPattern.matcher(string);
+		String elasticsearch = "elasticsearch";
 
-		if (matcher.find()) {
-			return GetterUtil.getInteger(matcher.group(1));
+		int index = string.indexOf(elasticsearch);
+
+		if (index == -1) {
+			return -1;
 		}
 
-		return -1;
+		int beginIndex = index + elasticsearch.length();
+
+		int endIndex = beginIndex;
+
+		while ((endIndex < string.length()) &&
+			   Character.isDigit(string.charAt(endIndex))) {
+
+			endIndex++;
+		}
+
+		if (endIndex == beginIndex) {
+			return -1;
+		}
+
+		return GetterUtil.getInteger(string.substring(beginIndex, endIndex));
 	}
 
 	private boolean _hasLegacyElasticsearchConfiguration(
@@ -147,9 +161,7 @@ public class SearchElasticsearch8ImplBundleActivator
 
 				int configurationVersion = _getElasticsearchVersion(pid);
 
-				if ((configurationVersion != -1) &&
-					(configurationVersion != runtimeVersion)) {
-
+				if (configurationVersion != runtimeVersion) {
 					return true;
 				}
 			}
@@ -176,21 +188,19 @@ public class SearchElasticsearch8ImplBundleActivator
 
 		_elasticsearchConfigurationReadyServiceRegistration =
 			bundleContext.registerService(
-				ElasticsearchConfigurationReady.class,
-				new ElasticsearchConfigurationReady() {
-				},
-				null);
+				Object.class, new Object(),
+				HashMapDictionaryBuilder.<String, Object>put(
+					"elasticsearch.configuration.ready", "true"
+				).build());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchElasticsearch8ImplBundleActivator.class);
 
-	private static final Pattern _elasticsearchVersionPattern = Pattern.compile(
-		"elasticsearch(\\d+)");
 	private static volatile Future
 		<ObjectValuePair<ProcessChannel<Serializable>, byte[]>> _future;
 
-	private ServiceRegistration<ElasticsearchConfigurationReady>
+	private ServiceRegistration<Object>
 		_elasticsearchConfigurationReadyServiceRegistration;
 
 }
