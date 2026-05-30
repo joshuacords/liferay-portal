@@ -49,30 +49,36 @@ public class ObjectEntryModelSummaryContributor
 	private String _getContent(
 		Locale defaultLocale, Document document, Locale snippetLocale) {
 
-		String content = _getLocalizedContent(document, snippetLocale);
+		String content = _getLocalizedHighlightedContent(
+			document, snippetLocale);
 
-		if (Validator.isBlank(content) && (defaultLocale != null) &&
-			!defaultLocale.equals(snippetLocale)) {
-
-			content = _getLocalizedContent(document, defaultLocale);
+		if (!Validator.isBlank(content)) {
+			return content;
 		}
 
-		if (Validator.isBlank(content)) {
-			content = document.get(
-				StringBundler.concat(
-					Field.SNIPPET, StringPool.UNDERLINE,
-					ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
+		if ((defaultLocale != null) && !defaultLocale.equals(snippetLocale)) {
+			content = _getLocalizedHighlightedContent(document, defaultLocale);
 		}
 
-		if (Validator.isBlank(content)) {
-			content = document.get(
-				ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT);
+		if (!Validator.isBlank(content)) {
+			return content;
 		}
 
-		return content;
+		content = document.get(
+			StringBundler.concat(
+				Field.SNIPPET, StringPool.UNDERLINE,
+				ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
+
+		if (!Validator.isBlank(content)) {
+			return content;
+		}
+
+		return document.get(ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT);
 	}
 
-	private String _getLocalizedContent(Document document, Locale locale) {
+	private String _getLocalizedHighlightedContent(
+		Document document, Locale locale) {
+
 		if (locale == null) {
 			return StringPool.BLANK;
 		}
@@ -126,39 +132,39 @@ public class ObjectEntryModelSummaryContributor
 				ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE),
 			ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
 
-		if (Validator.isBlank(title) && (defaultLocale != null) &&
-			!defaultLocale.equals(snippetLocale)) {
-
+		if (!Validator.isBlank(title)) {
+			return title;
+		}
+//I don't think we need this
+		if ((defaultLocale != null) && !defaultLocale.equals(snippetLocale)) {
 			title = document.get(
 				defaultLocale,
 				StringBundler.concat(
 					Field.SNIPPET, StringPool.UNDERLINE,
 					ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE),
 				ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
+
+			if (!Validator.isBlank(title)) {
+				return title;
+			}
 		}
 
-		if (Validator.isBlank(title)) {
-			title = document.get(
-				StringBundler.concat(
-					Field.SNIPPET, StringPool.UNDERLINE,
-					ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE));
+		title = document.get(
+			StringBundler.concat(
+				Field.SNIPPET, StringPool.UNDERLINE,
+				ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE));
+
+		if (!Validator.isBlank(title)) {
+			return title;
 		}
 
-		if (Validator.isBlank(title)) {
-			title = document.get(ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
+		title = document.get(ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE);
+
+		if (!Validator.isBlank(title)) {
+			return title;
 		}
 
-		if (Validator.isBlank(title)) {
-			title = document.get(
-				StringBundler.concat(
-					Field.SNIPPET, StringPool.UNDERLINE, Field.ENTRY_CLASS_PK));
-		}
-
-		if (Validator.isBlank(title)) {
-			title = document.get(Field.ENTRY_CLASS_PK);
-		}
-
-		return title;
+		return document.get(Field.ENTRY_CLASS_PK);
 	}
 
 }
