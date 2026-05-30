@@ -88,17 +88,6 @@ public class ObjectEntryModelSummaryContributor
 			return content;
 		}
 
-		String localizedContentSnippetName = StringBundler.concat(
-			Field.SNIPPET, StringPool.UNDERLINE,
-			Field.getLocalizedName(
-				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
-
-		content = document.get(localizedContentSnippetName);
-
-		if (!Validator.isBlank(content)) {
-			return content;
-		}
-
 		return document.get(
 			Field.getLocalizedName(
 				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
@@ -109,10 +98,6 @@ public class ObjectEntryModelSummaryContributor
 			return null;
 		}
 
-		String localizedContentSnippetName = StringBundler.concat(
-			Field.SNIPPET, StringPool.UNDERLINE,
-			Field.getLocalizedName(
-				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
 		String localizedNestedValueSnippetName = StringBundler.concat(
 			Field.SNIPPET, StringPool.UNDERLINE,
 			Field.getLocalizedName(
@@ -122,8 +107,7 @@ public class ObjectEntryModelSummaryContributor
 			Field.getLocalizedName(
 				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE));
 
-		if ((document.getField(localizedContentSnippetName) != null) ||
-			(document.getField(localizedNestedValueSnippetName) != null) ||
+		if ((document.getField(localizedNestedValueSnippetName) != null) ||
 			(document.getField(localizedTitleSnippetName) != null)) {
 
 			return locale;
