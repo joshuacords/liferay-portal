@@ -118,7 +118,7 @@ public class ObjectEntrySearchHighlightTest {
 	}
 
 	@Test
-	public void testHighlightUnsuffixedTitleWhenLocalizedTitleEmpty()
+	public void testHighlightDefaultLocalizedTitleWhenI18nMapEmpty()
 		throws Exception {
 
 		_unsuffixedTitleFallbackObjectDefinition =
@@ -131,8 +131,10 @@ public class ObjectEntrySearchHighlightTest {
 			LocaleUtil.US, _unsuffixedTitleFallbackObjectDefinition,
 			objectEntry);
 
-		_assertHighlight(
-			ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE, searchHit);
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			_unsuffixedTitleFallbackObjectDefinition.getDefaultLanguageId());
+
+		_assertHighlight(_getTitleFieldName(defaultLocale), searchHit);
 	}
 
 	@Test
