@@ -31,15 +31,9 @@ public class ObjectEntryModelSummaryContributor
 		Locale defaultLocale = LocaleUtil.fromLanguageId(
 			document.get(ObjectEntrySearchConstants.DEFAULT_LANGUAGE_ID));
 
-		Locale snippetLocale = _getSnippetLocale(document, locale);
-
-		if (snippetLocale == null) {
-			snippetLocale = defaultLocale;
-		}
-
 		Summary summary = new Summary(
-			_getTitle(defaultLocale, document, snippetLocale),
-			_getContent(defaultLocale, document, snippetLocale));
+			_getTitle(defaultLocale, document, locale),
+			_getContent(defaultLocale, document, locale));
 
 		summary.setMaxContentLength(200);
 
@@ -47,27 +41,17 @@ public class ObjectEntryModelSummaryContributor
 	}
 
 	private String _getContent(
-		Locale defaultLocale, Document document, Locale snippetLocale) {
+		Locale defaultLocale, Document document, Locale locale) {
 
-		String content = _getLocalizedHighlightedContent(
-			document, snippetLocale);
+		String content = _getLocalizedHighlightedContent(document, locale);
 
 		if (!Validator.isBlank(content)) {
 			return content;
 		}
 
-		if ((defaultLocale != null) && !defaultLocale.equals(snippetLocale)) {
+		if ((defaultLocale != null) && !defaultLocale.equals(locale)) {
 			content = _getLocalizedHighlightedContent(document, defaultLocale);
 		}
-
-		if (!Validator.isBlank(content)) {
-			return content;
-		}
-
-		content = document.get(
-			StringBundler.concat(
-				Field.SNIPPET, StringPool.UNDERLINE,
-				ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
 
 		if (!Validator.isBlank(content)) {
 			return content;
@@ -99,34 +83,11 @@ public class ObjectEntryModelSummaryContributor
 				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_CONTENT));
 	}
 
-	private Locale _getSnippetLocale(Document document, Locale locale) {
-		if (locale == null) {
-			return null;
-		}
-
-		String localizedNestedValueSnippetName = StringBundler.concat(
-			Field.SNIPPET, StringPool.UNDERLINE,
-			Field.getLocalizedName(
-				locale, ObjectEntrySearchConstants.NESTED_FIELD_ARRAY_VALUE));
-		String localizedTitleSnippetName = StringBundler.concat(
-			Field.SNIPPET, StringPool.UNDERLINE,
-			Field.getLocalizedName(
-				locale, ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE));
-
-		if ((document.getField(localizedNestedValueSnippetName) != null) ||
-			(document.getField(localizedTitleSnippetName) != null)) {
-
-			return locale;
-		}
-
-		return null;
-	}
-
 	private String _getTitle(
-		Locale defaultLocale, Document document, Locale snippetLocale) {
+		Locale defaultLocale, Document document, Locale locale) {
 
 		String title = document.get(
-			snippetLocale,
+			locale,
 			StringBundler.concat(
 				Field.SNIPPET, StringPool.UNDERLINE,
 				ObjectEntrySearchConstants.OBJECT_ENTRY_TITLE),
@@ -135,8 +96,8 @@ public class ObjectEntryModelSummaryContributor
 		if (!Validator.isBlank(title)) {
 			return title;
 		}
-//I don't think we need this
-		if ((defaultLocale != null) && !defaultLocale.equals(snippetLocale)) {
+
+		if ((defaultLocale != null) && !defaultLocale.equals(locale)) {
 			title = document.get(
 				defaultLocale,
 				StringBundler.concat(
