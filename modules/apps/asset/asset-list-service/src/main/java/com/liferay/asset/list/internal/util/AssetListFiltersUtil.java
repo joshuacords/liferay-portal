@@ -333,19 +333,12 @@ public class AssetListFiltersUtil {
 	}
 
 	private static NestedQuery _toNestedQuery(
-		long companyId, JSONObject jsonObject, Locale locale) {
+		JSONObject jsonObject, Locale locale, ObjectField objectField) {
 
 		String propertyName = jsonObject.getString("propertyName");
 		String value = jsonObject.getString("value");
 
 		if (Validator.isNull(propertyName) || Validator.isNull(value)) {
-			return null;
-		}
-
-		ObjectField objectField = _fetchObjectField(
-			jsonObject.getLong("classNameId"), companyId, propertyName);
-
-		if (objectField == null) {
 			return null;
 		}
 
@@ -419,7 +412,22 @@ public class AssetListFiltersUtil {
 				jsonObject, locale, jsonObject.getString("propertyName"));
 		}
 
-		return _toNestedQuery(companyId, jsonObject, locale);
+		ObjectField objectField = _fetchObjectField(
+			jsonObject.getLong("classNameId"), companyId,
+			jsonObject.getString("propertyName"));
+
+		if (objectField == null) {
+			return null;
+		}
+
+		if (objectField.isMetadata()) {
+			return _toCommonFieldQuery(
+				jsonObject, locale,
+				_metadataFieldNamesMap.getOrDefault(
+					objectField.getName(), objectField.getName()));
+		}
+
+		return _toNestedQuery(jsonObject, locale, objectField);
 	}
 
 	private static Query _toRangeQuery(
@@ -583,6 +591,12 @@ public class AssetListFiltersUtil {
 		).build();
 	private static final Set<String> _localizedCommonFieldNames =
 		SetUtil.fromArray(Field.TITLE);
+	private static final Map<String, String> _metadataFieldNamesMap =
+		HashMapBuilder.put(
+			"creator", Field.USER_NAME
+		).put(
+			"modifiedDate", Field.MODIFIED_DATE
+		).build();
 	private static final Set<String> _relativeDateValues = SetUtil.fromArray(
 		"last-year", "next-month", "now", "past-24-hours", "past-day",
 		"past-month", "past-week", "past-year");
