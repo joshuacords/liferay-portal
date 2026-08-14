@@ -501,6 +501,7 @@ SQLEmptyLinesCheck | [Styling](styling_checks.md#styling-checks) | .sql | Finds 
 SQLStylingCheck | [Styling](styling_checks.md#styling-checks) | .sql | Applies rules to enforce consistency in code style. |
 SafeCloseableMissingCloseCheck | [Bug Prevention](bug_prevention_checks.md#bug-prevention-checks) | .java | Finds missing `close()` calls for `SafeCloseable` instances. |
 SealedAndNonsealedModifierCheck | [Performance](performance_checks.md#performance-checks) | .java | Finds usage of `sealed` and `non-sealed`. |
+SearchContextSetEndCheck | [Performance](performance_checks.md#performance-checks) | .java | Finds `SearchContext` instances that never call `setEnd` or that call `setEnd` with `QueryUtil.ALL_POS`. |
 SelfReferenceCheck | [Bug Prevention](bug_prevention_checks.md#bug-prevention-checks) | .java | Finds cases of unnecessary reference to its own class. |
 SemiColonCheck | [Styling](styling_checks.md#styling-checks) | .java, .jsp, .jspf, .jspx, .tag, .tpl, or .vm | Finds cases of unnecessary semicolon. |
 [ServiceComponentRuntimeCheck](check/service_component_runtime_check.md#servicecomponentruntimecheck) | [Bug Prevention](bug_prevention_checks.md#bug-prevention-checks) | .java | Checks `ServiceComponentRuntime` usage in test classes. |

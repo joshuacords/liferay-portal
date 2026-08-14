@@ -31,6 +31,7 @@ RedundantBranchingStatementCheck | .java | Finds unnecessary branching (`break`,
 [RedundantLogCheck](check/redundant_log_check.md#redundantlogcheck) | .java | Finds unnecessary logs. |
 [ResourcePermissionFactoryCheck](check/resource_permission_factory_check.md#resourcepermissionfactorycheck) | .java | Checks usage of `*ResourcePermissionFactory` classes. |
 SealedAndNonsealedModifierCheck | .java | Finds usage of `sealed` and `non-sealed`. |
+SearchContextSetEndCheck | .java | Finds `SearchContext` instances that never call `setEnd` or that call `setEnd` with `QueryUtil.ALL_POS`. |
 SetUtilMethodsCheck | .java, .jsp, .jspf, .jspx, .tag, .tpl, or .vm | Finds cases of inefficient SetUtil operations. |
 StringCastCheck | .java, .jsp, .jspf, .jspx, .tag, .tpl, or .vm | Finds cases where a redundant `toString()` is called on variable type `String`. |
 [StringMethodsCheck](check/string_methods_check.md#stringmethodscheck) | .java, .jsp, .jspf, .jspx, .tag, .tpl, or .vm | Checks if performance can be improved by using different String operation methods. |
