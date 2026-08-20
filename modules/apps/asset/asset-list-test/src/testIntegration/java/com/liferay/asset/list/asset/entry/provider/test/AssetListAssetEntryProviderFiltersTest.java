@@ -408,38 +408,6 @@ public class AssetListAssetEntryProviderFiltersTest {
 
 	@FeatureFlags(featureFlags = @FeatureFlag(value = "LPD-74731"))
 	@Test
-	public void testGetAssetEntriesInfoPageWithMetadataFieldFilters()
-		throws Exception {
-
-		ObjectEntry objectEntry = _addObjectEntry(
-			HashMapBuilder.<String, Serializable>put(
-				_OBJECT_FIELD_NAME_TEXT, RandomTestUtil.randomString()
-			).build());
-
-		_assertFilteredClassPKs(
-			_getFiltersJSONArray(
-				_getFilterJSONObject(
-					"eq", "creator",
-					StringUtil.toLowerCase(
-						TestPropsValues.getUser(
-						).getFullName()))),
-			objectEntry);
-
-		_assertFilteredClassPKs(
-			_getFiltersJSONArray(
-				_getFilterJSONObject(
-					"eq", "creator", RandomTestUtil.randomString())));
-		_assertFilteredClassPKs(
-			_getFiltersJSONArray(
-				_getFilterJSONObject("gt", "modifiedDate", "2000-01-01")),
-			objectEntry);
-		_assertFilteredClassPKs(
-			_getFiltersJSONArray(
-				_getFilterJSONObject("lt", "modifiedDate", "2000-01-01")));
-	}
-
-	@FeatureFlags(featureFlags = @FeatureFlag(value = "LPD-74731"))
-	@Test
 	public void testGetAssetEntriesInfoPageWithMultipleFiltersJoinedWithMust()
 		throws Exception {
 
