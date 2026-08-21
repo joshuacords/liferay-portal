@@ -40,7 +40,9 @@ public class AssetListOrderByColumnsUtilTest {
 
 	@BeforeClass
 	public static void setUpClass() {
-		_setUpJSONFactoryUtil();
+		JSONFactoryUtil jsonFactoryUtil = new JSONFactoryUtil();
+
+		jsonFactoryUtil.setJSONFactory(new JSONFactoryImpl());
 	}
 
 	@AfterClass
@@ -110,12 +112,6 @@ public class AssetListOrderByColumnsUtilTest {
 			"priority",
 			AssetListOrderByColumnsUtil.toOrderByColumn(
 				_COMPANY_ID, "priority"));
-	}
-
-	private static void _setUpJSONFactoryUtil() {
-		JSONFactoryUtil jsonFactoryUtil = new JSONFactoryUtil();
-
-		jsonFactoryUtil.setJSONFactory(new JSONFactoryImpl());
 	}
 
 	private String _buildOrderByColumn(String propertyName) {

@@ -10,6 +10,7 @@ import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
 import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
 import com.liferay.object.service.ObjectFieldLocalServiceUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -21,8 +22,6 @@ import java.util.Locale;
  * @author Joshua Cords
  */
 public class AssetListObjectFieldUtil {
-
-	public static final String NESTED_FIELD_ARRAY = "nestedFieldArray";
 
 	public static ObjectField fetchObjectField(
 		long classNameId, long companyId, String name) {
@@ -38,22 +37,32 @@ public class AssetListObjectFieldUtil {
 			objectDefinition.getObjectDefinitionId(), name);
 	}
 
-	public static String getSortSubfieldSuffix(ObjectField objectField) {
-		String subfieldSuffix = _getTypedSubfieldSuffix(objectField);
+	public static String getFilterSubfield(
+		Locale locale, ObjectField objectField) {
 
-		if (subfieldSuffix != null) {
-			return subfieldSuffix;
+		return "nestedFieldArray." +
+			_getFilterSubfieldSuffix(locale, objectField);
+	}
+
+	public static String getSortSubfield(ObjectField objectField) {
+		return StringBundler.concat(
+			"nestedFieldArray.", objectField.getName(), StringPool.PERIOD,
+			_getSortSubfieldSuffix(objectField));
+	}
+
+	private static ObjectDefinition _fetchObjectDefinition(
+		long classNameId, long companyId) {
+
+		if (classNameId <= 0) {
+			return null;
 		}
 
-		return "value_keyword_lowercase";
+		return ObjectDefinitionLocalServiceUtil.
+			fetchObjectDefinitionByClassName(
+				companyId, PortalUtil.getClassName(classNameId));
 	}
 
-	public static String getSubfield(Locale locale, ObjectField objectField) {
-		return NESTED_FIELD_ARRAY + StringPool.PERIOD +
-			getSubfieldSuffix(locale, objectField);
-	}
-
-	public static String getSubfieldSuffix(
+	private static String _getFilterSubfieldSuffix(
 		Locale locale, ObjectField objectField) {
 
 		String subfieldSuffix = _getTypedSubfieldSuffix(objectField);
@@ -75,16 +84,14 @@ public class AssetListObjectFieldUtil {
 		return "value_text";
 	}
 
-	private static ObjectDefinition _fetchObjectDefinition(
-		long classNameId, long companyId) {
+	private static String _getSortSubfieldSuffix(ObjectField objectField) {
+		String subfieldSuffix = _getTypedSubfieldSuffix(objectField);
 
-		if (classNameId <= 0) {
-			return null;
+		if (subfieldSuffix != null) {
+			return subfieldSuffix;
 		}
 
-		return ObjectDefinitionLocalServiceUtil.
-			fetchObjectDefinitionByClassName(
-				companyId, PortalUtil.getClassName(classNameId));
+		return "value_keyword_lowercase";
 	}
 
 	private static String _getTypedSubfieldSuffix(ObjectField objectField) {

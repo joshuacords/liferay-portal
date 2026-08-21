@@ -277,7 +277,7 @@ public class AssetListFiltersUtil {
 
 		String operatorName = jsonObject.getString("operatorName", "contains");
 
-		String subfield = AssetListObjectFieldUtil.getSubfield(
+		String subfield = AssetListObjectFieldUtil.getFilterSubfield(
 			locale, objectField);
 
 		Query query = _toValueQuery(

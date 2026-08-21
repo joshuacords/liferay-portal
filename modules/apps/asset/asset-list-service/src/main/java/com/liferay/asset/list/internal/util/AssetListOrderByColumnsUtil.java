@@ -6,7 +6,6 @@
 package com.liferay.asset.list.internal.util;
 
 import com.liferay.object.model.ObjectField;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -50,10 +49,7 @@ public class AssetListOrderByColumnsUtil {
 			return orderByColumn;
 		}
 
-		return StringBundler.concat(
-			AssetListObjectFieldUtil.NESTED_FIELD_ARRAY, StringPool.PERIOD,
-			objectField.getName(), StringPool.PERIOD,
-			AssetListObjectFieldUtil.getSortSubfieldSuffix(objectField));
+		return AssetListObjectFieldUtil.getSortSubfield(objectField);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

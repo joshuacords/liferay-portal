@@ -615,6 +615,11 @@ public class AssetHelperImpl implements AssetHelper {
 			String orderByType, String sortField, Locale locale)
 		throws Exception {
 
+		if (sortField.startsWith(DDMIndexer.DDM_FIELD_PREFIX)) {
+			return _ddmIndexer.createDDMStructureFieldSort(
+				sortField, locale, _getSortOrder(orderByType));
+		}
+
 		if (sortField.startsWith("nestedFieldArray.")) {
 			String[] sortFieldParts = StringUtil.split(
 				sortField, CharPool.PERIOD);
@@ -634,11 +639,6 @@ public class AssetHelperImpl implements AssetHelper {
 
 				return fieldSort;
 			}
-		}
-
-		if (sortField.startsWith(DDMIndexer.DDM_FIELD_PREFIX)) {
-			return _ddmIndexer.createDDMStructureFieldSort(
-				sortField, locale, _getSortOrder(orderByType));
 		}
 
 		Sort sort = SortFactoryUtil.getSort(
