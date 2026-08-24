@@ -591,6 +591,11 @@ public class ObjectDefinitionWrapper
 		return model.getFriendlyURLSeparator();
 	}
 
+	@Override
+	public java.util.List<ObjectField> getIndexedObjectFields() {
+		return model.getIndexedObjectFields();
+	}
+
 	/**
 	 * Returns the label of this object definition.
 	 *
@@ -1862,4 +1867,4 @@ public class ObjectDefinitionWrapper
 	}
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-269929950
+// LIFERAY-SERVICE-BUILDER-HASH:1660447977

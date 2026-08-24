@@ -54,6 +54,8 @@ public interface ObjectDefinition
 
 	public String getExtensionDBTableName();
 
+	public java.util.List<ObjectField> getIndexedObjectFields();
+
 	public String getLocalizationDBTableName();
 
 	public java.util.List<ObjectDefinitionSetting>
@@ -116,4 +118,4 @@ public interface ObjectDefinition
 	public void setObjectFolder(ObjectFolder objectFolder);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1251103539
+// LIFERAY-SERVICE-BUILDER-HASH:-1900096683
