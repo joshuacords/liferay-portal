@@ -9,7 +9,6 @@ import com.liferay.list.type.service.ListTypeEntryLocalServiceUtil;
 import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
-import com.liferay.object.model.bag.ObjectFieldBag;
 import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -20,7 +19,6 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.util.List;
@@ -67,7 +65,7 @@ public class AssetListTypePropertiesUtil {
 					"items",
 					_getItemsJSONArray(
 						classNameIds[i], classTypeId, locale,
-						_getIndexedObjectFields(objectDefinition))
+						objectDefinition.getIndexedObjectFields())
 				).put(
 					"label", objectDefinition.getLabel(locale, true)
 				));
@@ -174,20 +172,6 @@ public class AssetListTypePropertiesUtil {
 			).put(
 				"type", "integer"
 			));
-	}
-
-	private static List<ObjectField> _getIndexedObjectFields(
-		ObjectDefinition objectDefinition) {
-
-		ObjectFieldBag objectFieldBag = objectDefinition.getObjectFieldBag();
-
-		if (objectDefinition.isModifiableAndSystem()) {
-			return ListUtil.filter(
-				objectFieldBag.getIndexedObjectFields(),
-				objectField -> !objectField.isMetadata());
-		}
-
-		return objectFieldBag.getNonsystemIndexedObjectFields();
 	}
 
 	private static JSONArray _getItemsJSONArray(

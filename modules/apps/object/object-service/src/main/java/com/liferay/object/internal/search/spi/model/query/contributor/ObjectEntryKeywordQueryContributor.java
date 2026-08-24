@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.facet.util.RangeParserUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -116,17 +115,7 @@ public class ObjectEntryKeywordQueryContributor
 		}
 
 		if (objectFields == null) {
-			ObjectFieldBag objectFieldBag =
-				_objectDefinition.getObjectFieldBag();
-
-			if (_objectDefinition.isModifiableAndSystem()) {
-				objectFields = ListUtil.filter(
-					objectFieldBag.getIndexedObjectFields(),
-					objectField -> !objectField.isMetadata());
-			}
-			else {
-				objectFields = objectFieldBag.getNonsystemIndexedObjectFields();
-			}
+			objectFields = _objectDefinition.getIndexedObjectFields();
 		}
 
 		Locale defaultLocale = LocaleUtil.fromLanguageId(

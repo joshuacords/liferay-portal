@@ -9,7 +9,9 @@ import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.constants.ObjectFolderConstants;
 import com.liferay.object.constants.ObjectPortletKeys;
 import com.liferay.object.model.ObjectDefinition;
+import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectFolder;
+import com.liferay.object.model.bag.ObjectFieldBag;
 import com.liferay.object.service.ObjectFolderLocalServiceUtil;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.string.StringPool;
@@ -17,6 +19,8 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+
+import java.util.Arrays;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -40,6 +44,38 @@ public class ObjectDefinitionImplTest {
 	@AfterClass
 	public static void tearDownClass() {
 		_objectFolderLocalServiceUtilMockedStatic.close();
+	}
+
+	@Test
+	public void testGetIndexedObjectFields() {
+		ObjectField metadataObjectField = _mockObjectField(true, true);
+		ObjectField nonsystemObjectField = _mockObjectField(false, false);
+		ObjectField systemObjectField = _mockObjectField(false, true);
+
+		ObjectDefinition objectDefinition = new ObjectDefinitionImpl();
+
+		objectDefinition.setObjectFieldBag(
+			new ObjectFieldBag(
+				Arrays.asList(
+					metadataObjectField, nonsystemObjectField,
+					systemObjectField)));
+
+		// Custom object definition
+
+		objectDefinition.setModifiable(true);
+		objectDefinition.setSystem(false);
+
+		Assert.assertEquals(
+			Arrays.asList(nonsystemObjectField),
+			objectDefinition.getIndexedObjectFields());
+
+		// Modifiable system object definition
+
+		objectDefinition.setSystem(true);
+
+		Assert.assertEquals(
+			Arrays.asList(nonsystemObjectField, systemObjectField),
+			objectDefinition.getIndexedObjectFields());
 	}
 
 	@Test
@@ -110,6 +146,30 @@ public class ObjectDefinitionImplTest {
 		objectDefinition.setSystem(system);
 
 		return objectDefinition;
+	}
+
+	private ObjectField _mockObjectField(boolean metadata, boolean system) {
+		ObjectField objectField = Mockito.mock(ObjectField.class);
+
+		Mockito.when(
+			objectField.isIndexed()
+		).thenReturn(
+			true
+		);
+
+		Mockito.when(
+			objectField.isMetadata()
+		).thenReturn(
+			metadata
+		);
+
+		Mockito.when(
+			objectField.isSystem()
+		).thenReturn(
+			system
+		);
+
+		return objectField;
 	}
 
 	private void _testGetRESTContextPath(
