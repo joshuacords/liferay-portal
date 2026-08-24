@@ -246,47 +246,6 @@ public class AssetListTypePropertiesUtilTest {
 	}
 
 	@Test
-	public void testGetTypePropertiesJSONArrayExcludesMetadataFieldsFromModifiableAndSystemTypeGroup() {
-		ObjectDefinition objectDefinition = _setUpObjectDefinition(
-			_CLASS_NAME_ID_1, _LABEL_1, _CLASS_TYPE_ID_1,
-			Arrays.asList(
-				_mockObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_TEXT, true,
-					RandomTestUtil.randomString()),
-				_mockObjectField(
-					ObjectFieldConstants.BUSINESS_TYPE_TEXT, false, "title")));
-
-		Mockito.when(
-			objectDefinition.isModifiableAndSystem()
-		).thenReturn(
-			true
-		);
-
-		JSONArray jsonArray =
-			AssetListTypePropertiesUtil.getTypePropertiesJSONArray(
-				new long[] {_CLASS_NAME_ID_1}, new long[] {_CLASS_TYPE_ID_1},
-				_COMPANY_ID, LocaleUtil.US);
-
-		Assert.assertEquals(jsonArray.toString(), 2, jsonArray.length());
-
-		JSONArray itemsJSONArray = jsonArray.getJSONObject(
-			1
-		).getJSONArray(
-			"items"
-		);
-
-		Assert.assertEquals(
-			itemsJSONArray.toString(), 1, itemsJSONArray.length());
-		Assert.assertEquals(
-			"title",
-			itemsJSONArray.getJSONObject(
-				0
-			).getString(
-				"name"
-			));
-	}
-
-	@Test
 	public void testGetTypePropertiesJSONArrayIncludesOneTypeGroup() {
 		_setUpObjectDefinition(
 			_CLASS_NAME_ID_1, _LABEL_1, _CLASS_TYPE_ID_1,
@@ -494,7 +453,7 @@ public class AssetListTypePropertiesUtilTest {
 		languageUtil.setLanguage(language);
 	}
 
-	private ObjectDefinition _setUpObjectDefinition(
+	private void _setUpObjectDefinition(
 		long classNameId, String label, long objectDefinitionId,
 		List<ObjectField> objectFields) {
 
@@ -525,13 +484,7 @@ public class AssetListTypePropertiesUtilTest {
 		ObjectFieldBag objectFieldBag = Mockito.mock(ObjectFieldBag.class);
 
 		Mockito.when(
-			objectFieldBag.getIndexedObjectFields()
-		).thenReturn(
-			objectFields
-		);
-
-		Mockito.when(
-			objectFieldBag.getNonsystemIndexedObjectFields()
+			objectFieldBag.getNestedIndexedObjectFields()
 		).thenReturn(
 			objectFields
 		);
@@ -547,8 +500,6 @@ public class AssetListTypePropertiesUtilTest {
 		).thenReturn(
 			"com.liferay.test.Class" + classNameId
 		);
-
-		return objectDefinition;
 	}
 
 	private static final long _CLASS_NAME_ID_1 = RandomTestUtil.randomLong();

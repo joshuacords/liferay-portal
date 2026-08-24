@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.util.List;
@@ -62,12 +61,15 @@ public class AssetListTypePropertiesUtil {
 				continue;
 			}
 
+			ObjectFieldBag objectFieldBag =
+				objectDefinition.getObjectFieldBag();
+
 			jsonArray.put(
 				JSONUtil.put(
 					"items",
 					_getItemsJSONArray(
 						classNameIds[i], classTypeId, locale,
-						_getIndexedObjectFields(objectDefinition))
+						objectFieldBag.getNestedIndexedObjectFields())
 				).put(
 					"label", objectDefinition.getLabel(locale, true)
 				));
@@ -174,20 +176,6 @@ public class AssetListTypePropertiesUtil {
 			).put(
 				"type", "integer"
 			));
-	}
-
-	private static List<ObjectField> _getIndexedObjectFields(
-		ObjectDefinition objectDefinition) {
-
-		ObjectFieldBag objectFieldBag = objectDefinition.getObjectFieldBag();
-
-		if (objectDefinition.isModifiableAndSystem()) {
-			return ListUtil.filter(
-				objectFieldBag.getIndexedObjectFields(),
-				objectField -> !objectField.isMetadata());
-		}
-
-		return objectFieldBag.getNonsystemIndexedObjectFields();
 	}
 
 	private static JSONArray _getItemsJSONArray(
