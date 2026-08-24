@@ -13,6 +13,7 @@ import com.liferay.object.definition.tree.util.ObjectDefinitionTreeUtil;
 import com.liferay.object.definition.util.ObjectDefinitionUtil;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectDefinitionSetting;
+import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectFolder;
 import com.liferay.object.model.bag.ObjectFieldBag;
 import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
@@ -24,6 +25,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
@@ -82,6 +84,19 @@ public class ObjectDefinitionImpl extends ObjectDefinitionBaseImpl {
 		}
 
 		return getDBTableName() + "_x";
+	}
+
+	@Override
+	public List<ObjectField> getIndexedObjectFields() {
+		ObjectFieldBag objectFieldBag = getObjectFieldBag();
+
+		if (isModifiableAndSystem()) {
+			return ListUtil.filter(
+				objectFieldBag.getIndexedObjectFields(),
+				objectField -> !objectField.isMetadata());
+		}
+
+		return objectFieldBag.getNonsystemIndexedObjectFields();
 	}
 
 	@Override
