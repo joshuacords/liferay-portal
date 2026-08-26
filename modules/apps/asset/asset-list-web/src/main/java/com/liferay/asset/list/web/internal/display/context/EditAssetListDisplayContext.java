@@ -785,8 +785,8 @@ public class EditAssetListDisplayContext {
 			return _orderByColumn1;
 		}
 
-		_orderByColumn1 = _getOrderByColumn(
-			"orderByColumn1", Field.MODIFIED_DATE);
+		_orderByColumn1 = GetterUtil.getString(
+			_unicodeProperties.getProperty("orderByColumn1", Field.MODIFIED_DATE));
 
 		return _orderByColumn1;
 	}
@@ -796,7 +796,8 @@ public class EditAssetListDisplayContext {
 			return _orderByColumn2;
 		}
 
-		_orderByColumn2 = _getOrderByColumn("orderByColumn2", "title");
+		_orderByColumn2 = GetterUtil.getString(
+			_unicodeProperties.getProperty("orderByColumn2", "title"));
 
 		return _orderByColumn2;
 	}
@@ -1374,17 +1375,6 @@ public class EditAssetListDisplayContext {
 			"segmentsEntryId",
 			assetListEntrySegmentsEntryRel.getSegmentsEntryId()
 		).buildString();
-	}
-
-	private String _getOrderByColumn(String key, String defaultOrderByColumn) {
-		String orderByColumn = GetterUtil.getString(
-			_unicodeProperties.getProperty(key, defaultOrderByColumn));
-
-		if (orderByColumn.equals("modifiedDate")) {
-			return Field.MODIFIED_DATE;
-		}
-
-		return orderByColumn;
 	}
 
 	private String _getTypeSettings() {

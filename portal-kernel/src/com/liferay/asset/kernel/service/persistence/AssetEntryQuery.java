@@ -11,6 +11,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -44,7 +45,8 @@ public class AssetEntryQuery {
 	public static String checkOrderByCol(String orderByCol) {
 		if (ArrayUtil.contains(ORDER_BY_COLUMNS, orderByCol) ||
 			((orderByCol != null) &&
-			 (orderByCol.startsWith(
+			 (orderByCol.equals(Field.MODIFIED_DATE) ||
+			  orderByCol.startsWith(
 				 DDMStructureManager.STRUCTURE_INDEXER_FIELD_PREFIX) ||
 			  orderByCol.startsWith("nestedFieldArray.")))) {
 

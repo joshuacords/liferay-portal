@@ -980,7 +980,7 @@ public class AssetListAssetEntryProviderImpl
 		long companyId, String defaultOrderByColumn, String orderByColumn) {
 
 		if (!orderByColumn.startsWith(StringPool.OPEN_CURLY_BRACE)) {
-			return _toAssetEntryQueryOrderByColumn(orderByColumn);
+			return orderByColumn;
 		}
 
 		if (FeatureFlagManagerUtil.isEnabled(companyId, "LPD-74731")) {
@@ -989,7 +989,7 @@ public class AssetListAssetEntryProviderImpl
 		}
 
 		if (orderByColumn.startsWith(StringPool.OPEN_CURLY_BRACE)) {
-			return _toAssetEntryQueryOrderByColumn(defaultOrderByColumn);
+			return defaultOrderByColumn;
 		}
 
 		return orderByColumn;
@@ -1181,14 +1181,6 @@ public class AssetListAssetEntryProviderImpl
 				Comparator.comparing(
 					AssetListEntrySegmentsEntryRel::getPriority)),
 			AssetListEntrySegmentsEntryRel::getSegmentsEntryId);
-	}
-
-	private String _toAssetEntryQueryOrderByColumn(String orderByColumn) {
-		if (orderByColumn.equals(Field.MODIFIED_DATE)) {
-			return "modifiedDate";
-		}
-
-		return orderByColumn;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
