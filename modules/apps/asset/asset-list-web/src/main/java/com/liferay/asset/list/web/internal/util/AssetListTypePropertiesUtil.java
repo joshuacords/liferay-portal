@@ -5,6 +5,7 @@
 
 package com.liferay.asset.list.web.internal.util;
 
+import com.liferay.asset.util.AssetEntryCommonField;
 import com.liferay.list.type.service.ListTypeEntryLocalServiceUtil;
 import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.model.ObjectDefinition;
@@ -19,9 +20,10 @@ import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,91 +93,28 @@ public class AssetListTypePropertiesUtil {
 	}
 
 	private static JSONArray _getCommonFieldsItemsJSONArray(Locale locale) {
-		return JSONUtil.putAll(
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "author-name")
+		List<AssetEntryCommonField> assetEntryCommonFields = ListUtil.fromArray(
+			AssetEntryCommonField.values());
+
+		ListUtil.sort(
+			assetEntryCommonFields,
+			Comparator.comparing(
+				assetEntryCommonField -> LanguageUtil.get(
+					locale, assetEntryCommonField.getLabelKey())));
+
+		return JSONUtil.toJSONArray(
+			assetEntryCommonFields,
+			assetEntryCommonField -> JSONUtil.put(
+				"label",
+				LanguageUtil.get(locale, assetEntryCommonField.getLabelKey())
 			).put(
-				"name", Field.USER_NAME
+				"name", assetEntryCommonField.getName()
 			).put(
-				"type", "text"
+				"sortable", assetEntryCommonField.isSortable()
+			).put(
+				"type", assetEntryCommonField.getType()
 			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "created-date")
-			).put(
-				"name", Field.CREATE_DATE
-			).put(
-				"type", "date"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "display-date")
-			).put(
-				"name", Field.DISPLAY_DATE
-			).put(
-				"type", "date"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "expiration-date")
-			).put(
-				"name", Field.EXPIRATION_DATE
-			).put(
-				"type", "date"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "external-reference-code")
-			).put(
-				"name", "externalReferenceCode"
-			).put(
-				"type", "text"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "modified-date")
-			).put(
-				"name", Field.MODIFIED_DATE
-			).put(
-				"type", "date"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "priority")
-			).put(
-				"name", Field.PRIORITY
-			).put(
-				"type", "decimal"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "publish-date")
-			).put(
-				"name", Field.PUBLISH_DATE
-			).put(
-				"type", "date"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "review-date")
-			).put(
-				"name", Field.REVIEW_DATE
-			).put(
-				"type", "date"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "status")
-			).put(
-				"name", Field.STATUS
-			).put(
-				"type", "integer"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "title")
-			).put(
-				"name", Field.TITLE
-			).put(
-				"type", "text"
-			),
-			JSONUtil.put(
-				"label", LanguageUtil.get(locale, "view-count")
-			).put(
-				"name", "viewCount"
-			).put(
-				"type", "integer"
-			));
+			_log);
 	}
 
 	private static JSONArray _getItemsJSONArray(
