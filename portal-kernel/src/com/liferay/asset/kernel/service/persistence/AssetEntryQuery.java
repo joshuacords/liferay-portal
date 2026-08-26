@@ -47,7 +47,7 @@ public class AssetEntryQuery {
 			((orderByCol != null) &&
 			 (orderByCol.equals(Field.MODIFIED_DATE) ||
 			  orderByCol.startsWith(
-				 DDMStructureManager.STRUCTURE_INDEXER_FIELD_PREFIX) ||
+				  DDMStructureManager.STRUCTURE_INDEXER_FIELD_PREFIX) ||
 			  orderByCol.startsWith("nestedFieldArray.")))) {
 
 			return orderByCol;

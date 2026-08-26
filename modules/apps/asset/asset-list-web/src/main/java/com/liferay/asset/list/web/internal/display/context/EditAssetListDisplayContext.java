@@ -786,7 +786,8 @@ public class EditAssetListDisplayContext {
 		}
 
 		_orderByColumn1 = GetterUtil.getString(
-			_unicodeProperties.getProperty("orderByColumn1", Field.MODIFIED_DATE));
+			_unicodeProperties.getProperty(
+				"orderByColumn1", Field.MODIFIED_DATE));
 
 		return _orderByColumn1;
 	}
