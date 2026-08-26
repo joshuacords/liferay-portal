@@ -5,6 +5,7 @@
 
 package com.liferay.asset.list.internal.util;
 
+import com.liferay.asset.util.AssetEntryCommonField;
 import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.model.ObjectField;
 import com.liferay.petra.string.CharPool;
@@ -25,7 +26,6 @@ import com.liferay.portal.kernel.search.TermRangeQuery;
 import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -34,7 +34,6 @@ import java.text.Format;
 
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -91,11 +90,14 @@ public class AssetListFiltersUtil {
 	private static String _getCommonFieldName(
 		Locale locale, String propertyName) {
 
-		if (!_commonFieldTypesMap.containsKey(propertyName)) {
+		AssetEntryCommonField assetEntryCommonField =
+			AssetEntryCommonField.fetchByName(propertyName);
+
+		if (assetEntryCommonField == null) {
 			return null;
 		}
 
-		if (_localizedCommonFieldNames.contains(propertyName)) {
+		if (assetEntryCommonField.isLocalized()) {
 			return Field.getLocalizedName(locale, "localized_" + propertyName);
 		}
 
@@ -103,7 +105,14 @@ public class AssetListFiltersUtil {
 	}
 
 	private static String _getCommonFieldType(String propertyName) {
-		return _commonFieldTypesMap.get(propertyName);
+		AssetEntryCommonField assetEntryCommonField =
+			AssetEntryCommonField.fetchByName(propertyName);
+
+		if (assetEntryCommonField == null) {
+			return null;
+		}
+
+		return assetEntryCommonField.getType();
 	}
 
 	private static boolean _isCommonFieldRow(JSONObject jsonObject) {
@@ -119,6 +128,17 @@ public class AssetListFiltersUtil {
 	private static boolean _isDateTimeField(ObjectField objectField) {
 		return ObjectFieldConstants.DB_TYPE_DATE_TIME.equals(
 			objectField.getDBType());
+	}
+
+	private static boolean _isLocalizedCommonField(String propertyName) {
+		AssetEntryCommonField assetEntryCommonField =
+			AssetEntryCommonField.fetchByName(propertyName);
+
+		if (assetEntryCommonField == null) {
+			return false;
+		}
+
+		return assetEntryCommonField.isLocalized();
 	}
 
 	private static boolean _isNegatedOperator(String operatorName) {
@@ -182,9 +202,8 @@ public class AssetListFiltersUtil {
 			jsonObject.getString("operatorName"), "contains");
 
 		return _toCommonFieldValueQuery(
-			commonFieldName, jsonObject,
-			_localizedCommonFieldNames.contains(propertyName), operatorName,
-			commonFieldType);
+			commonFieldName, jsonObject, _isLocalizedCommonField(propertyName),
+			operatorName, commonFieldType);
 	}
 
 	private static Query _toCommonFieldValueQuery(
@@ -480,36 +499,6 @@ public class AssetListFiltersUtil {
 
 	private static final String _TYPE_INTEGER = "integer";
 
-	private static final String _TYPE_TEXT = "text";
-
-	private static final Map<String, String> _commonFieldTypesMap =
-		HashMapBuilder.put(
-			Field.CREATE_DATE, _TYPE_DATE
-		).put(
-			Field.DISPLAY_DATE, _TYPE_DATE
-		).put(
-			Field.EXPIRATION_DATE, _TYPE_DATE
-		).put(
-			Field.MODIFIED_DATE, _TYPE_DATE
-		).put(
-			Field.PRIORITY, _TYPE_DECIMAL
-		).put(
-			Field.PUBLISH_DATE, _TYPE_DATE
-		).put(
-			Field.REVIEW_DATE, _TYPE_DATE
-		).put(
-			Field.STATUS, _TYPE_INTEGER
-		).put(
-			Field.TITLE, _TYPE_TEXT
-		).put(
-			Field.USER_NAME, _TYPE_TEXT
-		).put(
-			"externalReferenceCode", _TYPE_TEXT
-		).put(
-			"viewCount", _TYPE_INTEGER
-		).build();
-	private static final Set<String> _localizedCommonFieldNames =
-		SetUtil.fromArray(Field.TITLE);
 	private static final Set<String> _relativeDateValues = SetUtil.fromArray(
 		"last-year", "next-month", "now", "past-24-hours", "past-day",
 		"past-month", "past-week", "past-year");
