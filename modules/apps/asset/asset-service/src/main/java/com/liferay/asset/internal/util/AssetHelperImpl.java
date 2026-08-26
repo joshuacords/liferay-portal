@@ -18,6 +18,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.AssetTagLocalService;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.asset.util.AssetEntryCommonField;
 import com.liferay.asset.util.AssetHelper;
 import com.liferay.asset.util.AssetPublisherAddItemHolder;
 import com.liferay.dynamic.data.mapping.util.DDMIndexer;
@@ -600,12 +601,22 @@ public class AssetHelperImpl implements AssetHelper {
 	}
 
 	private String _getOrderByCol(String sortField, Locale locale) {
-		if (sortField.equals("modifiedDate")) {
-			sortField = Field.MODIFIED_DATE;
+		AssetEntryCommonField assetEntryCommonField =
+			AssetEntryCommonField.fetchByName(sortField);
+
+		if (assetEntryCommonField != null) {
+			if (!assetEntryCommonField.isLocalized()) {
+				return sortField;
+			}
+
+			return Field.getSortableFieldName(
+				StringBundler.concat(
+					"localized_", sortField, StringPool.UNDERLINE,
+					LocaleUtil.toLanguageId(locale)));
 		}
-		else if (sortField.equals("title")) {
-			sortField = Field.getSortableFieldName(
-				"localized_title_".concat(LocaleUtil.toLanguageId(locale)));
+
+		if (sortField.equals("modifiedDate")) {
+			return Field.MODIFIED_DATE;
 		}
 
 		return sortField;
