@@ -690,24 +690,18 @@ public class AssetHelperImpl implements AssetHelper {
 	}
 
 	private int _getSortType(String fieldType) {
-		int sortType = Sort.STRING_TYPE;
+		AssetEntryCommonField assetEntryCommonField =
+			AssetEntryCommonField.fetchByName(fieldType);
 
-		if (fieldType.equals(Field.CREATE_DATE) ||
-			fieldType.equals(Field.EXPIRATION_DATE) ||
-			fieldType.equals(Field.MODIFIED_DATE) ||
-			fieldType.equals(Field.PUBLISH_DATE) ||
-			fieldType.equals("modifiedDate")) {
-
-			sortType = Sort.LONG_TYPE;
-		}
-		else if (fieldType.equals(Field.PRIORITY)) {
-			sortType = Sort.DOUBLE_TYPE;
-		}
-		else if (fieldType.equals("viewCount")) {
-			sortType = Sort.INT_TYPE;
+		if (assetEntryCommonField != null) {
+			return assetEntryCommonField.getSortType();
 		}
 
-		return sortType;
+		if (fieldType.equals("modifiedDate")) {
+			return Sort.LONG_TYPE;
+		}
+
+		return Sort.STRING_TYPE;
 	}
 
 	private void _prepareSearchContext(
