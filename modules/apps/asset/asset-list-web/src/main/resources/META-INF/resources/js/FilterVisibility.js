@@ -20,13 +20,17 @@ export default function ({namespace}) {
 		const selectedOption =
 			assetSelector.options[assetSelector.selectedIndex];
 
-		const isSingleCMSType =
-			!!selectedOption && selectedOption.dataset.cms === 'true';
+		// Only an object type has fields to offer the collection filter
+		// builder. Every other item type keeps the asset filter builder, which
+		// still covers the structure field conditions they rely on.
+
+		const isSingleObjectType =
+			!!selectedOption && selectedOption.dataset.object === 'true';
 
 		const isMultiSelection =
 			assetSelector.value === 'false' || assetSelector.value === 'true';
 
-		const showCollection = isSingleCMSType || isMultiSelection;
+		const showCollection = isSingleObjectType || isMultiSelection;
 
 		assetWrapper.classList.toggle('hide', showCollection);
 		collectionWrapper.classList.toggle('hide', !showCollection);
