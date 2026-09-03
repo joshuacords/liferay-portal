@@ -8,7 +8,10 @@ package com.liferay.object.related.entry.internal.deployer;
 import com.liferay.object.deployer.ObjectDefinitionDeployer;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.related.entry.internal.helper.ObjectRelatedEntryHelper;
+import com.liferay.object.related.entry.internal.search.ObjectEntryRelatedEntryIndexer;
 import com.liferay.object.related.entry.internal.search.spi.model.index.contributor.ObjectEntryRelatedEntryModelDocumentContributor;
+import com.liferay.object.service.ObjectEntryLocalService;
+import com.liferay.portal.kernel.search.RelatedEntryIndexer;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -48,6 +51,15 @@ public class ObjectRelatedEntryObjectDefinitionDeployer
 					_objectRelatedEntryHelper, _portal),
 				HashMapDictionaryBuilder.<String, Object>put(
 					"indexer.class.name", objectDefinition.getClassName()
+				).build()),
+			_bundleContext.registerService(
+				RelatedEntryIndexer.class,
+				new ObjectEntryRelatedEntryIndexer(
+					objectDefinition, _objectEntryLocalService,
+					_objectRelatedEntryHelper),
+				HashMapDictionaryBuilder.<String, Object>put(
+					"related.entry.indexer.class.name",
+					objectDefinition.getClassName()
 				).build()));
 	}
 
@@ -57,6 +69,9 @@ public class ObjectRelatedEntryObjectDefinitionDeployer
 	}
 
 	private BundleContext _bundleContext;
+
+	@Reference
+	private ObjectEntryLocalService _objectEntryLocalService;
 
 	@Reference
 	private ObjectRelatedEntryHelper _objectRelatedEntryHelper;
