@@ -1,0 +1,5 @@
+Bundle-Name: Liferay Object Related Entry API
+Bundle-SymbolicName: com.liferay.object.related.entry.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.object.related.entry.constants
