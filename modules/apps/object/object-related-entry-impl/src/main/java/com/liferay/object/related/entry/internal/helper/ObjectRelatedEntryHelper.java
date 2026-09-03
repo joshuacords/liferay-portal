@@ -29,11 +29,40 @@ import org.osgi.service.component.annotations.Reference;
 @Component(service = ObjectRelatedEntryHelper.class)
 public class ObjectRelatedEntryHelper {
 
+	public ObjectDefinition fetchChildObjectDefinition(
+		ObjectRelationship objectRelationship) {
+
+		return _fetchRelatedEntryObjectDefinition(
+			objectRelationship.getObjectDefinitionId2());
+	}
+
 	public ObjectDefinition fetchParentObjectDefinition(
 		ObjectRelationship objectRelationship) {
 
 		return _fetchRelatedEntryObjectDefinition(
 			objectRelationship.getObjectDefinitionId1());
+	}
+
+	public List<ObjectRelationship> getChildObjectRelationships(
+		ObjectDefinition objectDefinition) {
+
+		List<ObjectRelationship> objectRelationships = new ArrayList<>();
+
+		for (ObjectRelationship objectRelationship :
+				_objectRelationshipLocalService.getObjectRelationships(
+					objectDefinition.getObjectDefinitionId(), false,
+					ObjectRelationshipConstants.TYPE_ONE_TO_MANY)) {
+
+			if (fetchChildObjectDefinition(objectRelationship) == null) {
+				continue;
+			}
+
+			objectRelationships.add(objectRelationship);
+		}
+
+		return ListUtil.sort(
+			objectRelationships,
+			Comparator.comparing(ObjectRelationship::getName));
 	}
 
 	public long getParentObjectEntryId(
