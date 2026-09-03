@@ -1,0 +1,20 @@
+{
+	"object-entries": [
+		{
+			"externalReferenceCode": "QUESTION_GARBAGE_COLLECTOR",
+			"questionText": "Which garbage collector is the default in recent JDKs?",
+			"r_examToQuestions_c_examERC": "EXAM_JAVA"
+		},
+		{
+			"externalReferenceCode": "QUESTION_RECORDS",
+			"questionText": "What does a Java record generate for you?",
+			"r_examToQuestions_c_examERC": "EXAM_JAVA"
+		},
+		{
+			"externalReferenceCode": "QUESTION_INVERTED_INDEX",
+			"questionText": "What is an inverted index?",
+			"r_examToQuestions_c_examERC": "EXAM_SEARCH"
+		}
+	],
+	"objectDefinitionName": "Question"
+}

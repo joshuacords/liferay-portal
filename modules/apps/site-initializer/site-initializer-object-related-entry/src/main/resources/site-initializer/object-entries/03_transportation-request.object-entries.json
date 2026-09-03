@@ -1,0 +1,15 @@
+{
+	"object-entries": [
+		{
+			"destination": "Porto",
+			"externalReferenceCode": "TRANSPORTATION_REQUEST_PORTO",
+			"title": "Team offsite shuttle to Porto"
+		},
+		{
+			"destination": "Lisbon",
+			"externalReferenceCode": "TRANSPORTATION_REQUEST_LISBON",
+			"title": "Conference transfer to Lisbon"
+		}
+	],
+	"objectDefinitionName": "TransportationRequest"
+}

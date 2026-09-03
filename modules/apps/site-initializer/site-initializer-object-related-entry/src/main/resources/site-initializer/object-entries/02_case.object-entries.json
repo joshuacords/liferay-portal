@@ -1,0 +1,23 @@
+{
+	"object-entries": [
+		{
+			"description": "The printer on the third floor jams on every duplex job.",
+			"externalReferenceCode": "CASE_PRINTER_JAM",
+			"r_requestorToCases_c_requestorERC": "REQUESTOR_ADA_LOVELACE",
+			"subject": "Printer jam on the third floor"
+		},
+		{
+			"description": "The badge reader at the north entrance rejects valid badges.",
+			"externalReferenceCode": "CASE_BADGE_READER",
+			"r_requestorToCases_c_requestorERC": "REQUESTOR_ADA_LOVELACE",
+			"subject": "Badge reader rejects badges"
+		},
+		{
+			"description": "The VPN client disconnects every fifteen minutes.",
+			"externalReferenceCode": "CASE_VPN_DROPS",
+			"r_requestorToCases_c_requestorERC": "REQUESTOR_GRACE_HOPPER",
+			"subject": "VPN disconnects periodically"
+		}
+	],
+	"objectDefinitionName": "Case"
+}
