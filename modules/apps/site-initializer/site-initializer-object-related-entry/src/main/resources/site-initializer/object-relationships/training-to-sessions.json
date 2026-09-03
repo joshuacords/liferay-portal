@@ -1,0 +1,12 @@
+{
+	"deletionType": "disassociate",
+	"externalReferenceCode": "PTR_9173_TRAINING_TO_SESSIONS",
+	"label": {
+		"en_US": "Sessions"
+	},
+	"name": "trainingToSessions",
+	"objectDefinitionId1": "[$OBJECT_DEFINITION_ID:Training$]",
+	"objectDefinitionId2": "[$OBJECT_DEFINITION_ID:Session$]",
+	"objectDefinitionName2": "Session",
+	"type": "oneToMany"
+}

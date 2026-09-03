@@ -1,0 +1,15 @@
+{
+	"object-entries": [
+		{
+			"email": "ada.lovelace@example.com",
+			"externalReferenceCode": "REQUESTOR_ADA_LOVELACE",
+			"name": "Ada Lovelace"
+		},
+		{
+			"email": "grace.hopper@example.com",
+			"externalReferenceCode": "REQUESTOR_GRACE_HOPPER",
+			"name": "Grace Hopper"
+		}
+	],
+	"objectDefinitionName": "Requestor"
+}

@@ -1,0 +1,15 @@
+{
+	"object-entries": [
+		{
+			"description": "Final exam of the Java certification track.",
+			"externalReferenceCode": "EXAM_JAVA",
+			"title": "Java certification"
+		},
+		{
+			"description": "Final exam of the search architecture track.",
+			"externalReferenceCode": "EXAM_SEARCH",
+			"title": "Search architecture"
+		}
+	],
+	"objectDefinitionName": "Exam"
+}

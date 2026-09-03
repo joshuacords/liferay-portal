@@ -1,0 +1,41 @@
+{
+	"enableIndexSearch": true,
+	"externalReferenceCode": "PTR_9173_ENGINE_TYPE",
+	"label": {
+		"en_US": "Engine Type"
+	},
+	"name": "EngineType",
+	"objectFields": [
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Fuel"
+			},
+			"name": "fuel",
+			"required": false
+		},
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Name"
+			},
+			"name": "name",
+			"required": true
+		}
+	],
+	"panelCategoryKey": "site_administration.content",
+	"pluralLabel": {
+		"en_US": "Engine Types"
+	},
+	"portlet": true,
+	"scope": "site",
+	"titleObjectFieldName": "name"
+}
