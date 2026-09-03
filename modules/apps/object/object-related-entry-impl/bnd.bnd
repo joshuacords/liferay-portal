@@ -1,0 +1,3 @@
+Bundle-Name: Liferay Object Related Entry Implementation
+Bundle-SymbolicName: com.liferay.object.related.entry.impl
+Bundle-Version: 1.0.0
