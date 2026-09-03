@@ -16,4 +16,9 @@ public class ObjectRelatedEntryConstants {
 	public static final String ATTRIBUTE_OBJECT_RELATED_ENTRY_HOST_CLASS_NAMES =
 		"objectRelatedEntryHostClassNames";
 
+	public static final String FIELD_RELATED_ENTRY_ANCESTOR_KEYS =
+		"relatedEntryAncestorKeys";
+
+	public static final int MAX_DEPTH = 2;
+
 }
