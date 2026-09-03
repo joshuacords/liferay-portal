@@ -8,6 +8,7 @@ package com.liferay.object.related.entry.internal.search;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.ObjectRelationship;
+import com.liferay.object.related.entry.constants.ObjectRelatedEntryConstants;
 import com.liferay.object.related.entry.internal.helper.ObjectRelatedEntryHelper;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.portal.kernel.search.BaseRelatedEntryIndexer;
@@ -49,6 +50,30 @@ public class ObjectEntryRelatedEntryIndexer extends BaseRelatedEntryIndexer {
 			return false;
 		}
 
+		return _isVisible(objectEntry, objectRelationships, status, 0);
+	}
+
+	private boolean _isVisible(int entryStatus, int queryStatus) {
+		if (((queryStatus != WorkflowConstants.STATUS_ANY) &&
+			 (entryStatus == queryStatus)) ||
+			(entryStatus != WorkflowConstants.STATUS_IN_TRASH)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean _isVisible(
+		ObjectEntry objectEntry, List<ObjectRelationship> objectRelationships,
+		int status, int depth) {
+
+		if ((depth >= ObjectRelatedEntryConstants.MAX_DEPTH) ||
+			objectRelationships.isEmpty()) {
+
+			return true;
+		}
+
 		for (ObjectRelationship objectRelationship : objectRelationships) {
 			long parentObjectEntryId =
 				_objectRelatedEntryHelper.getParentObjectEntryId(
@@ -62,24 +87,19 @@ public class ObjectEntryRelatedEntryIndexer extends BaseRelatedEntryIndexer {
 				_objectEntryLocalService.fetchObjectEntry(parentObjectEntryId);
 
 			if ((parentObjectEntry == null) ||
-				!_isVisible(parentObjectEntry.getStatus(), status)) {
+				!_isVisible(parentObjectEntry.getStatus(), status) ||
+				!_isVisible(
+					parentObjectEntry,
+					_objectRelatedEntryHelper.getParentObjectRelationships(
+						_objectRelatedEntryHelper.fetchParentObjectDefinition(
+							objectRelationship)),
+					status, depth + 1)) {
 
 				return false;
 			}
 		}
 
 		return true;
-	}
-
-	private boolean _isVisible(int entryStatus, int queryStatus) {
-		if (((queryStatus != WorkflowConstants.STATUS_ANY) &&
-			 (entryStatus == queryStatus)) ||
-			(entryStatus != WorkflowConstants.STATUS_IN_TRASH)) {
-
-			return true;
-		}
-
-		return false;
 	}
 
 	private final ObjectDefinition _objectDefinition;

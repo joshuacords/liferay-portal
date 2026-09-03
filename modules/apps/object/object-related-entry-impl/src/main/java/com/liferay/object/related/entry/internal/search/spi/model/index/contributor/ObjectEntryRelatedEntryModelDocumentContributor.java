@@ -8,15 +8,20 @@ package com.liferay.object.related.entry.internal.search.spi.model.index.contrib
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.ObjectRelationship;
+import com.liferay.object.related.entry.constants.ObjectRelatedEntryConstants;
 import com.liferay.object.related.entry.internal.helper.ObjectRelatedEntryHelper;
+import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.DocumentHelper;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
+
+import java.util.List;
 
 /**
  * @author Joshua Cords
@@ -78,8 +83,21 @@ public class ObjectEntryRelatedEntryModelDocumentContributor
 
 			document.addKeyword(Field.RELATED_ENTRY, true);
 
+			break;
+		}
+
+		List<ObjectEntry> ancestorObjectEntries =
+			_objectRelatedEntryHelper.getAncestorObjectEntries(objectEntry);
+
+		if (ListUtil.isEmpty(ancestorObjectEntries)) {
 			return;
 		}
+
+		document.addKeyword(
+			ObjectRelatedEntryConstants.FIELD_RELATED_ENTRY_ANCESTOR_KEYS,
+			TransformUtil.transformToArray(
+				ancestorObjectEntries,
+				_objectRelatedEntryHelper::getRelatedEntryKey, String.class));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

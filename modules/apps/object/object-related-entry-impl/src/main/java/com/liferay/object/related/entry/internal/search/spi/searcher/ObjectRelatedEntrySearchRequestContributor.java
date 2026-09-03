@@ -6,7 +6,6 @@
 package com.liferay.object.related.entry.internal.search.spi.searcher;
 
 import com.liferay.object.model.ObjectDefinition;
-import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.related.entry.constants.ObjectRelatedEntryConstants;
 import com.liferay.object.related.entry.internal.helper.ObjectRelatedEntryHelper;
 import com.liferay.object.service.ObjectDefinitionLocalService;
@@ -70,15 +69,11 @@ public class ObjectRelatedEntrySearchRequestContributor
 				continue;
 			}
 
-			for (ObjectRelationship objectRelationship :
-					_objectRelatedEntryHelper.getChildObjectRelationships(
+			for (ObjectDefinition descendantObjectDefinition :
+					_objectRelatedEntryHelper.getDescendantObjectDefinitions(
 						objectDefinition)) {
 
-				ObjectDefinition childObjectDefinition =
-					_objectRelatedEntryHelper.fetchChildObjectDefinition(
-						objectRelationship);
-
-				entryClassNames.add(childObjectDefinition.getClassName());
+				entryClassNames.add(descendantObjectDefinition.getClassName());
 			}
 		}
 

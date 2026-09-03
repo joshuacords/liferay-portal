@@ -9,10 +9,12 @@ import com.liferay.object.related.entry.constants.ObjectRelatedEntryConstants;
 import com.liferay.object.related.entry.search.ObjectRelatedEntrySearchResponse;
 import com.liferay.object.related.entry.search.ObjectRelatedEntrySearchResult;
 import com.liferay.object.related.entry.search.ObjectRelatedEntrySearcher;
+import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.hits.SearchHit;
 import com.liferay.portal.search.hits.SearchHits;
@@ -142,6 +144,29 @@ public class ObjectRelatedEntrySearcherImpl
 			return null;
 		}
 
+		for (String ancestorKey :
+				document.getStrings(
+					ObjectRelatedEntryConstants.
+						FIELD_RELATED_ENTRY_ANCESTOR_KEYS)) {
+
+			String[] ancestorKeyParts = StringUtil.split(
+				ancestorKey, CharPool.DASH);
+
+			if (ancestorKeyParts.length != 2) {
+				continue;
+			}
+
+			long classNameId = GetterUtil.getLong(ancestorKeyParts[0]);
+
+			if (!hostClassNameIds.contains(classNameId)) {
+				continue;
+			}
+
+			return new ObjectRelatedEntrySearchResult(
+				_portal.getClassName(classNameId),
+				GetterUtil.getLong(ancestorKeyParts[1]));
+		}
+
 		long classNameId = GetterUtil.getLong(
 			document.getLong(Field.CLASS_NAME_ID));
 		long classPK = GetterUtil.getLong(document.getLong(Field.CLASS_PK));
@@ -156,7 +181,8 @@ public class ObjectRelatedEntrySearcherImpl
 
 	private static final String[] _SELECTED_FIELD_NAMES = {
 		Field.CLASS_NAME_ID, Field.CLASS_PK, Field.ENTRY_CLASS_NAME,
-		Field.ENTRY_CLASS_PK, Field.RELATED_ENTRY
+		Field.ENTRY_CLASS_PK, Field.RELATED_ENTRY,
+		ObjectRelatedEntryConstants.FIELD_RELATED_ENTRY_ANCESTOR_KEYS
 	};
 
 	@Reference
