@@ -1,0 +1,41 @@
+{
+	"enableIndexSearch": true,
+	"externalReferenceCode": "PTR_9173_REQUESTOR",
+	"label": {
+		"en_US": "Requestor"
+	},
+	"name": "Requestor",
+	"objectFields": [
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": false,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "",
+			"label": {
+				"en_US": "Email"
+			},
+			"name": "email",
+			"required": false
+		},
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Name"
+			},
+			"name": "name",
+			"required": true
+		}
+	],
+	"panelCategoryKey": "site_administration.content",
+	"pluralLabel": {
+		"en_US": "Requestors"
+	},
+	"portlet": true,
+	"scope": "site",
+	"titleObjectFieldName": "name"
+}

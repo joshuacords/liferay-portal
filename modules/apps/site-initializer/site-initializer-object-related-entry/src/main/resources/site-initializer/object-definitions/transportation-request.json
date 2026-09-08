@@ -1,0 +1,41 @@
+{
+	"enableIndexSearch": true,
+	"externalReferenceCode": "PTR_9173_TRANSPORTATION_REQUEST",
+	"label": {
+		"en_US": "Transportation Request"
+	},
+	"name": "TransportationRequest",
+	"objectFields": [
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Destination"
+			},
+			"name": "destination",
+			"required": false
+		},
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Title"
+			},
+			"name": "title",
+			"required": true
+		}
+	],
+	"panelCategoryKey": "site_administration.content",
+	"pluralLabel": {
+		"en_US": "Transportation Requests"
+	},
+	"portlet": true,
+	"scope": "site",
+	"titleObjectFieldName": "title"
+}

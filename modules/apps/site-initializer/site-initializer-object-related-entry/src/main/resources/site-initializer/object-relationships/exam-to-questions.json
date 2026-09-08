@@ -1,0 +1,12 @@
+{
+	"deletionType": "cascade",
+	"externalReferenceCode": "PTR_9173_EXAM_TO_QUESTIONS",
+	"label": {
+		"en_US": "Questions"
+	},
+	"name": "examToQuestions",
+	"objectDefinitionId1": "[$OBJECT_DEFINITION_ID:Exam$]",
+	"objectDefinitionId2": "[$OBJECT_DEFINITION_ID:Question$]",
+	"objectDefinitionName2": "Question",
+	"type": "oneToMany"
+}

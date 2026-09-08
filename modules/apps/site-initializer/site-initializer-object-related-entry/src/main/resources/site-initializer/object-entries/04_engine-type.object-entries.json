@@ -1,0 +1,23 @@
+{
+	"object-entries": [
+		{
+			"externalReferenceCode": "ENGINE_TYPE_DIESEL_SHUTTLE",
+			"fuel": "Diesel",
+			"name": "Diesel minibus",
+			"r_requestToEngineTypes_c_transportationRequestERC": "TRANSPORTATION_REQUEST_PORTO"
+		},
+		{
+			"externalReferenceCode": "ENGINE_TYPE_ELECTRIC_VAN",
+			"fuel": "Electric",
+			"name": "Electric van",
+			"r_requestToEngineTypes_c_transportationRequestERC": "TRANSPORTATION_REQUEST_PORTO"
+		},
+		{
+			"externalReferenceCode": "ENGINE_TYPE_HYBRID_COACH",
+			"fuel": "Hybrid",
+			"name": "Hybrid coach",
+			"r_requestToEngineTypes_c_transportationRequestERC": "TRANSPORTATION_REQUEST_LISBON"
+		}
+	],
+	"objectDefinitionName": "EngineType"
+}

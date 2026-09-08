@@ -1,0 +1,12 @@
+{
+	"deletionType": "cascade",
+	"externalReferenceCode": "PTR_9173_REQUESTOR_TO_CASES",
+	"label": {
+		"en_US": "Cases"
+	},
+	"name": "requestorToCases",
+	"objectDefinitionId1": "[$OBJECT_DEFINITION_ID:Requestor$]",
+	"objectDefinitionId2": "[$OBJECT_DEFINITION_ID:Case$]",
+	"objectDefinitionName2": "Case",
+	"type": "oneToMany"
+}

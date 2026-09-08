@@ -1,0 +1,12 @@
+{
+	"deletionType": "disassociate",
+	"externalReferenceCode": "PTR_9173_REQUEST_TO_ENGINE_TYPES",
+	"label": {
+		"en_US": "Engine Types"
+	},
+	"name": "requestToEngineTypes",
+	"objectDefinitionId1": "[$OBJECT_DEFINITION_ID:TransportationRequest$]",
+	"objectDefinitionId2": "[$OBJECT_DEFINITION_ID:EngineType$]",
+	"objectDefinitionName2": "EngineType",
+	"type": "oneToMany"
+}

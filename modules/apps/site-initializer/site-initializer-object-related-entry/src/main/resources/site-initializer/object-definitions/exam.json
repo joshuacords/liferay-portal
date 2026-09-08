@@ -1,0 +1,41 @@
+{
+	"enableIndexSearch": true,
+	"externalReferenceCode": "PTR_9173_EXAM",
+	"label": {
+		"en_US": "Exam"
+	},
+	"name": "Exam",
+	"objectFields": [
+		{
+			"DBType": "Clob",
+			"businessType": "LongText",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Description"
+			},
+			"name": "description",
+			"required": false
+		},
+		{
+			"DBType": "String",
+			"businessType": "Text",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Title"
+			},
+			"name": "title",
+			"required": true
+		}
+	],
+	"panelCategoryKey": "site_administration.content",
+	"pluralLabel": {
+		"en_US": "Exams"
+	},
+	"portlet": true,
+	"scope": "site",
+	"titleObjectFieldName": "title"
+}

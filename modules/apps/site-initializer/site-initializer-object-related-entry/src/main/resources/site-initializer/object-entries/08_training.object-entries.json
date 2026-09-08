@@ -1,0 +1,15 @@
+{
+	"object-entries": [
+		{
+			"description": "Hands-on training on Liferay Objects.",
+			"externalReferenceCode": "TRAINING_OBJECTS",
+			"title": "Objects fundamentals"
+		},
+		{
+			"description": "Deep dive into the Liferay search stack.",
+			"externalReferenceCode": "TRAINING_SEARCH",
+			"title": "Search deep dive"
+		}
+	],
+	"objectDefinitionName": "Training"
+}

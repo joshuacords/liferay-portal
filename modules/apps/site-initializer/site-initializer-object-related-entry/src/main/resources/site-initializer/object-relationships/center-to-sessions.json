@@ -1,0 +1,12 @@
+{
+	"deletionType": "disassociate",
+	"externalReferenceCode": "PTR_9173_CENTER_TO_SESSIONS",
+	"label": {
+		"en_US": "Sessions"
+	},
+	"name": "centerToSessions",
+	"objectDefinitionId1": "[$OBJECT_DEFINITION_ID:Center$]",
+	"objectDefinitionId2": "[$OBJECT_DEFINITION_ID:Session$]",
+	"objectDefinitionName2": "Session",
+	"type": "oneToMany"
+}
