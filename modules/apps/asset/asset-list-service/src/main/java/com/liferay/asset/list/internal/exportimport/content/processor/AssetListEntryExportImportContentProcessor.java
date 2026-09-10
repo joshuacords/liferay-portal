@@ -10,6 +10,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.list.constants.AssetListConstants;
+import com.liferay.asset.list.internal.util.AssetListFiltersUpgradeUtil;
 import com.liferay.asset.util.AssetRendererFactoryClassProvider;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
@@ -24,6 +25,9 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -178,6 +182,22 @@ public class AssetListEntryExportImportContentProcessor
 			}
 		}
 
+		for (long categoryId :
+				_getFiltersAssetCategoryIds(
+					unicodeProperties.getProperty("filters"))) {
+
+			AssetCategory assetCategory =
+				_assetCategoryLocalService.fetchAssetCategory(categoryId);
+
+			if (assetCategory == null) {
+				continue;
+			}
+
+			StagedModelDataHandlerUtil.exportReferenceStagedModel(
+				portletDataContext, stagedModel, assetCategory,
+				PortletDataContext.REFERENCE_TYPE_DEPENDENCY);
+		}
+
 		return unicodeProperties.toString();
 	}
 
@@ -186,6 +206,13 @@ public class AssetListEntryExportImportContentProcessor
 			PortletDataContext portletDataContext, StagedModel stagedModel,
 			String content)
 		throws Exception {
+
+		String upgradedContent =
+			AssetListFiltersUpgradeUtil.toUpgradedTypeSettings(content);
+
+		if (upgradedContent != null) {
+			content = upgradedContent;
+		}
 
 		UnicodeProperties unicodeProperties = UnicodePropertiesBuilder.load(
 			content
@@ -325,6 +352,18 @@ public class AssetListEntryExportImportContentProcessor
 				String.valueOf(newAnyClassType));
 		}
 
+		Map<Long, Long> categoryIdMap =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				AssetCategory.class);
+
+		String filtersJSON = unicodeProperties.getProperty("filters");
+
+		if (Validator.isNotNull(filtersJSON)) {
+			unicodeProperties.setProperty(
+				"filters",
+				_replaceFiltersAssetCategoryIds(categoryIdMap, filtersJSON));
+		}
+
 		for (Map.Entry<String, String> entry : unicodeProperties.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
@@ -344,11 +383,7 @@ public class AssetListEntryExportImportContentProcessor
 				long[] categoryIds = GetterUtil.getLongValues(
 					queryValues.split(","));
 
-				long[] newCategoryIds = new long[categoryIds.length];
-
-				Map<Long, Long> categoryIdMap =
-					(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-						AssetCategory.class);
+				long[] newCategoryIds = new long[0];
 
 				for (long categoryId : categoryIds) {
 					long newCategoryId = MapUtil.getLong(
@@ -457,6 +492,120 @@ public class AssetListEntryExportImportContentProcessor
 		return classTypeId;
 	}
 
+	private long[] _getFiltersAssetCategoryIds(String filtersJSON) {
+		JSONArray filtersJSONArray = _toFiltersJSONArray(filtersJSON);
+
+		if (filtersJSONArray == null) {
+			return new long[0];
+		}
+
+		long[] categoryIds = new long[0];
+
+		for (int i = 0; i < filtersJSONArray.length(); i++) {
+			JSONObject filterJSONObject = filtersJSONArray.getJSONObject(i);
+
+			if ((filterJSONObject == null) ||
+				!Objects.equals(
+					filterJSONObject.getString("propertyName"),
+					"assetCategories")) {
+
+				continue;
+			}
+
+			JSONArray valueJSONArray = filterJSONObject.getJSONArray("value");
+
+			if (valueJSONArray == null) {
+				continue;
+			}
+
+			for (int j = 0; j < valueJSONArray.length(); j++) {
+				JSONObject valueJSONObject = valueJSONArray.getJSONObject(j);
+
+				if (valueJSONObject == null) {
+					continue;
+				}
+
+				long categoryId = GetterUtil.getLong(
+					valueJSONObject.getString("value"));
+
+				if (categoryId > 0) {
+					categoryIds = ArrayUtil.append(categoryIds, categoryId);
+				}
+			}
+		}
+
+		return categoryIds;
+	}
+
+	private String _replaceFiltersAssetCategoryIds(
+		Map<Long, Long> categoryIdMap, String filtersJSON) {
+
+		JSONArray filtersJSONArray = _toFiltersJSONArray(filtersJSON);
+
+		if (filtersJSONArray == null) {
+			return filtersJSON;
+		}
+
+		for (int i = 0; i < filtersJSONArray.length(); i++) {
+			JSONObject filterJSONObject = filtersJSONArray.getJSONObject(i);
+
+			if ((filterJSONObject == null) ||
+				!Objects.equals(
+					filterJSONObject.getString("propertyName"),
+					"assetCategories")) {
+
+				continue;
+			}
+
+			JSONArray valueJSONArray = filterJSONObject.getJSONArray("value");
+
+			if (valueJSONArray == null) {
+				continue;
+			}
+
+			for (int j = 0; j < valueJSONArray.length(); j++) {
+				JSONObject valueJSONObject = valueJSONArray.getJSONObject(j);
+
+				if (valueJSONObject == null) {
+					continue;
+				}
+
+				long categoryId = GetterUtil.getLong(
+					valueJSONObject.getString("value"));
+
+				if (categoryId <= 0) {
+					continue;
+				}
+
+				valueJSONObject.put(
+					"value",
+					String.valueOf(
+						MapUtil.getLong(
+							categoryIdMap, categoryId, categoryId)));
+			}
+		}
+
+		return filtersJSONArray.toString();
+	}
+
+	private JSONArray _toFiltersJSONArray(String filtersJSON) {
+		if (Validator.isNull(filtersJSON)) {
+			return null;
+		}
+
+		try {
+			return _jsonFactory.createJSONArray(filtersJSON);
+		}
+		catch (Exception exception) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Unable to parse filters: " + filtersJSON, exception);
+			}
+
+			return null;
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		AssetListEntryExportImportContentProcessor.class);
 
@@ -475,6 +624,9 @@ public class AssetListEntryExportImportContentProcessor
 
 	@Reference(unbind = "-")
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private JSONFactory _jsonFactory;
 
 	@Reference
 	private Portal _portal;
