@@ -10,6 +10,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.list.constants.AssetListConstants;
+import com.liferay.asset.list.internal.util.AssetListFiltersUpgradeUtil;
 import com.liferay.asset.util.AssetRendererFactoryClassProvider;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
@@ -24,6 +25,9 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -40,6 +44,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.site.model.adapter.StagedGroup;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -178,6 +183,24 @@ public class AssetListEntryExportImportContentProcessor
 			}
 		}
 
+		for (JSONObject valueJSONObject :
+				_getAssetCategoryValueJSONObjects(
+					_toFiltersJSONArray(
+						unicodeProperties.getProperty("filters")))) {
+
+			AssetCategory assetCategory =
+				_assetCategoryLocalService.fetchAssetCategory(
+					valueJSONObject.getLong("value"));
+
+			if (assetCategory == null) {
+				continue;
+			}
+
+			StagedModelDataHandlerUtil.exportReferenceStagedModel(
+				portletDataContext, stagedModel, assetCategory,
+				PortletDataContext.REFERENCE_TYPE_DEPENDENCY);
+		}
+
 		return unicodeProperties.toString();
 	}
 
@@ -188,7 +211,9 @@ public class AssetListEntryExportImportContentProcessor
 		throws Exception {
 
 		UnicodeProperties unicodeProperties = UnicodePropertiesBuilder.load(
-			content
+			GetterUtil.getString(
+				AssetListFiltersUpgradeUtil.toUpgradedTypeSettings(content),
+				content)
 		).build();
 
 		Element rootElement = portletDataContext.getImportDataRootElement();
@@ -325,6 +350,32 @@ public class AssetListEntryExportImportContentProcessor
 				String.valueOf(newAnyClassType));
 		}
 
+		Map<Long, Long> categoryIds =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				AssetCategory.class);
+		JSONArray filtersJSONArray = _toFiltersJSONArray(
+			unicodeProperties.getProperty("filters"));
+
+		for (JSONObject valueJSONObject :
+				_getAssetCategoryValueJSONObjects(filtersJSONArray)) {
+
+			long categoryId = valueJSONObject.getLong("value");
+
+			if (categoryId <= 0) {
+				continue;
+			}
+
+			valueJSONObject.put(
+				"value",
+				String.valueOf(
+					MapUtil.getLong(categoryIds, categoryId, categoryId)));
+		}
+
+		if (filtersJSONArray.length() > 0) {
+			unicodeProperties.setProperty(
+				"filters", filtersJSONArray.toString());
+		}
+
 		for (Map.Entry<String, String> entry : unicodeProperties.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
@@ -341,21 +392,14 @@ public class AssetListEntryExportImportContentProcessor
 					continue;
 				}
 
-				long[] categoryIds = GetterUtil.getLongValues(
-					queryValues.split(","));
+				long[] newCategoryIds = new long[0];
 
-				long[] newCategoryIds = new long[categoryIds.length];
-
-				Map<Long, Long> categoryIdMap =
-					(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-						AssetCategory.class);
-
-				for (long categoryId : categoryIds) {
-					long newCategoryId = MapUtil.getLong(
-						categoryIdMap, categoryId, categoryId);
+				for (long categoryId :
+						GetterUtil.getLongValues(queryValues.split(","))) {
 
 					newCategoryIds = ArrayUtil.append(
-						newCategoryIds, newCategoryId);
+						newCategoryIds,
+						MapUtil.getLong(categoryIds, categoryId, categoryId));
 				}
 
 				unicodeProperties.setProperty(
@@ -442,6 +486,40 @@ public class AssetListEntryExportImportContentProcessor
 		return className;
 	}
 
+	private List<JSONObject> _getAssetCategoryValueJSONObjects(
+		JSONArray filtersJSONArray) {
+
+		List<JSONObject> valueJSONObjects = new ArrayList<>();
+
+		for (int i = 0; i < filtersJSONArray.length(); i++) {
+			JSONObject filterJSONObject = filtersJSONArray.getJSONObject(i);
+
+			if ((filterJSONObject == null) ||
+				!Objects.equals(
+					filterJSONObject.getString("propertyName"),
+					"assetCategories")) {
+
+				continue;
+			}
+
+			JSONArray valueJSONArray = filterJSONObject.getJSONArray("value");
+
+			if (valueJSONArray == null) {
+				continue;
+			}
+
+			for (int j = 0; j < valueJSONArray.length(); j++) {
+				JSONObject valueJSONObject = valueJSONArray.getJSONObject(j);
+
+				if (valueJSONObject != null) {
+					valueJSONObjects.add(valueJSONObject);
+				}
+			}
+		}
+
+		return valueJSONObjects;
+	}
+
 	private long _getClassTypeId(
 		long classTypeId, Map<Long, Long>... primaryKeysMaps) {
 
@@ -455,6 +533,21 @@ public class AssetListEntryExportImportContentProcessor
 		}
 
 		return classTypeId;
+	}
+
+	private JSONArray _toFiltersJSONArray(String filtersJSON) {
+		if (Validator.isNotNull(filtersJSON)) {
+			try {
+				return _jsonFactory.createJSONArray(filtersJSON);
+			}
+			catch (Exception exception) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(exception);
+				}
+			}
+		}
+
+		return _jsonFactory.createJSONArray();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -475,6 +568,9 @@ public class AssetListEntryExportImportContentProcessor
 
 	@Reference(unbind = "-")
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private JSONFactory _jsonFactory;
 
 	@Reference
 	private Portal _portal;
