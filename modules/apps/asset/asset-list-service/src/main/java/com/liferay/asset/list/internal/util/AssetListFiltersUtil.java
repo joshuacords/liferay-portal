@@ -134,6 +134,10 @@ public class AssetListFiltersUtil {
 		return _commonFieldTypesMap.get(propertyName);
 	}
 
+	private static boolean _isAllQuantifier(JSONObject jsonObject) {
+		return Objects.equals(jsonObject.getString("quantifier"), "all");
+	}
+
 	private static boolean _isCommonFieldRow(JSONObject jsonObject) {
 		if ((jsonObject.getLong("classNameId") <= 0) &&
 			(jsonObject.getLong("classTypeId") <= 0)) {
@@ -247,7 +251,7 @@ public class AssetListFiltersUtil {
 		}
 
 		if (localized) {
-			return new MatchQuery(field, value);
+			return _toMatchQuery(field, jsonObject, operatorName, value);
 		}
 
 		if (Objects.equals(field, Field.USER_NAME)) {
@@ -324,7 +328,7 @@ public class AssetListFiltersUtil {
 			return null;
 		}
 
-		if (Objects.equals(jsonObject.getString("quantifier"), "all")) {
+		if (_isAllQuantifier(jsonObject)) {
 			BooleanFilter booleanFilter = new BooleanFilter();
 
 			for (String value : values) {
@@ -340,6 +344,22 @@ public class AssetListFiltersUtil {
 		termsFilter.addValues(values.toArray(new String[0]));
 
 		return termsFilter;
+	}
+
+	private static MatchQuery _toMatchQuery(
+		String field, JSONObject jsonObject, String operatorName,
+		String value) {
+
+		MatchQuery matchQuery = new MatchQuery(field, value);
+
+		if ((operatorName.equals("contains") ||
+			 operatorName.equals("not-contains")) &&
+			_isAllQuantifier(jsonObject)) {
+
+			matchQuery.setType(MatchQuery.Type.PHRASE);
+		}
+
+		return matchQuery;
 	}
 
 	private static NestedQuery _toNestedQuery(
@@ -570,7 +590,7 @@ public class AssetListFiltersUtil {
 			return new TermQuery(subfield, value);
 		}
 
-		return new MatchQuery(subfield, value);
+		return _toMatchQuery(subfield, filterJSONObject, operatorName, value);
 	}
 
 	private static final String _TYPE_DATE = "date";
