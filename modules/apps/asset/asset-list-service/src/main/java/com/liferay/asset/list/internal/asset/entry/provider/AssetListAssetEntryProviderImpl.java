@@ -242,32 +242,26 @@ public class AssetListAssetEntryProviderImpl
 				"ddmStructureFieldValue", ddmStructureFieldValue);
 		}
 
-		if (FeatureFlagManagerUtil.isEnabled(
-				assetListEntry.getCompanyId(), "LPD-74731")) {
+		String filtersJSON = unicodeProperties.getProperty("filters");
 
-			String filtersJSON = unicodeProperties.getProperty("filters");
+		if (Validator.isNotNull(filtersJSON)) {
+			JSONArray filtersJSONArray = null;
 
-			if (Validator.isNotNull(filtersJSON)) {
-				JSONArray filtersJSONArray = null;
-
-				try {
-					filtersJSONArray = _jsonFactory.createJSONArray(
-						filtersJSON);
+			try {
+				filtersJSONArray = _jsonFactory.createJSONArray(filtersJSON);
+			}
+			catch (Exception exception) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Unable to parse filters: " + filtersJSON, exception);
 				}
-				catch (Exception exception) {
-					if (_log.isDebugEnabled()) {
-						_log.debug(
-							"Unable to parse filters: " + filtersJSON,
-							exception);
-					}
-				}
+			}
 
-				if (filtersJSONArray != null) {
-					assetEntryQuery.setAttribute("filters", filtersJSONArray);
+			if (filtersJSONArray != null) {
+				assetEntryQuery.setAttribute("filters", filtersJSONArray);
 
-					_setAssetEntryQueryLegacyFilters(
-						assetEntryQuery, filtersJSONArray);
-				}
+				_setAssetEntryQueryLegacyFilters(
+					assetEntryQuery, filtersJSONArray);
 			}
 		}
 
