@@ -250,15 +250,18 @@ public class AssetListFiltersUtil {
 			return new MatchQuery(field, value);
 		}
 
-		if (Objects.equals(field, Field.USER_NAME)) {
-			value = StringUtil.toLowerCase(value);
-		}
-
 		if (operatorName.equals("contains") ||
 			operatorName.equals("not-contains")) {
 
-			return new WildcardQuery(
-				field, StringPool.STAR + value + StringPool.STAR);
+			if (Objects.equals(field, Field.USER_NAME)) {
+				return new MatchQuery(field + ".text", value);
+			}
+
+			return new WildcardQuery(field, value + StringPool.STAR);
+		}
+
+		if (Objects.equals(field, Field.USER_NAME)) {
+			value = StringUtil.toLowerCase(value);
 		}
 
 		return new TermQuery(field, value);
@@ -533,9 +536,7 @@ public class AssetListFiltersUtil {
 
 			if (subfield.endsWith(".value_keyword")) {
 				return new WildcardQuery(
-					subfield,
-					StringPool.STAR + StringUtil.toLowerCase(value) +
-						StringPool.STAR);
+					subfield, StringUtil.toLowerCase(value) + StringPool.STAR);
 			}
 		}
 
