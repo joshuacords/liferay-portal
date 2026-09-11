@@ -24,15 +24,12 @@ import com.liferay.portal.kernel.search.MatchQuery;
 import com.liferay.portal.kernel.search.NestedQuery;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.QueryTerm;
-import com.liferay.portal.kernel.search.StringQuery;
 import com.liferay.portal.kernel.search.TermQuery;
 import com.liferay.portal.kernel.search.TermRangeQuery;
 import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.search.filter.QueryFilter;
-import com.liferay.portal.kernel.search.filter.TermFilter;
-import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
@@ -46,7 +43,6 @@ import com.liferay.portal.util.FastDateFormatFactoryImpl;
 
 import java.text.Format;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -97,61 +93,42 @@ public class AssetListFiltersUtilTest {
 
 	@Test
 	public void testFilterQueriesWithAssetCategoryFilters() {
-		String assetCategoryId1 = String.valueOf(RandomTestUtil.randomLong());
-		String assetCategoryId2 = String.valueOf(RandomTestUtil.randomLong());
+		long assetCategoryId1 = RandomTestUtil.randomLong();
+		long assetCategoryId2 = RandomTestUtil.randomLong();
 
-		_assertTermFilters(
-			Field.ASSET_CATEGORY_IDS,
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST,
-				_getAssetFilterJSONObject(
-					"contains", "assetCategories", "all",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetCategoryId1),
-						_getPicklistValueJSONObject(assetCategoryId2)))),
+		JSONArray valueJSONArray = JSONUtil.putAll(
+			_getPicklistValueJSONObject(String.valueOf(assetCategoryId1)),
+			_getPicklistValueJSONObject(String.valueOf(assetCategoryId2)));
+
+		_assertAssetCategoryIds(
+			true, true,
+			_getAssetFilterJSONObject(
+				"contains", "assetCategories", "all", valueJSONArray),
 			assetCategoryId1, assetCategoryId2);
-		_assertTermsFilter(
-			Field.ASSET_CATEGORY_IDS,
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST,
-				_getAssetFilterJSONObject(
-					"contains", "assetCategories", "any",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetCategoryId1),
-						_getPicklistValueJSONObject(assetCategoryId2)))),
+		_assertAssetCategoryIds(
+			false, true,
+			_getAssetFilterJSONObject(
+				"contains", "assetCategories", "any", valueJSONArray),
 			assetCategoryId1, assetCategoryId2);
-		_assertTermFilters(
-			Field.ASSET_CATEGORY_IDS,
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST_NOT,
-				_getAssetFilterJSONObject(
-					"not-contains", "assetCategories", "all",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetCategoryId1),
-						_getPicklistValueJSONObject(assetCategoryId2)))),
+		_assertAssetCategoryIds(
+			true, false,
+			_getAssetFilterJSONObject(
+				"not-contains", "assetCategories", "all", valueJSONArray),
+			assetCategoryId1, assetCategoryId2);
+		_assertAssetCategoryIds(
+			false, false,
+			_getAssetFilterJSONObject(
+				"not-contains", "assetCategories", "any", valueJSONArray),
 			assetCategoryId1, assetCategoryId2);
 
-		_assertTermsFilter(
-			Field.ASSET_CATEGORY_IDS,
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST_NOT,
-				_getAssetFilterJSONObject(
-					"not-contains", "assetCategories", "any",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetCategoryId1)))),
-			assetCategoryId1);
-
-		BooleanClause[] booleanClauses =
-			AssetListFiltersUtil.getFiltersBooleanClauses(
-				_COMPANY_ID,
+		Assert.assertArrayEquals(
+			new long[0],
+			AssetListFiltersUtil.getAssetCategoryIds(
 				JSONUtil.putAll(
 					_getAssetFilterJSONObject(
 						"contains", "assetCategories", "any",
 						JSONFactoryUtil.createJSONArray())),
-				LocaleUtil.US);
-
-		Assert.assertEquals(
-			Arrays.toString(booleanClauses), 0, booleanClauses.length);
+				true, false));
 	}
 
 	@Test
@@ -159,58 +136,39 @@ public class AssetListFiltersUtilTest {
 		String assetTagName1 = RandomTestUtil.randomString();
 		String assetTagName2 = RandomTestUtil.randomString();
 
-		_assertTermFilters(
-			Field.ASSET_TAG_NAMES + ".raw",
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST,
-				_getAssetFilterJSONObject(
-					"contains", "assetTags", "all",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetTagName1),
-						_getPicklistValueJSONObject(assetTagName2)))),
+		JSONArray valueJSONArray = JSONUtil.putAll(
+			_getPicklistValueJSONObject(assetTagName1),
+			_getPicklistValueJSONObject(assetTagName2));
+
+		_assertAssetTagNames(
+			true, true,
+			_getAssetFilterJSONObject(
+				"contains", "assetTags", "all", valueJSONArray),
 			assetTagName1, assetTagName2);
-		_assertTermsFilter(
-			Field.ASSET_TAG_NAMES + ".raw",
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST,
-				_getAssetFilterJSONObject(
-					"contains", "assetTags", "any",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetTagName1),
-						_getPicklistValueJSONObject(assetTagName2)))),
+		_assertAssetTagNames(
+			false, true,
+			_getAssetFilterJSONObject(
+				"contains", "assetTags", "any", valueJSONArray),
 			assetTagName1, assetTagName2);
-		_assertTermFilters(
-			Field.ASSET_TAG_NAMES + ".raw",
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST_NOT,
-				_getAssetFilterJSONObject(
-					"not-contains", "assetTags", "all",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetTagName1),
-						_getPicklistValueJSONObject(assetTagName2)))),
+		_assertAssetTagNames(
+			true, false,
+			_getAssetFilterJSONObject(
+				"not-contains", "assetTags", "all", valueJSONArray),
+			assetTagName1, assetTagName2);
+		_assertAssetTagNames(
+			false, false,
+			_getAssetFilterJSONObject(
+				"not-contains", "assetTags", "any", valueJSONArray),
 			assetTagName1, assetTagName2);
 
-		_assertTermsFilter(
-			Field.ASSET_TAG_NAMES + ".raw",
-			_assertAssetFilter(
-				BooleanClauseOccur.MUST_NOT,
-				_getAssetFilterJSONObject(
-					"not-contains", "assetTags", "any",
-					JSONUtil.putAll(
-						_getPicklistValueJSONObject(assetTagName1)))),
-			assetTagName1);
-
-		BooleanClause[] booleanClauses =
-			AssetListFiltersUtil.getFiltersBooleanClauses(
-				_COMPANY_ID,
+		Assert.assertArrayEquals(
+			new String[0],
+			AssetListFiltersUtil.getAssetTagNames(
 				JSONUtil.putAll(
 					_getAssetFilterJSONObject(
 						"contains", "assetTags", "any",
 						JSONFactoryUtil.createJSONArray())),
-				LocaleUtil.US);
-
-		Assert.assertEquals(
-			Arrays.toString(booleanClauses), 0, booleanClauses.length);
+				true, false));
 	}
 
 	@Test
@@ -510,26 +468,18 @@ public class AssetListFiltersUtilTest {
 	public void testFilterQueriesWithKeywordsFilter() {
 		String keyword = RandomTestUtil.randomString();
 
-		_assertStringQuery(
-			keyword,
-			_assertFilterQuery(
-				BooleanClauseOccur.MUST,
-				_getKeywordsFilterJSONObject("contains", keyword)));
-		_assertStringQuery(
-			keyword,
-			_assertFilterQuery(
-				BooleanClauseOccur.MUST_NOT,
-				_getKeywordsFilterJSONObject("not-contains", keyword)));
+		_assertKeywords(
+			true, _getKeywordsFilterJSONObject("contains", keyword), keyword);
+		_assertKeywords(
+			false, _getKeywordsFilterJSONObject("not-contains", keyword),
+			keyword);
 
-		BooleanClause[] booleanClauses =
-			AssetListFiltersUtil.getFiltersBooleanClauses(
-				_COMPANY_ID,
+		Assert.assertArrayEquals(
+			new String[0],
+			AssetListFiltersUtil.getKeywords(
 				JSONUtil.putAll(
 					_getKeywordsFilterJSONObject("contains", StringPool.BLANK)),
-				LocaleUtil.US);
-
-		Assert.assertEquals(
-			Arrays.toString(booleanClauses), 0, booleanClauses.length);
+				true));
 	}
 
 	@Test
@@ -538,17 +488,12 @@ public class AssetListFiltersUtilTest {
 			RandomTestUtil.randomString() + StringPool.SPACE +
 				RandomTestUtil.randomString();
 
-		_assertStringQuery(
-			StringPool.QUOTE + keywordPhrase + StringPool.QUOTE,
-			_assertFilterQuery(
-				BooleanClauseOccur.MUST,
-				_getKeywordsFilterJSONObject("contains", keywordPhrase)));
-
-		_assertStringQuery(
-			StringPool.QUOTE + keywordPhrase + StringPool.QUOTE,
-			_assertFilterQuery(
-				BooleanClauseOccur.MUST_NOT,
-				_getKeywordsFilterJSONObject("not-contains", keywordPhrase)));
+		_assertKeywords(
+			true, _getKeywordsFilterJSONObject("contains", keywordPhrase),
+			keywordPhrase);
+		_assertKeywords(
+			false, _getKeywordsFilterJSONObject("not-contains", keywordPhrase),
+			keywordPhrase);
 	}
 
 	@Test
@@ -903,42 +848,76 @@ public class AssetListFiltersUtilTest {
 				)));
 	}
 
-	private Filter _assertAssetFilter(
-		BooleanClauseOccur expectedBooleanClauseOccur,
-		JSONObject filterJSONObject) {
+	private void _assertAssetCategoryIds(
+		boolean all, boolean contains, JSONObject filterJSONObject,
+		long... expectedAssetCategoryIds) {
+
+		JSONArray filtersJSONArray = JSONUtil.putAll(filterJSONObject);
 
 		BooleanClause[] booleanClauses =
 			AssetListFiltersUtil.getFiltersBooleanClauses(
-				_COMPANY_ID, JSONUtil.putAll(filterJSONObject), LocaleUtil.US);
+				_COMPANY_ID, filtersJSONArray, LocaleUtil.US);
 
 		Assert.assertEquals(
-			Arrays.toString(booleanClauses), 1, booleanClauses.length);
+			Arrays.toString(booleanClauses), 0, booleanClauses.length);
 
-		BooleanClause<?> filtersBooleanClause = booleanClauses[0];
+		long[] assetCategoryIds = AssetListFiltersUtil.getAssetCategoryIds(
+			filtersJSONArray, contains, all);
+
+		Arrays.sort(assetCategoryIds);
+
+		Arrays.sort(expectedAssetCategoryIds);
+
+		Assert.assertArrayEquals(expectedAssetCategoryIds, assetCategoryIds);
+
+		Assert.assertArrayEquals(
+			new long[0],
+			AssetListFiltersUtil.getAssetCategoryIds(
+				filtersJSONArray, !contains, all));
+		Assert.assertArrayEquals(
+			new long[0],
+			AssetListFiltersUtil.getAssetCategoryIds(
+				filtersJSONArray, contains, !all));
+		Assert.assertArrayEquals(
+			new long[0],
+			AssetListFiltersUtil.getAssetCategoryIds(
+				filtersJSONArray, !contains, !all));
+	}
+
+	private void _assertAssetTagNames(
+		boolean all, boolean contains, JSONObject filterJSONObject,
+		String... expectedAssetTagNames) {
+
+		JSONArray filtersJSONArray = JSONUtil.putAll(filterJSONObject);
+
+		BooleanClause[] booleanClauses =
+			AssetListFiltersUtil.getFiltersBooleanClauses(
+				_COMPANY_ID, filtersJSONArray, LocaleUtil.US);
 
 		Assert.assertEquals(
-			BooleanClauseOccur.MUST,
-			filtersBooleanClause.getBooleanClauseOccur());
+			Arrays.toString(booleanClauses), 0, booleanClauses.length);
 
-		BooleanQuery filtersBooleanQuery =
-			(BooleanQuery)filtersBooleanClause.getClause();
+		String[] assetTagNames = AssetListFiltersUtil.getAssetTagNames(
+			filtersJSONArray, contains, all);
 
-		BooleanFilter preBooleanFilter =
-			filtersBooleanQuery.getPreBooleanFilter();
+		Arrays.sort(assetTagNames);
 
-		List<BooleanClause<Filter>> filterBooleanClauses =
-			preBooleanFilter.getMustBooleanClauses();
+		Arrays.sort(expectedAssetTagNames);
 
-		if (expectedBooleanClauseOccur == BooleanClauseOccur.MUST_NOT) {
-			filterBooleanClauses = preBooleanFilter.getMustNotBooleanClauses();
-		}
+		Assert.assertArrayEquals(expectedAssetTagNames, assetTagNames);
 
-		Assert.assertEquals(
-			filterBooleanClauses.toString(), 1, filterBooleanClauses.size());
-
-		BooleanClause<Filter> filterBooleanClause = filterBooleanClauses.get(0);
-
-		return filterBooleanClause.getClause();
+		Assert.assertArrayEquals(
+			new String[0],
+			AssetListFiltersUtil.getAssetTagNames(
+				filtersJSONArray, !contains, all));
+		Assert.assertArrayEquals(
+			new String[0],
+			AssetListFiltersUtil.getAssetTagNames(
+				filtersJSONArray, contains, !all));
+		Assert.assertArrayEquals(
+			new String[0],
+			AssetListFiltersUtil.getAssetTagNames(
+				filtersJSONArray, !contains, !all));
 	}
 
 	private Query _assertFilterQuery(
@@ -999,6 +978,27 @@ public class AssetListFiltersUtilTest {
 		QueryFilter queryFilter = (QueryFilter)filter;
 
 		return queryFilter.getQuery();
+	}
+
+	private void _assertKeywords(
+		boolean contains, JSONObject filterJSONObject,
+		String... expectedKeywords) {
+
+		JSONArray filtersJSONArray = JSONUtil.putAll(filterJSONObject);
+
+		BooleanClause[] booleanClauses =
+			AssetListFiltersUtil.getFiltersBooleanClauses(
+				_COMPANY_ID, filtersJSONArray, LocaleUtil.US);
+
+		Assert.assertEquals(
+			Arrays.toString(booleanClauses), 0, booleanClauses.length);
+
+		Assert.assertArrayEquals(
+			expectedKeywords,
+			AssetListFiltersUtil.getKeywords(filtersJSONArray, contains));
+		Assert.assertArrayEquals(
+			new String[0],
+			AssetListFiltersUtil.getKeywords(filtersJSONArray, !contains));
 	}
 
 	private void _assertMatchQuery(
@@ -1108,48 +1108,6 @@ public class AssetListFiltersUtilTest {
 		}
 	}
 
-	private void _assertStringQuery(String expectedQuery, Query query) {
-		Assert.assertTrue(query.toString(), query instanceof StringQuery);
-
-		StringQuery stringQuery = (StringQuery)query;
-
-		Assert.assertEquals(expectedQuery, stringQuery.getQuery());
-	}
-
-	private void _assertTermFilters(
-		String expectedField, Filter filter, String... expectedValues) {
-
-		Assert.assertTrue(filter.toString(), filter instanceof BooleanFilter);
-
-		BooleanFilter booleanFilter = (BooleanFilter)filter;
-
-		List<BooleanClause<Filter>> booleanClauses =
-			booleanFilter.getMustBooleanClauses();
-
-		Assert.assertEquals(
-			booleanClauses.toString(), expectedValues.length,
-			booleanClauses.size());
-
-		List<String> values = new ArrayList<>();
-
-		for (BooleanClause<Filter> booleanClause : booleanClauses) {
-			Filter clauseFilter = booleanClause.getClause();
-
-			Assert.assertTrue(
-				clauseFilter.toString(), clauseFilter instanceof TermFilter);
-
-			TermFilter termFilter = (TermFilter)clauseFilter;
-
-			Assert.assertEquals(expectedField, termFilter.getField());
-
-			values.add(termFilter.getValue());
-		}
-
-		Assert.assertTrue(
-			values.toString(),
-			values.containsAll(Arrays.asList(expectedValues)));
-	}
-
 	private void _assertTermQuery(
 		String expectedField, String expectedValue, Query query) {
 
@@ -1179,24 +1137,6 @@ public class AssetListFiltersUtilTest {
 			expectedIncludesLower, termRangeQuery.includesLower());
 		Assert.assertEquals(
 			expectedIncludesUpper, termRangeQuery.includesUpper());
-	}
-
-	private void _assertTermsFilter(
-		String expectedField, Filter filter, String... expectedValues) {
-
-		Assert.assertTrue(filter.toString(), filter instanceof TermsFilter);
-
-		TermsFilter termsFilter = (TermsFilter)filter;
-
-		Assert.assertEquals(expectedField, termsFilter.getField());
-
-		List<String> values = Arrays.asList(termsFilter.getValues());
-
-		Assert.assertEquals(
-			values.toString(), expectedValues.length, values.size());
-		Assert.assertTrue(
-			values.toString(),
-			values.containsAll(Arrays.asList(expectedValues)));
 	}
 
 	private void _assertWildcardQuery(
