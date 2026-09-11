@@ -10,7 +10,6 @@ import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
 import com.liferay.object.service.ObjectDefinitionLocalServiceUtil;
 import com.liferay.object.service.ObjectFieldLocalServiceUtil;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -220,6 +219,17 @@ public class AssetListFiltersUtilTest {
 				BooleanClauseOccur.MUST,
 				_getCommonFieldFilterJSONObject(
 					"gt", Field.CREATE_DATE, "2026-01-15")));
+
+		String externalReferenceCode = RandomTestUtil.randomString();
+
+		_assertWildcardQuery(
+			"externalReferenceCode", externalReferenceCode + StringPool.STAR,
+			_assertCommonFieldQuery(
+				BooleanClauseOccur.MUST,
+				_getCommonFieldFilterJSONObject(
+					"contains", "externalReferenceCode",
+					externalReferenceCode)));
+
 		_assertTermRangeQuery(
 			Field.MODIFIED_DATE, true, true, "20260115000000", "20260120235959",
 			_assertCommonFieldQuery(
@@ -251,7 +261,7 @@ public class AssetListFiltersUtilTest {
 
 		String title = RandomTestUtil.randomString();
 
-		_assertMatchQuery(
+		_assertMatchPhrasePrefixQuery(
 			"localized_title_en_US", title,
 			_assertCommonFieldQuery(
 				BooleanClauseOccur.MUST,
@@ -271,9 +281,14 @@ public class AssetListFiltersUtilTest {
 				BooleanClauseOccur.MUST,
 				_getCommonFieldFilterJSONObject(
 					"eq", Field.USER_NAME, userName)));
-		_assertWildcardQuery(
-			Field.USER_NAME,
-			StringBundler.concat("*", StringUtil.toLowerCase(userName), "*"),
+		_assertMatchPhrasePrefixQuery(
+			Field.USER_NAME + ".text", userName,
+			_assertCommonFieldQuery(
+				BooleanClauseOccur.MUST,
+				_getCommonFieldFilterJSONObject(
+					"contains", Field.USER_NAME, userName)));
+		_assertMatchPhrasePrefixQuery(
+			Field.USER_NAME + ".text", userName,
 			_assertCommonFieldQuery(
 				BooleanClauseOccur.MUST_NOT,
 				_getCommonFieldFilterJSONObject(
@@ -557,13 +572,13 @@ public class AssetListFiltersUtilTest {
 		_setUpKeywordTextObjectField(keywordTextFieldName);
 
 		_assertWildcardQuery(
-			"nestedFieldArray.value_keyword", "*alpha*",
+			"nestedFieldArray.value_keyword", "alpha*",
 			_assertNestedQuery(
 				BooleanClauseOccur.MUST,
 				_getFilterJSONObject("contains", keywordTextFieldName, "Alpha"),
 				keywordTextFieldName));
 		_assertWildcardQuery(
-			"nestedFieldArray.value_keyword", "*alpha*",
+			"nestedFieldArray.value_keyword", "alpha*",
 			_assertNestedQuery(
 				BooleanClauseOccur.MUST_NOT,
 				_getFilterJSONObject(
@@ -828,35 +843,29 @@ public class AssetListFiltersUtilTest {
 
 		String textFieldValue = RandomTestUtil.randomString();
 
-		Query containsQuery = _assertNestedQuery(
-			BooleanClauseOccur.MUST,
-			_getFilterJSONObject("contains", textFieldName, textFieldValue),
-			textFieldName);
-
-		Assert.assertTrue(
-			containsQuery.toString(), containsQuery instanceof MatchQuery);
-
-		Query containsWithQuantifierQuery = _assertNestedQuery(
-			BooleanClauseOccur.MUST,
-			_getFilterJSONObject(
-				"contains", textFieldName, textFieldValue
-			).put(
-				"quantifier", "any"
-			),
-			textFieldName);
-
-		Assert.assertTrue(
-			containsWithQuantifierQuery.toString(),
-			containsWithQuantifierQuery instanceof MatchQuery);
-
-		Query notContainsQuery = _assertNestedQuery(
-			BooleanClauseOccur.MUST_NOT,
-			_getFilterJSONObject("not-contains", textFieldName, textFieldValue),
-			textFieldName);
-
-		Assert.assertTrue(
-			notContainsQuery.toString(),
-			notContainsQuery instanceof MatchQuery);
+		_assertMatchPhrasePrefixQuery(
+			"nestedFieldArray.value_text", textFieldValue,
+			_assertNestedQuery(
+				BooleanClauseOccur.MUST,
+				_getFilterJSONObject("contains", textFieldName, textFieldValue),
+				textFieldName));
+		_assertMatchPhrasePrefixQuery(
+			"nestedFieldArray.value_text", textFieldValue,
+			_assertNestedQuery(
+				BooleanClauseOccur.MUST,
+				_getFilterJSONObject(
+					"contains", textFieldName, textFieldValue
+				).put(
+					"quantifier", "any"
+				),
+				textFieldName));
+		_assertMatchPhrasePrefixQuery(
+			"nestedFieldArray.value_text", textFieldValue,
+			_assertNestedQuery(
+				BooleanClauseOccur.MUST_NOT,
+				_getFilterJSONObject(
+					"not-contains", textFieldName, textFieldValue),
+				textFieldName));
 	}
 
 	private Filter _assertAssetFilter(
@@ -931,6 +940,19 @@ public class AssetListFiltersUtilTest {
 		Assert.assertFalse(query.toString(), query instanceof NestedQuery);
 
 		return query;
+	}
+
+	private void _assertMatchPhrasePrefixQuery(
+		String expectedField, String expectedValue, Query query) {
+
+		Assert.assertTrue(query.toString(), query instanceof MatchQuery);
+
+		MatchQuery matchQuery = (MatchQuery)query;
+
+		Assert.assertEquals(expectedField, matchQuery.getField());
+		Assert.assertEquals(expectedValue, matchQuery.getValue());
+		Assert.assertEquals(
+			MatchQuery.Type.PHRASE_PREFIX, matchQuery.getType());
 	}
 
 	private void _assertMatchQuery(
