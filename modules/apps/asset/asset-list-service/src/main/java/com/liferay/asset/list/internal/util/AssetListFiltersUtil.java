@@ -246,18 +246,22 @@ public class AssetListFiltersUtil {
 			return new TermQuery(field, value);
 		}
 
-		if (localized) {
-			return new MatchQuery(field, value);
-		}
-
 		if (operatorName.equals("contains") ||
 			operatorName.equals("not-contains")) {
 
+			if (localized) {
+				return _toMatchPhrasePrefixQuery(field, value);
+			}
+
 			if (Objects.equals(field, Field.USER_NAME)) {
-				return new MatchQuery(field + ".text", value);
+				return _toMatchPhrasePrefixQuery(field + ".text", value);
 			}
 
 			return new WildcardQuery(field, value + StringPool.STAR);
+		}
+
+		if (localized) {
+			return new MatchQuery(field, value);
 		}
 
 		if (Objects.equals(field, Field.USER_NAME)) {
@@ -343,6 +347,16 @@ public class AssetListFiltersUtil {
 		termsFilter.addValues(values.toArray(new String[0]));
 
 		return termsFilter;
+	}
+
+	private static MatchQuery _toMatchPhrasePrefixQuery(
+		String field, String value) {
+
+		MatchQuery matchQuery = new MatchQuery(field, value);
+
+		matchQuery.setType(MatchQuery.Type.PHRASE_PREFIX);
+
+		return matchQuery;
 	}
 
 	private static NestedQuery _toNestedQuery(
@@ -569,6 +583,12 @@ public class AssetListFiltersUtil {
 			subfield.endsWith(".value_long")) {
 
 			return new TermQuery(subfield, value);
+		}
+
+		if (operatorName.equals("contains") ||
+			operatorName.equals("not-contains")) {
+
+			return _toMatchPhrasePrefixQuery(subfield, value);
 		}
 
 		return new MatchQuery(subfield, value);
