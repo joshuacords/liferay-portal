@@ -6,18 +6,26 @@
 package com.liferay.asset.list.internal.exportimport.data.handler.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.list.constants.AssetListEntryTypeConstants;
 import com.liferay.asset.list.model.AssetListEntry;
 import com.liferay.asset.list.model.AssetListEntrySegmentsEntryRel;
 import com.liferay.asset.list.service.AssetListEntryLocalService;
 import com.liferay.asset.list.service.AssetListEntrySegmentsEntryRelLocalService;
 import com.liferay.asset.list.test.util.AssetListTestUtil;
+import com.liferay.asset.test.util.AssetTestUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.test.util.lar.BaseStagedModelDataHandlerTestCase;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.model.User;
@@ -70,6 +78,13 @@ public class AssetListEntryStagedModelDataHandlerTest
 		_testExportImportAssetListEntryWithNonexistentClassNames();
 		_testExportImportAssetListEntryWithSegmentsEntry();
 		_testExportImportAssetListEntryWithStaleAnyAssetTypeClassName();
+	}
+
+	@Test
+	@TestInfo("LPD-104581")
+	public void testExportImportAssetListEntryFilters() throws Exception {
+		_testExportImportAssetListEntryWithFiltersCategories();
+		_testExportImportAssetListEntryWithLegacyQueryRules();
 	}
 
 	@Override
@@ -199,6 +214,142 @@ public class AssetListEntryStagedModelDataHandlerTest
 		).build();
 	}
 
+	private JSONArray _getFiltersJSONArray(UnicodeProperties unicodeProperties)
+		throws Exception {
+
+		String filtersJSON = unicodeProperties.getProperty("filters");
+
+		Assert.assertNotNull(filtersJSON);
+
+		return _jsonFactory.createJSONArray(filtersJSON);
+	}
+
+	private long _getImportedAssetCategoryId(AssetCategory assetCategory) {
+		AssetCategory importedAssetCategory =
+			_assetCategoryLocalService.fetchAssetCategoryByUuidAndGroupId(
+				assetCategory.getUuid(), liveGroup.getGroupId());
+
+		Assert.assertNotNull(importedAssetCategory);
+
+		return importedAssetCategory.getCategoryId();
+	}
+
+	private void _testExportImportAssetListEntryWithFiltersCategories()
+		throws Exception {
+
+		AssetVocabulary assetVocabulary = AssetTestUtil.addVocabulary(
+			stagingGroup.getGroupId());
+
+		AssetCategory assetCategory = AssetTestUtil.addCategory(
+			stagingGroup.getGroupId(), assetVocabulary.getVocabularyId());
+
+		UnicodeProperties unicodeProperties = _exportImportAssetListEntry(
+			UnicodePropertiesBuilder.put(
+				"filters",
+				JSONUtil.putAll(
+					JSONUtil.put(
+						"operatorName", "contains"
+					).put(
+						"propertyName", "assetCategories"
+					).put(
+						"quantifier", "any"
+					).put(
+						"value",
+						JSONUtil.putAll(
+							JSONUtil.put(
+								"value",
+								String.valueOf(assetCategory.getCategoryId())))
+					)
+				).toString()
+			).buildString());
+
+		JSONArray filtersJSONArray = _getFiltersJSONArray(unicodeProperties);
+
+		Assert.assertEquals(
+			filtersJSONArray.toString(), 1, filtersJSONArray.length());
+
+		JSONObject filterJSONObject = filtersJSONArray.getJSONObject(0);
+
+		JSONArray valueJSONArray = filterJSONObject.getJSONArray("value");
+
+		Assert.assertEquals(
+			String.valueOf(_getImportedAssetCategoryId(assetCategory)),
+			valueJSONArray.getJSONObject(
+				0
+			).getString(
+				"value"
+			));
+	}
+
+	private void _testExportImportAssetListEntryWithLegacyQueryRules()
+		throws Exception {
+
+		AssetVocabulary assetVocabulary = AssetTestUtil.addVocabulary(
+			stagingGroup.getGroupId());
+
+		AssetCategory assetCategory = AssetTestUtil.addCategory(
+			stagingGroup.getGroupId(), assetVocabulary.getVocabularyId());
+
+		UnicodeProperties unicodeProperties = _exportImportAssetListEntry(
+			UnicodePropertiesBuilder.put(
+				"queryAndOperator0", "true"
+			).put(
+				"queryAndOperator1", "false"
+			).put(
+				"queryContains0", "true"
+			).put(
+				"queryContains1", "true"
+			).put(
+				"queryName0", "assetTags"
+			).put(
+				"queryName1", "assetCategories"
+			).put(
+				"queryValues0", "alpha"
+			).put(
+				"queryValues1", String.valueOf(assetCategory.getCategoryId())
+			).buildString());
+
+		for (String key : unicodeProperties.keySet()) {
+			Assert.assertFalse(key, key.startsWith("query"));
+		}
+
+		JSONArray filtersJSONArray = _getFiltersJSONArray(unicodeProperties);
+
+		Assert.assertEquals(
+			filtersJSONArray.toString(), 2, filtersJSONArray.length());
+
+		JSONObject tagsJSONObject = filtersJSONArray.getJSONObject(0);
+
+		Assert.assertEquals(
+			"assetTags", tagsJSONObject.getString("propertyName"));
+
+		JSONArray tagsValueJSONArray = tagsJSONObject.getJSONArray("value");
+
+		Assert.assertEquals(
+			"alpha",
+			tagsValueJSONArray.getJSONObject(
+				0
+			).getString(
+				"value"
+			));
+
+		JSONObject categoriesJSONObject = filtersJSONArray.getJSONObject(1);
+
+		Assert.assertEquals(
+			"assetCategories", categoriesJSONObject.getString("propertyName"));
+
+		JSONArray categoriesValueJSONArray = categoriesJSONObject.getJSONArray(
+			"value");
+
+		Assert.assertEquals(
+			String.valueOf(_getImportedAssetCategoryId(assetCategory)),
+			categoriesValueJSONArray.getJSONObject(
+				0
+			).getString(
+				"value"
+			));
+	}
+
 	private void _testExportImportAssetListEntryWithNonexistentClassName()
 		throws Exception {
 
@@ -302,6 +453,9 @@ public class AssetListEntryStagedModelDataHandlerTest
 	}
 
 	@Inject
+	private AssetCategoryLocalService _assetCategoryLocalService;
+
+	@Inject
 	private AssetListEntryLocalService _assetListEntryLocalService;
 
 	@Inject
@@ -310,6 +464,9 @@ public class AssetListEntryStagedModelDataHandlerTest
 
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
+
+	@Inject
+	private JSONFactory _jsonFactory;
 
 	@Inject(
 		filter = "segments.criteria.contributor.key=user",
