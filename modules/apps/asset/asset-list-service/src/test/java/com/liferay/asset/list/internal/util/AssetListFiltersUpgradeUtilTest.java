@@ -33,6 +33,118 @@ public class AssetListFiltersUpgradeUtilTest {
 		LiferayUnitTestRule.INSTANCE;
 
 	@Test
+	public void testToUpgradedTypeSettingsAllLegacyQueryRuleCombinations()
+		throws Exception {
+
+		String[] assetCategoryIds = {
+			String.valueOf(RandomTestUtil.randomLong()),
+			String.valueOf(RandomTestUtil.randomLong()),
+			String.valueOf(RandomTestUtil.randomLong()),
+			String.valueOf(RandomTestUtil.randomLong())
+		};
+		String[] assetTagNames = {
+			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomString(), RandomTestUtil.randomString()
+		};
+		String[] keywords = {
+			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
+			RandomTestUtil.randomString(), RandomTestUtil.randomString()
+		};
+
+		String[] propertyNames = {"assetCategories", "assetTags", "keywords"};
+		String[][] valuesArray = {assetCategoryIds, assetTagNames, keywords};
+
+		UnicodeProperties legacyUnicodeProperties =
+			UnicodePropertiesBuilder.create(
+				true
+			).put(
+				"anyAssetType", "true"
+			).put(
+				"orderByColumn1", "modified"
+			).build();
+
+		for (int i = 0; i < _LEGACY_QUERY_RULE_COUNT; i++) {
+			String[] values = valuesArray[i / 4];
+
+			legacyUnicodeProperties.setProperty(
+				"queryAndOperator" + i, String.valueOf((i % 2) == 0));
+			legacyUnicodeProperties.setProperty(
+				"queryContains" + i, String.valueOf((i % 4) < 2));
+			legacyUnicodeProperties.setProperty(
+				"queryName" + i, propertyNames[i / 4]);
+			legacyUnicodeProperties.setProperty(
+				"queryValues" + i,
+				StringUtil.merge(
+					new String[] {values[i % 4], values[(i + 1) % 4]}));
+		}
+
+		UnicodeProperties unicodeProperties = _toUpgradedUnicodeProperties(
+			legacyUnicodeProperties.toString());
+
+		Assert.assertEquals(
+			"true", unicodeProperties.getProperty("anyAssetType"));
+		Assert.assertEquals(
+			"modified", unicodeProperties.getProperty("orderByColumn1"));
+
+		for (String key : unicodeProperties.keySet()) {
+			Assert.assertFalse(key, key.startsWith("query"));
+		}
+
+		JSONArray filtersJSONArray = _getFiltersJSONArray(unicodeProperties);
+
+		Assert.assertEquals(
+			filtersJSONArray.toString(), _LEGACY_QUERY_RULE_COUNT,
+			filtersJSONArray.length());
+
+		for (int i = 0; i < _LEGACY_QUERY_RULE_COUNT; i++) {
+			JSONObject filterJSONObject = filtersJSONArray.getJSONObject(i);
+
+			String propertyName = propertyNames[i / 4];
+
+			Assert.assertEquals(
+				((i % 4) < 2) ? "contains" : "not-contains",
+				filterJSONObject.getString("operatorName"));
+			Assert.assertEquals(
+				propertyName, filterJSONObject.getString("propertyName"));
+			Assert.assertEquals(
+				((i % 2) == 0) ? "all" : "any",
+				filterJSONObject.getString("quantifier"));
+
+			String[] values = valuesArray[i / 4];
+
+			String value1 = values[i % 4];
+			String value2 = values[(i + 1) % 4];
+
+			if (propertyName.equals("keywords")) {
+				Assert.assertEquals(
+					value1 + StringPool.SPACE + value2,
+					filterJSONObject.getString("value"));
+
+				continue;
+			}
+
+			JSONArray valueJSONArray = filterJSONObject.getJSONArray("value");
+
+			Assert.assertEquals(
+				valueJSONArray.toString(), 2, valueJSONArray.length());
+			Assert.assertEquals(
+				value1,
+				valueJSONArray.getJSONObject(
+					0
+				).getString(
+					"value"
+				));
+			Assert.assertEquals(
+				value2,
+				valueJSONArray.getJSONObject(
+					1
+				).getString(
+					"value"
+				));
+		}
+	}
+
+	@Test
 	public void testToUpgradedTypeSettingsAppendsToExistingFilters()
 		throws Exception {
 
@@ -99,26 +211,6 @@ public class AssetListFiltersUpgradeUtilTest {
 	}
 
 	@Test
-	public void testToUpgradedTypeSettingsKeywordsAll() throws Exception {
-		_assertKeywords("true", "true", "contains", "all");
-	}
-
-	@Test
-	public void testToUpgradedTypeSettingsKeywordsAny() throws Exception {
-		_assertKeywords("true", "false", "contains", "any");
-	}
-
-	@Test
-	public void testToUpgradedTypeSettingsKeywordsNotAll() throws Exception {
-		_assertKeywords("false", "true", "not-contains", "all");
-	}
-
-	@Test
-	public void testToUpgradedTypeSettingsKeywordsNotAny() throws Exception {
-		_assertKeywords("false", "false", "not-contains", "any");
-	}
-
-	@Test
 	public void testToUpgradedTypeSettingsKeywordWithSpaceIsQuoted()
 		throws Exception {
 
@@ -150,6 +242,26 @@ public class AssetListFiltersUpgradeUtilTest {
 			StringUtil.quote(keywordPhrase, CharPool.QUOTE) + StringPool.SPACE +
 				keyword,
 			filterJSONObject.getString("value"));
+	}
+
+	@Test
+	public void testToUpgradedTypeSettingsKeywordsAll() throws Exception {
+		_assertKeywords("true", "true", "contains", "all");
+	}
+
+	@Test
+	public void testToUpgradedTypeSettingsKeywordsAny() throws Exception {
+		_assertKeywords("true", "false", "contains", "any");
+	}
+
+	@Test
+	public void testToUpgradedTypeSettingsKeywordsNotAll() throws Exception {
+		_assertKeywords("false", "true", "not-contains", "all");
+	}
+
+	@Test
+	public void testToUpgradedTypeSettingsKeywordsNotAny() throws Exception {
+		_assertKeywords("false", "false", "not-contains", "any");
 	}
 
 	@Test
@@ -451,5 +563,7 @@ public class AssetListFiltersUpgradeUtilTest {
 			upgradedTypeSettings
 		).build();
 	}
+
+	private static final int _LEGACY_QUERY_RULE_COUNT = 12;
 
 }
