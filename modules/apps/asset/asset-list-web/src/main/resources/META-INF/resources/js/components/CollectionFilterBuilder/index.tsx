@@ -53,6 +53,22 @@ function serializeValue(
 	property: FilterProperty | undefined,
 	value: FilterCondition['value']
 ): FilterCondition['value'] {
+
+	// Drop the label for categories and tags because the label
+	// is looked up on load.
+
+	if (
+		(property?.type === 'asset-categories' ||
+			property?.type === 'asset-tags') &&
+		Array.isArray(value)
+	) {
+		return value.map((entry) =>
+			typeof entry === 'string'
+				? entry
+				: {value: (entry as {value: string}).value}
+		);
+	}
+
 	if (property?.type !== 'date-time' || value === null) {
 		return value;
 	}
