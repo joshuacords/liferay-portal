@@ -1161,7 +1161,11 @@ public class AssetListAssetEntryProviderFiltersTest {
 				assetListEntry, new long[] {SegmentsEntryConstants.ID_DEFAULT},
 				null);
 
-		Assert.assertNull(assetEntryQuery.getAttribute("filters"));
+		JSONArray actualJSONArray = (JSONArray)assetEntryQuery.getAttribute(
+			"filters");
+
+		Assert.assertEquals(
+			actualJSONArray.toString(), 1, actualJSONArray.length());
 	}
 
 	@FeatureFlags(featureFlags = @FeatureFlag(value = "LPD-74731"))
