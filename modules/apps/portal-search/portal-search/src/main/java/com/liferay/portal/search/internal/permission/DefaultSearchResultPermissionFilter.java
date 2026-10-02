@@ -137,6 +137,12 @@ public class DefaultSearchResultPermissionFilter
 			return _getHits(searchContext);
 		}
 
+		if ((start >= PropsValues.INDEX_SEARCH_LIMIT) ||
+			(end > PropsValues.INDEX_SEARCH_LIMIT)) {
+
+			return new HitsImpl();
+		}
+
 		SlidingWindowSearcher slidingWindowSearcher =
 			new SlidingWindowSearcher();
 
@@ -447,8 +453,9 @@ public class DefaultSearchResultPermissionFilter
 				int remainingDocsNeededCount =
 					totalDocsNeededCount - docsCollectedCount;
 
-				int slidingWindowSize =
-					remainingDocsNeededCount * amplificationFactor;
+				int slidingWindowSize = (int)Math.min(
+					(long)remainingDocsNeededCount * amplificationFactor,
+					Integer.MAX_VALUE - slidingWindowStart);
 
 				int slidingWindowEnd = slidingWindowStart + slidingWindowSize;
 
@@ -704,6 +711,7 @@ public class DefaultSearchResultPermissionFilter
 			int totalDocsNeededCount) {
 
 			if ((slidingWindowEnd >= originalHitsSize) ||
+				(slidingWindowSize <= 0) ||
 				(preFilteredDocs.length < slidingWindowSize)) {
 
 				return true;
