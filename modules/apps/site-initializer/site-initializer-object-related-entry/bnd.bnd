@@ -1,0 +1,7 @@
+Bundle-Name: Liferay Site Initializer Object Related Entry
+Bundle-SymbolicName: com.liferay.site.initializer.object.related.entry
+Bundle-Version: 1.0.0
+Liferay-Site-Initializer-Description: Object definitions, relationships and sample entries for the PTR-9173 related entry roll-up scenarios
+Liferay-Site-Initializer-Name: Object Related Entry
+Provide-Capability: liferay.site.initializer
+Web-ContextPath: /site-initializer-object-related-entry

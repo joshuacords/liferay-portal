@@ -1,0 +1,12 @@
+{
+	"deletionType": "cascade",
+	"externalReferenceCode": "PTR_9173_QUESTION_TO_ANSWERS",
+	"label": {
+		"en_US": "Answers"
+	},
+	"name": "questionToAnswers",
+	"objectDefinitionId1": "[$OBJECT_DEFINITION_ID:Question$]",
+	"objectDefinitionId2": "[$OBJECT_DEFINITION_ID:Answer$]",
+	"objectDefinitionName2": "Answer",
+	"type": "oneToMany"
+}

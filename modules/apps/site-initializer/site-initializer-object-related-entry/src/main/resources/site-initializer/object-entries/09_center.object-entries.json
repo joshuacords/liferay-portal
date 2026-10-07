@@ -1,0 +1,15 @@
+{
+	"object-entries": [
+		{
+			"city": "Porto",
+			"externalReferenceCode": "CENTER_PORTO",
+			"name": "Porto Center"
+		},
+		{
+			"city": "Madrid",
+			"externalReferenceCode": "CENTER_MADRID",
+			"name": "Madrid Center"
+		}
+	],
+	"objectDefinitionName": "Center"
+}

@@ -1,0 +1,29 @@
+{
+	"object-entries": [
+		{
+			"answerText": "The G1 garbage collector",
+			"correct": true,
+			"externalReferenceCode": "ANSWER_G1",
+			"r_questionToAnswers_c_questionERC": "QUESTION_GARBAGE_COLLECTOR"
+		},
+		{
+			"answerText": "The serial garbage collector",
+			"correct": false,
+			"externalReferenceCode": "ANSWER_SERIAL",
+			"r_questionToAnswers_c_questionERC": "QUESTION_GARBAGE_COLLECTOR"
+		},
+		{
+			"answerText": "Accessors, equals, hashCode and toString",
+			"correct": true,
+			"externalReferenceCode": "ANSWER_RECORDS",
+			"r_questionToAnswers_c_questionERC": "QUESTION_RECORDS"
+		},
+		{
+			"answerText": "A mapping from terms to the documents that contain them",
+			"correct": true,
+			"externalReferenceCode": "ANSWER_INVERTED_INDEX",
+			"r_questionToAnswers_c_questionERC": "QUESTION_INVERTED_INDEX"
+		}
+	],
+	"objectDefinitionName": "Answer"
+}

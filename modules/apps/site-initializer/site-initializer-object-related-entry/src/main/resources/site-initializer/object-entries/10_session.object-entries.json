@@ -1,0 +1,26 @@
+{
+	"object-entries": [
+		{
+			"externalReferenceCode": "SESSION_OBJECTS_PORTO_MORNING",
+			"r_centerToSessions_c_centerERC": "CENTER_PORTO",
+			"r_trainingToSessions_c_trainingERC": "TRAINING_OBJECTS",
+			"timeOfDay": "Morning",
+			"title": "Objects fundamentals, Porto, morning"
+		},
+		{
+			"externalReferenceCode": "SESSION_OBJECTS_MADRID_AFTERNOON",
+			"r_centerToSessions_c_centerERC": "CENTER_MADRID",
+			"r_trainingToSessions_c_trainingERC": "TRAINING_OBJECTS",
+			"timeOfDay": "Afternoon",
+			"title": "Objects fundamentals, Madrid, afternoon"
+		},
+		{
+			"externalReferenceCode": "SESSION_SEARCH_PORTO_AFTERNOON",
+			"r_centerToSessions_c_centerERC": "CENTER_PORTO",
+			"r_trainingToSessions_c_trainingERC": "TRAINING_SEARCH",
+			"timeOfDay": "Afternoon",
+			"title": "Search deep dive, Porto, afternoon"
+		}
+	],
+	"objectDefinitionName": "Session"
+}

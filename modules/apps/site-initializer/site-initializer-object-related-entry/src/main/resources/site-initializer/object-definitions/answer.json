@@ -1,0 +1,41 @@
+{
+	"enableIndexSearch": true,
+	"externalReferenceCode": "PTR_9173_ANSWER",
+	"label": {
+		"en_US": "Answer"
+	},
+	"name": "Answer",
+	"objectFields": [
+		{
+			"DBType": "Clob",
+			"businessType": "LongText",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "en_US",
+			"label": {
+				"en_US": "Answer Text"
+			},
+			"name": "answerText",
+			"required": true
+		},
+		{
+			"DBType": "Boolean",
+			"businessType": "Boolean",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"indexedLanguageId": "",
+			"label": {
+				"en_US": "Correct"
+			},
+			"name": "correct",
+			"required": false
+		}
+	],
+	"panelCategoryKey": "site_administration.content",
+	"pluralLabel": {
+		"en_US": "Answers"
+	},
+	"portlet": true,
+	"scope": "site",
+	"titleObjectFieldName": "answerText"
+}
