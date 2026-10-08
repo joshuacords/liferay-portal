@@ -9,13 +9,10 @@ import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
-import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.model.ClassType;
 import com.liferay.asset.kernel.model.ClassTypeField;
 import com.liferay.asset.kernel.model.ClassTypeReader;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
 import com.liferay.asset.list.constants.AssetListPortletKeys;
 import com.liferay.asset.list.model.AssetListEntry;
@@ -43,8 +40,6 @@ import com.liferay.item.selector.criteria.group.criterion.GroupItemSelectorCrite
 import com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.petra.function.transform.TransformUtil;
-import com.liferay.petra.string.CharPool;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -253,164 +248,6 @@ public class EditAssetListDisplayContext {
 		_assetListEntryType = assetListEntryType;
 
 		return _assetListEntryType;
-	}
-
-	public JSONArray getAutoFieldRulesJSONArray() {
-		String queryLogicIndexesParam = ParamUtil.getString(
-			_httpServletRequest, "queryLogicIndexes");
-
-		int[] queryLogicIndexes = null;
-
-		if (Validator.isNotNull(queryLogicIndexesParam)) {
-			queryLogicIndexes = StringUtil.split(queryLogicIndexesParam, 0);
-		}
-		else {
-			queryLogicIndexes = new int[0];
-
-			for (int i = 0; true; i++) {
-				String queryValues = PropertiesParamUtil.getString(
-					_unicodeProperties, _httpServletRequest, "queryValues" + i);
-
-				if (Validator.isNull(queryValues)) {
-					break;
-				}
-
-				queryLogicIndexes = ArrayUtil.append(queryLogicIndexes, i);
-			}
-
-			if (queryLogicIndexes.length == 0) {
-				queryLogicIndexes = ArrayUtil.append(queryLogicIndexes, -1);
-			}
-		}
-
-		JSONArray rulesJSONArray = JSONFactoryUtil.createJSONArray();
-
-		for (int queryLogicIndex : queryLogicIndexes) {
-			JSONObject ruleJSONObject = JSONUtil.put(
-				"queryAndOperator",
-				PropertiesParamUtil.getBoolean(
-					_unicodeProperties, _httpServletRequest,
-					"queryAndOperator" + queryLogicIndex)
-			).put(
-				"queryContains",
-				PropertiesParamUtil.getBoolean(
-					_unicodeProperties, _httpServletRequest,
-					"queryContains" + queryLogicIndex, true)
-			);
-
-			String queryValues = _unicodeProperties.getProperty(
-				"queryValues" + queryLogicIndex, StringPool.BLANK);
-
-			String queryName = PropertiesParamUtil.getString(
-				_unicodeProperties, _httpServletRequest,
-				"queryName" + queryLogicIndex, "assetTags");
-
-			if (Objects.equals(queryName, "assetTags")) {
-				queryValues = ParamUtil.getString(
-					_httpServletRequest, "queryTagNames" + queryLogicIndex,
-					queryValues);
-
-				queryValues = _filterAssetTagNames(
-					_themeDisplay.getScopeGroupId(), queryValues);
-
-				String[] tagNames = StringUtil.split(
-					queryValues, StringPool.COMMA);
-
-				if (ArrayUtil.isEmpty(tagNames)) {
-					continue;
-				}
-
-				List<Map<String, String>> selectedItems = new ArrayList<>();
-
-				for (String tagName : tagNames) {
-					selectedItems.add(
-						HashMapBuilder.put(
-							"label", tagName
-						).put(
-							"value", tagName
-						).build());
-				}
-
-				ruleJSONObject.put("selectedItems", selectedItems);
-			}
-			else if (Objects.equals(queryName, "keywords")) {
-				queryValues = ParamUtil.getString(
-					_httpServletRequest, "keywords" + queryLogicIndex,
-					queryValues);
-
-				String[] keywords = StringUtil.split(queryValues, ",");
-
-				if (ArrayUtil.isEmpty(keywords)) {
-					continue;
-				}
-
-				StringBundler sb = new StringBundler(keywords.length * 2);
-
-				for (String keyword : keywords) {
-					if (keyword.contains(" ")) {
-						keyword = StringUtil.quote(keyword, CharPool.QUOTE);
-					}
-
-					sb.append(keyword);
-					sb.append(StringPool.SPACE);
-				}
-
-				sb.setIndex(sb.index() - 1);
-
-				queryValues = sb.toString();
-
-				ruleJSONObject.put("selectedItems", queryValues);
-			}
-			else {
-				queryValues = ParamUtil.getString(
-					_httpServletRequest, "queryCategoryIds" + queryLogicIndex,
-					queryValues);
-
-				List<AssetCategory> assetCategories = _filterAssetCategories(
-					GetterUtil.getLongValues(queryValues.split(",")));
-
-				if (ListUtil.isEmpty(assetCategories)) {
-					continue;
-				}
-
-				List<HashMap<String, Object>> selectedItems = new ArrayList<>();
-
-				for (AssetCategory assetCategory : assetCategories) {
-					selectedItems.add(
-						HashMapBuilder.<String, Object>put(
-							"label",
-							assetCategory.getTitle(_themeDisplay.getLocale())
-						).put(
-							"value", assetCategory.getCategoryId()
-						).build());
-				}
-
-				ruleJSONObject.put("selectedItems", selectedItems);
-			}
-
-			if (Validator.isNull(queryValues)) {
-				continue;
-			}
-
-			ruleJSONObject.put(
-				"queryValues", queryValues
-			).put(
-				"type", queryName
-			);
-
-			rulesJSONArray.put(ruleJSONObject);
-		}
-
-		if (rulesJSONArray.length() == 0) {
-			rulesJSONArray.put(
-				JSONUtil.put(
-					"queryContains", true
-				).put(
-					"type", "assetTags"
-				));
-		}
-
-		return rulesJSONArray;
 	}
 
 	public List<Long> getAvailableClassNameIds() {
@@ -1267,41 +1104,6 @@ public class EditAssetListDisplayContext {
 				Boolean.FALSE.toString()));
 
 		return _subtypeFieldsFilterEnabled;
-	}
-
-	private List<AssetCategory> _filterAssetCategories(long[] categoryIds) {
-		return TransformUtil.transformToList(
-			categoryIds,
-			categoryId -> {
-				AssetCategory category =
-					AssetCategoryLocalServiceUtil.fetchAssetCategory(
-						categoryId);
-
-				if (category == null) {
-					return null;
-				}
-
-				return category;
-			});
-	}
-
-	private String _filterAssetTagNames(long groupId, String assetTagNames) {
-		String[] assetTagNamesArray = StringUtil.split(assetTagNames);
-
-		List<String> filteredAssetTagNames = TransformUtil.transformToList(
-			AssetTagLocalServiceUtil.getTagIds(groupId, assetTagNamesArray),
-			assetTagId -> {
-				AssetTag assetTag = AssetTagLocalServiceUtil.fetchAssetTag(
-					assetTagId);
-
-				if (assetTag != null) {
-					return assetTag.getName();
-				}
-
-				return null;
-			});
-
-		return StringUtil.merge(filteredAssetTagNames);
 	}
 
 	private JSONArray _getAssetListEntrySegmentsEntryRelJSONArray() {
