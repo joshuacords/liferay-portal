@@ -6,6 +6,7 @@
 package com.liferay.asset.list.service.impl;
 
 import com.liferay.asset.list.constants.AssetListEntryTypeConstants;
+import com.liferay.asset.list.internal.util.AssetListFiltersUpgradeUtil;
 import com.liferay.asset.list.model.AssetListEntrySegmentsEntryRel;
 import com.liferay.asset.list.model.AssetListEntrySegmentsEntryRelTable;
 import com.liferay.asset.list.model.AssetListEntryTable;
@@ -63,7 +64,8 @@ public class AssetListEntrySegmentsEntryRelLocalServiceImpl
 		assetListEntrySegmentsEntryRel.setAssetListEntryId(assetListEntryId);
 		assetListEntrySegmentsEntryRel.setPriority(priority);
 		assetListEntrySegmentsEntryRel.setSegmentsEntryId(segmentsEntryId);
-		assetListEntrySegmentsEntryRel.setTypeSettings(typeSettings);
+		assetListEntrySegmentsEntryRel.setTypeSettings(
+			_toTypeSettings(typeSettings));
 
 		return assetListEntrySegmentsEntryRelPersistence.update(
 			assetListEntrySegmentsEntryRel);
@@ -257,7 +259,8 @@ public class AssetListEntrySegmentsEntryRelLocalServiceImpl
 				assetListEntryId, segmentsEntryId);
 
 		assetListEntrySegmentsEntryRel.setModifiedDate(new Date());
-		assetListEntrySegmentsEntryRel.setTypeSettings(typeSettings);
+		assetListEntrySegmentsEntryRel.setTypeSettings(
+			_toTypeSettings(typeSettings));
 
 		return assetListEntrySegmentsEntryRelPersistence.update(
 			assetListEntrySegmentsEntryRel);
@@ -285,6 +288,17 @@ public class AssetListEntrySegmentsEntryRelLocalServiceImpl
 			updateAssetListEntrySegmentsEntryRel(
 				assetListEntrySegmentsEntryRel);
 		}
+	}
+
+	private String _toTypeSettings(String typeSettings) {
+		String upgradedTypeSettings =
+			AssetListFiltersUpgradeUtil.toUpgradedTypeSettings(typeSettings);
+
+		if (upgradedTypeSettings != null) {
+			return upgradedTypeSettings;
+		}
+
+		return typeSettings;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
