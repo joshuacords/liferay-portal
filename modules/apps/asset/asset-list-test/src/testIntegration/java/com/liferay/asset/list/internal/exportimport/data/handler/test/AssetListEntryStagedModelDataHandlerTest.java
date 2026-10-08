@@ -190,10 +190,17 @@ public class AssetListEntryStagedModelDataHandlerTest
 		AssetListEntry assetListEntry = (AssetListEntry)addStagedModel(
 			stagingGroup, Collections.emptyMap());
 
+		AssetListEntrySegmentsEntryRel assetListEntrySegmentsEntryRel =
+			_assetListEntrySegmentsEntryRelLocalService.
+				fetchAssetListEntrySegmentsEntryRel(
+					assetListEntry.getAssetListEntryId(),
+					SegmentsEntryConstants.ID_DEFAULT);
+
+		assetListEntrySegmentsEntryRel.setTypeSettings(typeSettings);
+
 		_assetListEntrySegmentsEntryRelLocalService.
-			updateAssetListEntrySegmentsEntryRelTypeSettings(
-				assetListEntry.getAssetListEntryId(),
-				SegmentsEntryConstants.ID_DEFAULT, typeSettings);
+			updateAssetListEntrySegmentsEntryRel(
+				assetListEntrySegmentsEntryRel);
 
 		exportImportStagedModel(assetListEntry);
 
