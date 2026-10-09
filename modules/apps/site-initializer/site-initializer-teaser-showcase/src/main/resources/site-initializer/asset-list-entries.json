@@ -6,20 +6,19 @@
 			"classNameIds": "com.liferay.journal.model.JournalArticle",
 			"filterBy": [
 				{
-					"key": "queryAndOperator0",
-					"value": "true"
-				},
-				{
-					"key": "queryContains0",
-					"value": "true"
-				},
-				{
-					"key": "queryName0",
-					"value": "assetCategories"
-				},
-				{
-					"key": "queryValues0",
-					"value": "[#TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/retail-partners.json#]"
+					"key": "filters",
+					"value": [
+						{
+							"operatorName": "contains",
+							"propertyName": "assetCategories",
+							"quantifier": "all",
+							"value": [
+								{
+									"value": "[$TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/retail-partners.json$]"
+								}
+							]
+						}
+					]
 				}
 			]
 		}
@@ -31,20 +30,19 @@
 			"classNameIds": "com.liferay.journal.model.JournalArticle",
 			"filterBy": [
 				{
-					"key": "queryAndOperator0",
-					"value": "true"
-				},
-				{
-					"key": "queryContains0",
-					"value": "true"
-				},
-				{
-					"key": "queryName0",
-					"value": "assetCategories"
-				},
-				{
-					"key": "queryValues0",
-					"value": "[#TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/products-and-services.json#]"
+					"key": "filters",
+					"value": [
+						{
+							"operatorName": "contains",
+							"propertyName": "assetCategories",
+							"quantifier": "all",
+							"value": [
+								{
+									"value": "[$TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/products-and-services.json$]"
+								}
+							]
+						}
+					]
 				}
 			]
 		}
@@ -56,20 +54,19 @@
 			"classNameIds": "com.liferay.journal.model.JournalArticle",
 			"filterBy": [
 				{
-					"key": "queryAndOperator0",
-					"value": "true"
-				},
-				{
-					"key": "queryContains0",
-					"value": "true"
-				},
-				{
-					"key": "queryName0",
-					"value": "assetCategories"
-				},
-				{
-					"key": "queryValues0",
-					"value": "[#TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/pricing-and-ordering.json#]"
+					"key": "filters",
+					"value": [
+						{
+							"operatorName": "contains",
+							"propertyName": "assetCategories",
+							"quantifier": "all",
+							"value": [
+								{
+									"value": "[$TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/pricing-and-ordering.json$]"
+								}
+							]
+						}
+					]
 				}
 			]
 		}
@@ -81,20 +78,19 @@
 			"classNameIds": "com.liferay.journal.model.JournalArticle",
 			"filterBy": [
 				{
-					"key": "queryAndOperator0",
-					"value": "true"
-				},
-				{
-					"key": "queryContains0",
-					"value": "true"
-				},
-				{
-					"key": "queryName0",
-					"value": "assetCategories"
-				},
-				{
-					"key": "queryValues0",
-					"value": "[#TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/returns-and-exchanges.json#]"
+					"key": "filters",
+					"value": [
+						{
+							"operatorName": "contains",
+							"propertyName": "assetCategories",
+							"quantifier": "all",
+							"value": [
+								{
+									"value": "[$TAXONOMY_CATEGORY_ID:/site-initializer/taxonomy-vocabularies/group/faq/returns-and-exchanges.json$]"
+								}
+							]
+						}
+					]
 				}
 			]
 		}
