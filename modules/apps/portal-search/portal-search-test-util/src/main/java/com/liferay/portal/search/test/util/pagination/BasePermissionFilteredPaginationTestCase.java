@@ -301,16 +301,13 @@ public abstract class BasePermissionFilteredPaginationTestCase
 			indexerRegistry, permissionChecker,
 			defaultSearchResultPermissionFilterConfiguration);
 
-		SearchRequestBuilderFactory searchRequestBuilderFactory =
-			_getSearchRequestBuilderFactory();
 		ServiceTrackerMap<String, ModelResourcePermission<?>>
 			serviceTrackerMap = Mockito.mock(ServiceTrackerMap.class);
 
 		return new DefaultSearchResultPermissionFilter(
 			defaultSearchResultPermissionFilterConfiguration,
 			new FacetPostProcessorImpl(), indexerRegistry, permissionChecker,
-			relatedEntryIndexerRegistry, this::doSearch,
-			searchRequestBuilderFactory, serviceTrackerMap);
+			relatedEntryIndexerRegistry, this::doSearch, serviceTrackerMap);
 	}
 
 	protected void doAssertPagination(
@@ -505,10 +502,6 @@ public abstract class BasePermissionFilteredPaginationTestCase
 	protected int permissionFilteredSearchResultAccurateCountThreshold;
 	protected int searchQueryResultWindowLimit;
 
-	private SearchRequestBuilderFactory _getSearchRequestBuilderFactory() {
-		return new SearchRequestBuilderFactoryImpl();
-	}
-
 	private Hits _searchThroughSearchRequest(int from, int size)
 		throws Exception {
 
@@ -520,7 +513,7 @@ public abstract class BasePermissionFilteredPaginationTestCase
 		searchContext.setStart(0);
 
 		SearchRequestBuilderFactory searchRequestBuilderFactory =
-			_getSearchRequestBuilderFactory();
+			new SearchRequestBuilderFactoryImpl();
 
 		SearchRequestBuilder searchRequestBuilder =
 			searchRequestBuilderFactory.builder(searchContext);
