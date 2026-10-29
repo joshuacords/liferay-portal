@@ -10,12 +10,14 @@ import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.item.InfoItemServiceRegistry;
 import com.liferay.info.pagination.InfoPage;
+import com.liferay.info.pagination.Pagination;
 import com.liferay.journal.constants.JournalFolderConstants;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.test.util.JournalTestUtil;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -36,6 +38,7 @@ import com.liferay.search.experiences.service.SXPBlueprintLocalService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -117,6 +120,55 @@ public class SXPBlueprintInfoCollectionProviderTest {
 	}
 
 	@Test
+	public void testGetCollectionInfoPageWithDisplayAllPagination()
+		throws Exception {
+
+		for (int i = 0; i < 3; i++) {
+			_journalArticles.add(
+				JournalTestUtil.addArticle(
+					TestPropsValues.getGroupId(),
+					JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID));
+		}
+
+		SXPBlueprint sxpBlueprint = _sxpBlueprintLocalService.addSXPBlueprint(
+			RandomTestUtil.randomString(), TestPropsValues.getUserId(),
+			_readJSON("configurationJSON"), null, null, StringPool.BLANK,
+			Collections.singletonMap(
+				LocaleUtil.US, RandomTestUtil.randomString()),
+			_serviceContext);
+
+		InfoCollectionProvider<JournalArticle> infoCollectionProvider =
+			_infoItemServiceRegistry.getInfoItemService(
+				InfoCollectionProvider.class,
+				StringBundler.concat(
+					SXPBlueprint.class.getName(), StringPool.UNDERLINE,
+					sxpBlueprint.getCompanyId(), StringPool.UNDERLINE,
+					sxpBlueprint.getExternalReferenceCode()));
+
+		CollectionQuery collectionQuery = new CollectionQuery();
+
+		collectionQuery.setPagination(
+			Pagination.of(QueryUtil.ALL_POS, QueryUtil.ALL_POS));
+
+		ServiceContextThreadLocal.pushServiceContext(_serviceContext);
+
+		InfoPage<JournalArticle> infoPage =
+			infoCollectionProvider.getCollectionInfoPage(collectionQuery);
+
+		ServiceContextThreadLocal.popServiceContext();
+
+		int expectedCount = _journalArticles.size() + 1;
+
+		List<? extends JournalArticle> journalArticles =
+			infoPage.getPageItems();
+
+		Assert.assertEquals(
+			journalArticles.toString(), expectedCount, journalArticles.size());
+
+		Assert.assertEquals(expectedCount, infoPage.getTotalCount());
+	}
+
+	@Test
 	public void testIsAvailable() throws Exception {
 		SXPBlueprint sxpBlueprint = _sxpBlueprintLocalService.addSXPBlueprint(
 			RandomTestUtil.randomString(), TestPropsValues.getUserId(),
@@ -158,6 +210,9 @@ public class SXPBlueprintInfoCollectionProviderTest {
 
 	@DeleteAfterTestRun
 	private JournalArticle _journalArticle;
+
+	@DeleteAfterTestRun
+	private final List<JournalArticle> _journalArticles = new ArrayList<>();
 
 	private ServiceContext _serviceContext;
 
