@@ -5,10 +5,13 @@
 
 package com.liferay.search.experiences.internal.util;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import org.junit.Assert;
@@ -114,6 +117,11 @@ public class RangeQueryUtilTest {
 		JSONObject jsonObject = JSONUtil.put(
 			"occur", "${configuration.occur}"
 		).put(
+			"queries",
+			JSONUtil.putAll(
+				_createRangeQueryJSONObject(JSONUtil.put("from", 1))
+			).toString()
+		).put(
 			"query",
 			JSONUtil.put(
 				"range",
@@ -133,6 +141,11 @@ public class RangeQueryUtilTest {
 
 		Assert.assertEquals(
 			"${configuration.occur}", jsonObject.getString("occur"));
+		Assert.assertEquals(
+			JSONUtil.putAll(
+				_createRangeQueryJSONObject(JSONUtil.put("gte", 1))
+			).toString(),
+			jsonObject.getString("queries"));
 
 		JSONObject queryJSONObject = JSONFactoryUtil.createJSONObject(
 			jsonObject.getString("query"));
@@ -222,6 +235,70 @@ public class RangeQueryUtilTest {
 
 		_assertRangeQueryParameters(
 			JSONUtil.put("lte", "20300101000000"), fieldJSONObject);
+	}
+
+	@Test
+	public void testUpgradeRangeQueriesWithString() {
+		Assert.assertEquals(
+			JSONUtil.putAll(
+				_createRangeQueryJSONObject(JSONUtil.put("gt", 1))
+			).toString(),
+			RangeQueryUtil.upgradeRangeQueries(
+				JSONUtil.putAll(
+					_createRangeQueryJSONObject(
+						JSONUtil.put(
+							"from", 1
+						).put(
+							"include_lower", false
+						))
+				).toString()));
+		Assert.assertEquals(
+			_createRangeQueryJSONObject(
+				JSONUtil.put(
+					"gte", 1
+				).put(
+					"lte", 2
+				)
+			).toString(),
+			RangeQueryUtil.upgradeRangeQueries(
+				_createRangeQueryJSONObject(
+					JSONUtil.put(
+						"from", 1
+					).put(
+						"to", 2
+					)
+				).toString()));
+
+		String json = _createRangeQueryJSONObject(
+			JSONUtil.put("gte", 1)
+		).toString();
+
+		Assert.assertSame(json, RangeQueryUtil.upgradeRangeQueries(json));
+
+		json = StringUtil.removeLast(
+			_createRangeQueryJSONObject(
+				JSONUtil.put("from", 1)
+			).toString(),
+			StringPool.CLOSE_CURLY_BRACE);
+
+		Assert.assertSame(json, RangeQueryUtil.upgradeRangeQueries(json));
+
+		json = StringUtil.removeLast(
+			JSONUtil.putAll(
+				_createRangeQueryJSONObject(JSONUtil.put("from", 1))
+			).toString(),
+			StringPool.CLOSE_BRACKET);
+
+		Assert.assertSame(json, RangeQueryUtil.upgradeRangeQueries(json));
+
+		json = RandomTestUtil.randomString();
+
+		Assert.assertSame(json, RangeQueryUtil.upgradeRangeQueries(json));
+
+		Assert.assertNull(RangeQueryUtil.upgradeRangeQueries((String)null));
+		Assert.assertSame(
+			StringPool.BLANK,
+			RangeQueryUtil.upgradeRangeQueries(StringPool.BLANK));
 	}
 
 	@Test
