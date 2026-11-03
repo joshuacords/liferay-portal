@@ -14,7 +14,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.search.experiences.internal.util.RangeQueryUtil;
+import com.liferay.search.experiences.rest.dto.v1_0.util.RangeQueryUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
