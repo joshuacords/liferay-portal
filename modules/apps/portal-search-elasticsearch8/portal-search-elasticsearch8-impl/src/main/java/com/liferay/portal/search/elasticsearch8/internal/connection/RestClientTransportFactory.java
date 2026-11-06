@@ -298,58 +298,8 @@ public class RestClientTransportFactory {
 		httpClientBuilder.setMaxConnPerRoute(_maxConnectionsPerRoute);
 		httpClientBuilder.setMaxConnTotal(_maxConnections);
 
-		CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
-
 		CloseableHttpAsyncClient closeableHttpAsyncClient =
-			new CloseableHttpAsyncClient() {
-
-				@Override
-				public void close() throws IOException {
-					closeableHttpClient.close();
-				}
-
-				@Override
-				public <T> Future<T> execute(
-					HttpAsyncRequestProducer httpAsyncRequestProducer,
-					HttpAsyncResponseConsumer<T> httpAsyncResponseConsumer,
-					HttpContext httpContext, FutureCallback<T> futureCallback) {
-
-					BasicFuture<T> basicFuture = new BasicFuture<>(
-						futureCallback);
-
-					try (CloseableHttpResponse closeableHttpResponse =
-							closeableHttpClient.execute(
-								httpAsyncRequestProducer.getTarget(),
-								httpAsyncRequestProducer.generateRequest(),
-								httpContext)) {
-
-						HttpEntity httpEntity =
-							closeableHttpResponse.getEntity();
-
-						if (httpEntity != null) {
-							closeableHttpResponse.setEntity(
-								new BufferedHttpEntity(httpEntity));
-						}
-
-						basicFuture.completed((T)closeableHttpResponse);
-					}
-					catch (Exception exception) {
-						basicFuture.failed(exception);
-					}
-
-					return basicFuture;
-				}
-
-				@Override
-				public boolean isRunning() {
-					return true;
-				}
-
-				@Override
-				public void start() {
-				}
-
-			};
+			new SynchronousCloseableHttpAsyncClient(httpClientBuilder.build());
 
 		return new HttpAsyncClientBuilder() {
 
@@ -384,5 +334,62 @@ public class RestClientTransportFactory {
 	private final String _truststorePath;
 	private final String _truststoreType;
 	private final String _userName;
+
+	private static class SynchronousCloseableHttpAsyncClient
+		extends CloseableHttpAsyncClient {
+
+		public SynchronousCloseableHttpAsyncClient(
+			CloseableHttpClient closeableHttpClient) {
+
+			_closeableHttpClient = closeableHttpClient;
+		}
+
+		@Override
+		public void close() throws IOException {
+			_closeableHttpClient.close();
+		}
+
+		@Override
+		public <T> Future<T> execute(
+			HttpAsyncRequestProducer httpAsyncRequestProducer,
+			HttpAsyncResponseConsumer<T> httpAsyncResponseConsumer,
+			HttpContext httpContext, FutureCallback<T> futureCallback) {
+
+			BasicFuture<T> basicFuture = new BasicFuture<>(futureCallback);
+
+			try (CloseableHttpResponse closeableHttpResponse =
+					_closeableHttpClient.execute(
+						httpAsyncRequestProducer.getTarget(),
+						httpAsyncRequestProducer.generateRequest(),
+						httpContext)) {
+
+				HttpEntity httpEntity = closeableHttpResponse.getEntity();
+
+				if (httpEntity != null) {
+					closeableHttpResponse.setEntity(
+						new BufferedHttpEntity(httpEntity));
+				}
+
+				basicFuture.completed((T)closeableHttpResponse);
+			}
+			catch (Exception exception) {
+				basicFuture.failed(exception);
+			}
+
+			return basicFuture;
+		}
+
+		@Override
+		public boolean isRunning() {
+			return true;
+		}
+
+		@Override
+		public void start() {
+		}
+
+		private final CloseableHttpClient _closeableHttpClient;
+
+	}
 
 }
