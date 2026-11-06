@@ -6,14 +6,21 @@
 package com.liferay.portal.search.elasticsearch8.internal.connection;
 
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
 import org.apache.http.conn.ConnectionKeepAliveStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.execchain.ClientExecChain;
+import org.apache.http.impl.execchain.MainClientExec;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.protocol.BasicHttpContext;
@@ -23,7 +30,6 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.mockito.ArgumentCaptor;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -39,28 +45,45 @@ public class RestClientTransportFactoryTest {
 
 	@Test
 	public void testNewRestClientTransport() {
-		HttpClientBuilder httpClientBuilder = Mockito.spy(
-			HttpClientBuilder.class);
+		List<CloseableHttpClient> closeableHttpClients = new ArrayList<>();
 
-		_httpClientBuilderMockedStatic.when(
-			HttpClientBuilder::create
-		).thenReturn(
-			httpClientBuilder
-		);
+		try (MockedStatic<HttpClientBuilder> httpClientBuilderMockedStatic =
+				Mockito.mockStatic(
+					HttpClientBuilder.class, Mockito.CALLS_REAL_METHODS)) {
 
-		_restClientTransportFactory.newRestClientTransport();
+			httpClientBuilderMockedStatic.when(
+				HttpClientBuilder::create
+			).thenAnswer(
+				createInvocation -> {
+					HttpClientBuilder httpClientBuilder = Mockito.spy(
+						(HttpClientBuilder)createInvocation.callRealMethod());
 
-		ArgumentCaptor<ConnectionKeepAliveStrategy> argumentCaptor =
-			ArgumentCaptor.forClass(ConnectionKeepAliveStrategy.class);
+					Mockito.doAnswer(
+						buildInvocation -> {
+							CloseableHttpClient closeableHttpClient =
+								(CloseableHttpClient)
+									buildInvocation.callRealMethod();
 
-		Mockito.verify(
-			httpClientBuilder
-		).setKeepAliveStrategy(
-			argumentCaptor.capture()
-		);
+							closeableHttpClients.add(closeableHttpClient);
+
+							return closeableHttpClient;
+						}
+					).when(
+						httpClientBuilder
+					).build();
+
+					return httpClientBuilder;
+				}
+			);
+
+			_restClientTransportFactory.newRestClientTransport();
+		}
+
+		Assert.assertEquals(
+			closeableHttpClients.toString(), 1, closeableHttpClients.size());
 
 		ConnectionKeepAliveStrategy connectionKeepAliveStrategy =
-			argumentCaptor.getValue();
+			_getConnectionKeepAliveStrategy(closeableHttpClients.get(0));
 
 		_assertGetKeepAliveDuration(connectionKeepAliveStrategy, 180000, -1);
 		_assertGetKeepAliveDuration(connectionKeepAliveStrategy, 180000, 0);
@@ -89,9 +112,22 @@ public class RestClientTransportFactoryTest {
 				httpResponse, new BasicHttpContext(null)));
 	}
 
-	private static final MockedStatic<HttpClientBuilder>
-		_httpClientBuilderMockedStatic = Mockito.mockStatic(
-			HttpClientBuilder.class, Mockito.CALLS_REAL_METHODS);
+	private ConnectionKeepAliveStrategy _getConnectionKeepAliveStrategy(
+		CloseableHttpClient closeableHttpClient) {
+
+		ClientExecChain clientExecChain = ReflectionTestUtil.getFieldValue(
+			closeableHttpClient, "execChain");
+
+		while (true) {
+			clientExecChain = ReflectionTestUtil.getFieldValue(
+				clientExecChain, "requestExecutor");
+
+			if (clientExecChain instanceof MainClientExec) {
+				return ReflectionTestUtil.getFieldValue(
+					clientExecChain, "keepAliveStrategy");
+			}
+		}
+	}
 
 	private final RestClientTransportFactory _restClientTransportFactory =
 		new RestClientTransportFactory.Builder(
