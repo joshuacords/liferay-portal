@@ -119,7 +119,6 @@ public class SearchResultsPortletSharedSearchContributor
 			PropsValues.SEARCH_CONTAINER_PAGE_MAX_DELTA);
 
 		portletSharedSearchSettings.setPaginationDelta(paginationDelta);
-		searchRequestBuilder.size(paginationDelta);
 
 		SearchContext searchContext = searchRequestBuilder.withSearchContextGet(
 			Function.identity());
@@ -147,8 +146,6 @@ public class SearchResultsPortletSharedSearchContributor
 
 		if (paginationStart > 0) {
 			portletSharedSearchSettings.setPaginationStart(paginationStart);
-
-			searchRequestBuilder.from((paginationStart - 1) * paginationDelta);
 		}
 	}
 
