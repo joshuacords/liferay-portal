@@ -21,6 +21,7 @@ import com.liferay.portal.search.opensearch2.internal.filter.OpenSearchFilterVis
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,8 @@ import org.opensearch.client.opensearch.core.SearchRequest;
 public class FacetTranslator {
 
 	public void translate(
-		boolean basicFacetSelection, Map<String, Facet> facetsMap, Query query,
+		boolean basicFacetSelection, Integer facetSampleSize,
+		Map<String, Facet> facetsMap, Query query,
 		SearchRequest.Builder searchRequestBuilder) {
 
 		if (MapUtil.isEmpty(facetsMap)) {
@@ -62,6 +64,8 @@ public class FacetTranslator {
 				new org.opensearch.client.opensearch._types.query_dsl.Query(
 					filter.accept(OpenSearchFilterVisitor.INSTANCE)));
 		}
+
+		Map<String, Aggregation> aggregations = new LinkedHashMap<>();
 
 		for (Facet facet : facets) {
 			if (facet.isStatic()) {
@@ -97,8 +101,28 @@ public class FacetTranslator {
 				continue;
 			}
 
+			if (facetSampleSize == null) {
+				searchRequestBuilder.aggregations(
+					facetName, postProcessContainerBuilder.build());
+			}
+			else {
+				aggregations.put(
+					facetName, postProcessContainerBuilder.build());
+			}
+		}
+
+		if (MapUtil.isNotEmpty(aggregations)) {
+			Aggregation.Builder.ContainerBuilder containerBuilder =
+				new Aggregation.Builder(
+				).sampler(
+					samplerAggregation -> samplerAggregation.shardSize(
+						facetSampleSize)
+				);
+
+			containerBuilder.aggregations(aggregations);
+
 			searchRequestBuilder.aggregations(
-				facetName, postProcessContainerBuilder.build());
+				FacetUtil.SAMPLER_AGGREGATION_NAME, containerBuilder.build());
 		}
 
 		if (ListUtil.isNotEmpty(postFilterQueries)) {
