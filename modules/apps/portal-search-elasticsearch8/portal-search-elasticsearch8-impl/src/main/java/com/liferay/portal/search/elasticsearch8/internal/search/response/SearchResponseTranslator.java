@@ -8,6 +8,7 @@ package com.liferay.portal.search.elasticsearch8.internal.search.response;
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.Buckets;
+import co.elastic.clients.elasticsearch._types.aggregations.SamplerAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch._types.aggregations.TopHitsAggregate;
@@ -68,7 +69,9 @@ public class SearchResponseTranslator {
 
 		hits.setSearchTime((float)(responseBody.took() / 1000.0));
 
-		_updateFacetCollectors(searchSearchRequest.getFacets(), responseBody);
+		_updateFacetCollectors(
+			searchSearchRequest.getFacetSampleSize(),
+			searchSearchRequest.getFacets(), responseBody);
 
 		_updateGroupedHits(
 			searchSearchRequest.getAlternateUidFieldName(), hits,
@@ -241,12 +244,26 @@ public class SearchResponseTranslator {
 	}
 
 	private void _updateFacetCollectors(
-		Map<String, Facet> facets, ResponseBody<JsonData> responseBody) {
+		Integer facetSampleSize, Map<String, Facet> facets,
+		ResponseBody<JsonData> responseBody) {
 
 		Map<String, Aggregate> aggregations = responseBody.aggregations();
 
 		if (aggregations == null) {
 			return;
+		}
+
+		if (facetSampleSize != null) {
+			Aggregate aggregate = aggregations.get(
+				FacetUtil.SAMPLER_AGGREGATION_NAME);
+
+			if (aggregate == null) {
+				return;
+			}
+
+			SamplerAggregate samplerAggregate = aggregate.sampler();
+
+			aggregations = samplerAggregate.aggregations();
 		}
 
 		for (Facet facet : facets.values()) {
