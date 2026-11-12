@@ -128,8 +128,11 @@ public class SearchResultsPortletSharedSearchContributor
 				searchContext.getCompanyId(), "LPD-98858") &&
 			_isLimitResultCountAccuracy(portletSharedSearchSettings)) {
 
-			searchRequestBuilder.trackTotalHitsLimit(
-				RESULT_COUNT_ACCURACY_LIMIT + 1);
+			searchRequestBuilder.facetSampleSize(
+				RESULT_COUNT_ACCURACY_LIMIT
+			).trackTotalHitsLimit(
+				RESULT_COUNT_ACCURACY_LIMIT + 1
+			);
 		}
 
 		int paginationStart = GetterUtil.getInteger(

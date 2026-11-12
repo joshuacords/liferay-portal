@@ -58,6 +58,20 @@ public class SearchResultsPortletSharedSearchContributorTest {
 
 	@FeatureFlag("LPD-98858")
 	@Test
+	public void testContributeFacetSampleSize() {
+		_testContributeFacetSampleSize(false, null);
+		_testContributeFacetSampleSize(true, 10000);
+	}
+
+	@FeatureFlag(enable = false, value = "LPD-98858")
+	@Test
+	public void testContributeFacetSampleSizeWhenFeatureFlagIsDisabled() {
+		_testContributeFacetSampleSize(false, null);
+		_testContributeFacetSampleSize(true, null);
+	}
+
+	@FeatureFlag("LPD-98858")
+	@Test
 	public void testContributeTrackTotalHitsLimit() {
 		_testContributeTrackTotalHitsLimit(false, null);
 		_testContributeTrackTotalHitsLimit(true, 10001);
@@ -188,6 +202,16 @@ public class SearchResultsPortletSharedSearchContributorTest {
 
 		Assert.assertEquals(
 			Integer.valueOf(expectedPaginationDelta), searchRequest.getSize());
+	}
+
+	private void _testContributeFacetSampleSize(
+		boolean limitResultCountAccuracy, Integer expectedFacetSampleSize) {
+
+		SearchRequest searchRequest = _buildSearchRequest(
+			limitResultCountAccuracy, _createPortletSharedSearchSettings(null));
+
+		Assert.assertEquals(
+			expectedFacetSampleSize, searchRequest.getFacetSampleSize());
 	}
 
 	private void _testContributeTrackTotalHitsLimit(
