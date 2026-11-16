@@ -36,6 +36,7 @@ import com.liferay.portal.search.stats.StatsRequest;
 import com.liferay.portal.search.stats.StatsRequestBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -43,6 +44,7 @@ import java.util.Map;
 import org.opensearch.client.json.JsonData;
 import org.opensearch.client.opensearch._types.aggregations.Aggregate;
 import org.opensearch.client.opensearch._types.aggregations.Buckets;
+import org.opensearch.client.opensearch._types.aggregations.FilterAggregate;
 import org.opensearch.client.opensearch._types.aggregations.SamplerAggregate;
 import org.opensearch.client.opensearch._types.aggregations.StringTermsAggregate;
 import org.opensearch.client.opensearch._types.aggregations.StringTermsBucket;
@@ -250,17 +252,27 @@ public class SearchResponseTranslator {
 			return;
 		}
 
-		if (facetSampleSize != null) {
+		if ((facetSampleSize != null) &&
+			aggregations.containsKey(FacetUtil.SAMPLER_AGGREGATION_NAME)) {
+
 			Aggregate aggregate = aggregations.get(
 				FacetUtil.SAMPLER_AGGREGATION_NAME);
 
-			if (aggregate == null) {
-				return;
+			if (aggregate.isFilter()) {
+				FilterAggregate filterAggregate = aggregate.filter();
+
+				Map<String, Aggregate> filterAggregations =
+					filterAggregate.aggregations();
+
+				aggregate = filterAggregations.get(
+					FacetUtil.SAMPLER_AGGREGATION_NAME);
 			}
 
 			SamplerAggregate samplerAggregate = aggregate.sampler();
 
-			aggregations = samplerAggregate.aggregations();
+			aggregations = new HashMap<>(aggregations);
+
+			aggregations.putAll(samplerAggregate.aggregations());
 		}
 
 		for (Facet facet : facets.values()) {

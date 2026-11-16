@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.search.facet.RangeFacet;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -65,7 +66,7 @@ public class FacetTranslator {
 					filter.accept(OpenSearchFilterVisitor.INSTANCE)));
 		}
 
-		Map<String, Aggregation> aggregations = new LinkedHashMap<>();
+		Map<String, Aggregation> sampledAggregations = new LinkedHashMap<>();
 
 		for (Facet facet : facets) {
 			if (facet.isStatic()) {
@@ -93,6 +94,21 @@ public class FacetTranslator {
 
 			String facetName = FacetUtil.getAggregationName(facet);
 
+			if (facetSampleSize != null) {
+				if (!_isSelected(facet, facetProcessorContext)) {
+					sampledAggregations.put(
+						facetName, containerBuilder.build());
+
+					continue;
+				}
+
+				containerBuilder = _getSamplerContainerBuilder(
+					facetSampleSize,
+					HashMapBuilder.put(
+						facetName, containerBuilder.build()
+					).build());
+			}
+
 			Aggregation.Builder.ContainerBuilder postProcessContainerBuilder =
 				postProcessAggregation(
 					containerBuilder, facetProcessorContext, facetName);
@@ -101,25 +117,16 @@ public class FacetTranslator {
 				continue;
 			}
 
-			if (facetSampleSize == null) {
-				searchRequestBuilder.aggregations(
-					facetName, postProcessContainerBuilder.build());
-			}
-			else {
-				aggregations.put(
-					facetName, postProcessContainerBuilder.build());
-			}
+			searchRequestBuilder.aggregations(
+				facetName, postProcessContainerBuilder.build());
 		}
 
-		if (MapUtil.isNotEmpty(aggregations)) {
+		if (MapUtil.isNotEmpty(sampledAggregations)) {
 			Aggregation.Builder.ContainerBuilder containerBuilder =
-				new Aggregation.Builder(
-				).sampler(
-					samplerAggregation -> samplerAggregation.shardSize(
-						facetSampleSize)
-				);
-
-			containerBuilder.aggregations(aggregations);
+				postProcessAggregation(
+					_getSamplerContainerBuilder(
+						facetSampleSize, sampledAggregations),
+					facetProcessorContext, FacetUtil.SAMPLER_AGGREGATION_NAME);
 
 			searchRequestBuilder.aggregations(
 				FacetUtil.SAMPLER_AGGREGATION_NAME, containerBuilder.build());
@@ -184,6 +191,32 @@ public class FacetTranslator {
 
 		return new org.opensearch.client.opensearch._types.query_dsl.Query(
 			builder.build());
+	}
+
+	private Aggregation.Builder.ContainerBuilder _getSamplerContainerBuilder(
+		int facetSampleSize, Map<String, Aggregation> aggregations) {
+
+		return new Aggregation.Builder(
+		).sampler(
+			samplerAggregation -> samplerAggregation.shardSize(facetSampleSize)
+		).aggregations(
+			aggregations
+		);
+	}
+
+	private boolean _isSelected(
+		Facet facet, FacetProcessorContext facetProcessorContext) {
+
+		if ((facetProcessorContext == null) ||
+			!(facet instanceof com.liferay.portal.search.facet.Facet)) {
+
+			return false;
+		}
+
+		com.liferay.portal.search.facet.Facet osgiFacet =
+			(com.liferay.portal.search.facet.Facet)facet;
+
+		return ArrayUtil.isNotEmpty(osgiFacet.getSelections());
 	}
 
 	private Aggregation.Builder.ContainerBuilder _processFacet(Facet facet) {
