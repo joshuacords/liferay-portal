@@ -6,6 +6,7 @@
 package com.liferay.portal.search.facet.faceted.searcher.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Field;
@@ -21,6 +22,7 @@ import com.liferay.portal.search.aggregation.bucket.Bucket;
 import com.liferay.portal.search.aggregation.bucket.TermsAggregationResult;
 import com.liferay.portal.search.facet.Facet;
 import com.liferay.portal.search.facet.tag.AssetTagNamesFacetFactory;
+import com.liferay.portal.search.facet.type.AssetEntriesFacetFactory;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
@@ -100,7 +102,7 @@ public class FacetSampleSizeFacetedSearcherTest
 
 		Assert.assertEquals(_USERS, bucket.getDocCount());
 
-		_assertFrequency(_SAMPLE_SIZE, facet);
+		_assertFrequency(_SAMPLE_SIZE, facet, _tag);
 	}
 
 	@Test
@@ -129,6 +131,13 @@ public class FacetSampleSizeFacetedSearcherTest
 
 	@Test
 	public void testFacetSampleSizeWithFacetSelection() throws Exception {
+		for (int i = 0; i < _USERS; i++) {
+			addUser(
+				_group, _keyword,
+				_keyword + StringPool.SPACE + RandomTestUtil.randomString(),
+				_keyword + StringPool.SPACE + RandomTestUtil.randomString());
+		}
+
 		SearchContext searchContext = getSearchContext(_keyword);
 
 		Facet facet = _assetTagNamesFacetFactory.newInstance(searchContext);
@@ -137,6 +146,12 @@ public class FacetSampleSizeFacetedSearcherTest
 
 		SearchRequestBuilder searchRequestBuilder = _getSearchRequestBuilder(
 			facet, _SAMPLE_SIZE, searchContext);
+
+		Facet assetEntriesFacet = _assetEntriesFacetFactory.newInstance(
+			searchContext);
+
+		searchRequestBuilder.withFacetContext(
+			facetContext -> facetContext.addFacet(assetEntriesFacet));
 
 		SearchResponse searchResponse = _searcher.search(
 			searchRequestBuilder.build());
@@ -152,6 +167,8 @@ public class FacetSampleSizeFacetedSearcherTest
 		searchHits = searchResponse.getSearchHits();
 
 		Assert.assertEquals(_USERS, searchHits.getTotalHits());
+
+		_assertFrequency(_SAMPLE_SIZE, assetEntriesFacet, User.class.getName());
 	}
 
 	@Test
@@ -182,14 +199,16 @@ public class FacetSampleSizeFacetedSearcherTest
 
 		_searcher.search(searchRequestBuilder.build());
 
-		_assertFrequency(_SAMPLE_SIZE, federatedFacet);
-		_assertFrequency(_USERS, facet);
+		_assertFrequency(_SAMPLE_SIZE, federatedFacet, _tag);
+		_assertFrequency(_USERS, facet, _tag);
 	}
 
-	private void _assertFrequency(int expectedFrequency, Facet facet) {
+	private void _assertFrequency(
+		int expectedFrequency, Facet facet, String term) {
+
 		FacetCollector facetCollector = facet.getFacetCollector();
 
-		TermCollector termCollector = facetCollector.getTermCollector(_tag);
+		TermCollector termCollector = facetCollector.getTermCollector(term);
 
 		Assert.assertEquals(expectedFrequency, termCollector.getFrequency());
 	}
@@ -211,7 +230,7 @@ public class FacetSampleSizeFacetedSearcherTest
 
 		Assert.assertEquals(_USERS, searchHits.getTotalHits());
 
-		_assertFrequency(expectedFrequency, facet);
+		_assertFrequency(expectedFrequency, facet, _tag);
 	}
 
 	private SearchRequestBuilder _getSearchRequestBuilder(
@@ -232,6 +251,9 @@ public class FacetSampleSizeFacetedSearcherTest
 
 	@Inject
 	private Aggregations _aggregations;
+
+	@Inject
+	private AssetEntriesFacetFactory _assetEntriesFacetFactory;
 
 	@Inject
 	private AssetTagNamesFacetFactory _assetTagNamesFacetFactory;
