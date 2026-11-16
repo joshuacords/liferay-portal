@@ -108,13 +108,40 @@ public class SearchResponseTranslatorTest {
 			_createSearchResponse(
 				HashMapBuilder.put(
 					FacetUtil.SAMPLER_AGGREGATION_NAME,
-					Aggregate.of(
-						aggregate -> aggregate.sampler(
-							samplerAggregate -> samplerAggregate.docCount(
-								3
-							).aggregations(
-								_FIELD_NAME, _createTermsAggregate()
-							)))
+					_createSamplerAggregate()
+				).build()));
+
+		_assertTermCollector(facet);
+	}
+
+	@Test
+	public void testUpdateFacetCollectorsWithFacetSampleSizeAndAggregationFiltering() {
+		Facet facet = _createFacet();
+
+		_updateFacetCollectors(
+			facet, RandomTestUtil.randomInt(1, 10000),
+			_createSearchResponse(
+				HashMapBuilder.put(
+					FacetUtil.SAMPLER_AGGREGATION_NAME,
+					_createFilterAggregate(
+						FacetUtil.SAMPLER_AGGREGATION_NAME,
+						_createSamplerAggregate())
+				).build()));
+
+		_assertTermCollector(facet);
+	}
+
+	@Test
+	public void testUpdateFacetCollectorsWithFacetSampleSizeAndFacetSelection() {
+		Facet facet = _createFacet();
+
+		_updateFacetCollectors(
+			facet, RandomTestUtil.randomInt(1, 10000),
+			_createSearchResponse(
+				HashMapBuilder.put(
+					_FIELD_NAME,
+					_createFilterAggregate(
+						_FIELD_NAME, _createSamplerAggregate())
 				).build()));
 
 		_assertTermCollector(facet);
@@ -161,6 +188,16 @@ public class SearchResponseTranslatorTest {
 		return facet;
 	}
 
+	private Aggregate _createFilterAggregate(String name, Aggregate aggregate) {
+		return Aggregate.of(
+			filterAggregateBuilder -> filterAggregateBuilder.filter(
+				filterAggregate -> filterAggregate.docCount(
+					3
+				).aggregations(
+					name, aggregate
+				)));
+	}
+
 	private Hit<JsonData> _createHit(
 		String fieldName, List<String> fragments,
 		InnerHitsResult innerHitsResult) {
@@ -188,6 +225,16 @@ public class SearchResponseTranslatorTest {
 		builder.hits(hitsMetadataBuilder.build());
 
 		return builder.build();
+	}
+
+	private Aggregate _createSamplerAggregate() {
+		return Aggregate.of(
+			aggregate -> aggregate.sampler(
+				samplerAggregate -> samplerAggregate.docCount(
+					3
+				).aggregations(
+					_FIELD_NAME, _createTermsAggregate()
+				)));
 	}
 
 	private SearchResponse<JsonData> _createSearchResponse(

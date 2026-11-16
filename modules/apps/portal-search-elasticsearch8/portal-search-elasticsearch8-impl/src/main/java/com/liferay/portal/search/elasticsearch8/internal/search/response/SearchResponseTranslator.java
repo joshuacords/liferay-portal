@@ -8,6 +8,7 @@ package com.liferay.portal.search.elasticsearch8.internal.search.response;
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.Buckets;
+import co.elastic.clients.elasticsearch._types.aggregations.FilterAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.SamplerAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
@@ -49,6 +50,7 @@ import com.liferay.portal.search.stats.StatsRequest;
 import com.liferay.portal.search.stats.StatsRequestBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -253,17 +255,27 @@ public class SearchResponseTranslator {
 			return;
 		}
 
-		if (facetSampleSize != null) {
+		if ((facetSampleSize != null) &&
+			aggregations.containsKey(FacetUtil.SAMPLER_AGGREGATION_NAME)) {
+
 			Aggregate aggregate = aggregations.get(
 				FacetUtil.SAMPLER_AGGREGATION_NAME);
 
-			if (aggregate == null) {
-				return;
+			if (aggregate.isFilter()) {
+				FilterAggregate filterAggregate = aggregate.filter();
+
+				Map<String, Aggregate> filterAggregations =
+					filterAggregate.aggregations();
+
+				aggregate = filterAggregations.get(
+					FacetUtil.SAMPLER_AGGREGATION_NAME);
 			}
 
 			SamplerAggregate samplerAggregate = aggregate.sampler();
 
-			aggregations = samplerAggregate.aggregations();
+			aggregations = new HashMap<>(aggregations);
+
+			aggregations.putAll(samplerAggregate.aggregations());
 		}
 
 		for (Facet facet : facets.values()) {

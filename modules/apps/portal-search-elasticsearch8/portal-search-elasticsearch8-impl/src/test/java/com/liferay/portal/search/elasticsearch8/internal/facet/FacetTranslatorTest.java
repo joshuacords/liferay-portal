@@ -74,25 +74,37 @@ public class FacetTranslatorTest {
 		Map<String, Aggregation> aggregations = _translate(
 			false, RandomTestUtil.randomInt(1, 10000));
 
-		Assert.assertEquals(aggregations.toString(), 1, aggregations.size());
+		Assert.assertEquals(aggregations.toString(), 2, aggregations.size());
 
-		Aggregation aggregation = aggregations.get(
+		Aggregation aggregation = aggregations.get(_CATEGORY_FIELD_NAME);
+
+		Assert.assertTrue(aggregation.isSampler());
+
+		Map<String, Aggregation> samplerAggregations =
+			aggregation.aggregations();
+
+		Aggregation facetAggregation = samplerAggregations.get(
+			_CATEGORY_FIELD_NAME);
+
+		Assert.assertTrue(facetAggregation.isTerms());
+
+		aggregation = aggregations.get(FacetUtil.SAMPLER_AGGREGATION_NAME);
+
+		Assert.assertTrue(aggregation.isFilter());
+
+		Map<String, Aggregation> filterAggregations =
+			aggregation.aggregations();
+
+		aggregation = filterAggregations.get(
 			FacetUtil.SAMPLER_AGGREGATION_NAME);
 
 		Assert.assertTrue(aggregation.isSampler());
 
-		Map<String, Aggregation> facetAggregations = aggregation.aggregations();
+		samplerAggregations = aggregation.aggregations();
 
-		Aggregation facetAggregation = facetAggregations.get(_TAG_FIELD_NAME);
+		facetAggregation = samplerAggregations.get(_TAG_FIELD_NAME);
 
-		Assert.assertTrue(facetAggregation.isFilter());
-
-		Map<String, Aggregation> filterAggregations =
-			facetAggregation.aggregations();
-
-		Aggregation termsAggregation = filterAggregations.get(_TAG_FIELD_NAME);
-
-		Assert.assertTrue(termsAggregation.isTerms());
+		Assert.assertTrue(facetAggregation.isTerms());
 	}
 
 	@Test
