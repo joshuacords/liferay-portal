@@ -102,6 +102,15 @@ public class FacetTranslator {
 					continue;
 				}
 
+				Aggregation.Builder.ContainerBuilder selectedContainerBuilder =
+					postProcessAggregation(
+						_getSelectedContainerBuilder(facet), facetName,
+						facetProcessorContext);
+
+				searchRequestBuilder.aggregations(
+					facetName + FacetUtil.SELECTED_AGGREGATION_NAME_SUFFIX,
+					selectedContainerBuilder.build());
+
 				containerBuilder = _getSamplerContainerBuilder(
 					facetSampleSize,
 					HashMapBuilder.put(
@@ -201,6 +210,21 @@ public class FacetTranslator {
 			samplerAggregation -> samplerAggregation.shardSize(facetSampleSize)
 		).aggregations(
 			aggregations
+		);
+	}
+
+	private Aggregation.Builder.ContainerBuilder _getSelectedContainerBuilder(
+		Facet facet) {
+
+		Map<String, co.elastic.clients.elasticsearch._types.query_dsl.Query>
+			selectionQueries =
+				AggregationFilteringFacetProcessorContext.getSelectionQueries(
+					(com.liferay.portal.search.facet.Facet)facet);
+
+		return new Aggregation.Builder(
+		).filters(
+			filtersAggregation -> filtersAggregation.filters(
+				buckets -> buckets.keyed(selectionQueries))
 		);
 	}
 

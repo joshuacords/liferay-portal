@@ -6,8 +6,11 @@
 package com.liferay.portal.search.elasticsearch8.internal.facet;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.Buckets;
+import co.elastic.clients.elasticsearch._types.aggregations.FiltersAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.SamplerAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 
 import com.liferay.portal.json.JSONObjectImpl;
@@ -15,6 +18,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.search.facet.Facet;
 import com.liferay.portal.search.internal.facet.FacetImpl;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
@@ -74,7 +78,7 @@ public class FacetTranslatorTest {
 		Map<String, Aggregation> aggregations = _translate(
 			false, RandomTestUtil.randomInt(1, 10000));
 
-		Assert.assertEquals(aggregations.toString(), 2, aggregations.size());
+		Assert.assertEquals(aggregations.toString(), 3, aggregations.size());
 
 		Aggregation aggregation = aggregations.get(_CATEGORY_FIELD_NAME);
 
@@ -105,6 +109,20 @@ public class FacetTranslatorTest {
 		facetAggregation = samplerAggregations.get(_TAG_FIELD_NAME);
 
 		Assert.assertTrue(facetAggregation.isTerms());
+
+		aggregation = aggregations.get(
+			_CATEGORY_FIELD_NAME + FacetUtil.SELECTED_AGGREGATION_NAME_SUFFIX);
+
+		Assert.assertTrue(aggregation.isFilters());
+
+		FiltersAggregation filtersAggregation = aggregation.filters();
+
+		Buckets<Query> buckets = filtersAggregation.filters();
+
+		Map<String, Query> queries = buckets.keyed();
+
+		Assert.assertEquals(
+			queries.toString(), SetUtil.fromArray("1", "2"), queries.keySet());
 	}
 
 	@Test

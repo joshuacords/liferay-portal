@@ -7,6 +7,7 @@ package com.liferay.portal.search.elasticsearch8.internal.search.response;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.FiltersBucket;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -145,6 +146,50 @@ public class SearchResponseTranslatorTest {
 				).build()));
 
 		_assertTermCollector(facet);
+	}
+
+	@Test
+	public void testUpdateFacetCollectorsWithFacetSampleSizeAndSelectedAggregation() {
+		Facet facet = _createFacet();
+
+		_updateFacetCollectors(
+			facet, 5,
+			_createSearchResponse(
+				HashMapBuilder.put(
+					_FIELD_NAME, _createTermsAggregate()
+				).put(
+					_FIELD_NAME + FacetUtil.SELECTED_AGGREGATION_NAME_SUFFIX,
+					Aggregate.of(
+						aggregate -> aggregate.filters(
+							filtersAggregate -> filtersAggregate.buckets(
+								buckets -> buckets.keyed(
+									HashMapBuilder.put(
+										_TERM,
+										FiltersBucket.of(
+											filtersBucket ->
+												filtersBucket.docCount(10))
+									).put(
+										"beta",
+										FiltersBucket.of(
+											filtersBucket ->
+												filtersBucket.docCount(1))
+									).build()))))
+				).build()));
+
+		FacetCollector facetCollector = facet.getFacetCollector();
+
+		List<TermCollector> termCollectors = facetCollector.getTermCollectors();
+
+		Assert.assertEquals(
+			termCollectors.toString(), 1, termCollectors.size());
+
+		TermCollector termCollector = facetCollector.getTermCollector(_TERM);
+
+		Assert.assertEquals(5, termCollector.getFrequency());
+
+		termCollector = facetCollector.getTermCollector("beta");
+
+		Assert.assertEquals(0, termCollector.getFrequency());
 	}
 
 	@Test

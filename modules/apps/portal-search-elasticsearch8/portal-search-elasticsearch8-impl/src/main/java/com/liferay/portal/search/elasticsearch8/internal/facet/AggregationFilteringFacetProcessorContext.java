@@ -30,6 +30,7 @@ import com.liferay.portal.search.facet.nested.NestedFacet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,21 @@ import java.util.Map;
  */
 public class AggregationFilteringFacetProcessorContext
 	implements FacetProcessorContext {
+
+	public static Map<String, Query> getSelectionQueries(
+		com.liferay.portal.search.facet.Facet facet) {
+
+		Map<String, Query> selectionQueries = new LinkedHashMap<>();
+
+		for (String selection : facet.getSelections()) {
+			List<Query> queries = _getFacetSelectionFilterQueries(
+				facet, selection);
+
+			selectionQueries.put(selection, queries.get(0));
+		}
+
+		return selectionQueries;
+	}
 
 	public static FacetProcessorContext newInstance(Collection<Facet> facets) {
 		return new AggregationFilteringFacetProcessorContext(
@@ -61,10 +77,11 @@ public class AggregationFilteringFacetProcessorContext
 	}
 
 	private static void _addNestedFacetChildAggregationFilterQueries(
-		BoolQuery.Builder builder, String fieldName, NestedFacet nestedFacet) {
+		BoolQuery.Builder builder, String fieldName, NestedFacet nestedFacet,
+		String... selections) {
 
 		if (nestedFacet.getChildAggregation() instanceof DateRangeAggregation) {
-			for (String value : nestedFacet.getSelections()) {
+			for (String value : selections) {
 				DateRangeAggregation dateRangeAggregation =
 					(DateRangeAggregation)nestedFacet.getChildAggregation();
 
@@ -77,7 +94,7 @@ public class AggregationFilteringFacetProcessorContext
 		else if (nestedFacet.getChildAggregation() instanceof
 					RangeAggregation) {
 
-			for (String value : nestedFacet.getSelections()) {
+			for (String value : selections) {
 				RangeAggregation rangeAggregation =
 					(RangeAggregation)nestedFacet.getChildAggregation();
 
@@ -120,7 +137,7 @@ public class AggregationFilteringFacetProcessorContext
 	}
 
 	private static List<Query> _getFacetSelectionFilterQueries(
-		com.liferay.portal.search.facet.Facet facet) {
+		com.liferay.portal.search.facet.Facet facet, String... selections) {
 
 		List<Query> queries = new ArrayList<>();
 
@@ -147,7 +164,7 @@ public class AggregationFilteringFacetProcessorContext
 
 			if (nestedFacet.getChildAggregation() != null) {
 				_addNestedFacetChildAggregationFilterQueries(
-					builder, fieldName, nestedFacet);
+					builder, fieldName, nestedFacet, selections);
 			}
 			else {
 				builder.must(
@@ -158,8 +175,7 @@ public class AggregationFilteringFacetProcessorContext
 						).terms(
 							TermsQueryField.of(
 								termsQueryField -> termsQueryField.value(
-									ConversionUtil.toFieldValues(
-										facet.getSelections())))
+									ConversionUtil.toFieldValues(selections)))
 						).build()));
 			}
 
@@ -175,7 +191,7 @@ public class AggregationFilteringFacetProcessorContext
 					).build()));
 		}
 		else if (facet instanceof RangeFacet) {
-			for (String value : facet.getSelections()) {
+			for (String value : selections) {
 				queries.add(
 					_createRangeQuery(
 						fieldName, null, RangeParserUtil.parserRange(value)));
@@ -190,8 +206,7 @@ public class AggregationFilteringFacetProcessorContext
 					).terms(
 						TermsQueryField.of(
 							termsQueryField -> termsQueryField.value(
-								ConversionUtil.toFieldValues(
-									facet.getSelections())))
+								ConversionUtil.toFieldValues(selections)))
 					).build()));
 		}
 
@@ -219,7 +234,8 @@ public class AggregationFilteringFacetProcessorContext
 
 			queriesMap.put(
 				osgiFacet.getAggregationName(),
-				_getFacetSelectionFilterQueries(osgiFacet));
+				_getFacetSelectionFilterQueries(
+					osgiFacet, osgiFacet.getSelections()));
 		}
 
 		return queriesMap;
