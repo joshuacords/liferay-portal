@@ -17,6 +17,7 @@ import com.liferay.portal.search.opensearch2.internal.facet.FacetUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -26,6 +27,7 @@ import org.junit.Test;
 
 import org.opensearch.client.json.JsonData;
 import org.opensearch.client.opensearch._types.aggregations.Aggregate;
+import org.opensearch.client.opensearch._types.aggregations.FiltersBucket;
 import org.opensearch.client.opensearch._types.aggregations.StringTermsBucket;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.search.HitsMetadata;
@@ -86,6 +88,50 @@ public class SearchResponseTranslatorTest {
 				).build()));
 
 		_assertTermCollector(facet);
+	}
+
+	@Test
+	public void testUpdateFacetCollectorsWithFacetSampleSizeAndSelectedAggregation() {
+		Facet facet = _createFacet();
+
+		_updateFacetCollectors(
+			facet, 5,
+			_createSearchResponse(
+				HashMapBuilder.put(
+					_FIELD_NAME, _createTermsAggregate()
+				).put(
+					_FIELD_NAME + FacetUtil.SELECTED_AGGREGATION_NAME_SUFFIX,
+					Aggregate.of(
+						aggregate -> aggregate.filters(
+							filtersAggregate -> filtersAggregate.buckets(
+								buckets -> buckets.keyed(
+									HashMapBuilder.put(
+										_TERM,
+										FiltersBucket.of(
+											filtersBucket ->
+												filtersBucket.docCount(10))
+									).put(
+										"beta",
+										FiltersBucket.of(
+											filtersBucket ->
+												filtersBucket.docCount(1))
+									).build()))))
+				).build()));
+
+		FacetCollector facetCollector = facet.getFacetCollector();
+
+		List<TermCollector> termCollectors = facetCollector.getTermCollectors();
+
+		Assert.assertEquals(
+			termCollectors.toString(), 1, termCollectors.size());
+
+		TermCollector termCollector = facetCollector.getTermCollector(_TERM);
+
+		Assert.assertEquals(5, termCollector.getFrequency());
+
+		termCollector = facetCollector.getTermCollector("beta");
+
+		Assert.assertEquals(0, termCollector.getFrequency());
 	}
 
 	@Test

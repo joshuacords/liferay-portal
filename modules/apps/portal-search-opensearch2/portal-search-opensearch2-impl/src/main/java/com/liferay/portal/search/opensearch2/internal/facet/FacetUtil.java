@@ -14,6 +14,8 @@ public class FacetUtil {
 
 	public static final String SAMPLER_AGGREGATION_NAME = "sampled";
 
+	public static final String SELECTED_AGGREGATION_NAME_SUFFIX = "_selected";
+
 	public static String getAggregationName(Facet facet) {
 		if (facet instanceof com.liferay.portal.search.facet.Facet) {
 			com.liferay.portal.search.facet.Facet osgiFacet =

@@ -28,6 +28,7 @@ import com.liferay.portal.search.legacy.stats.StatsRequestBuilderFactory;
 import com.liferay.portal.search.legacy.stats.StatsResultsTranslator;
 import com.liferay.portal.search.opensearch2.internal.facet.FacetCollectorFactory;
 import com.liferay.portal.search.opensearch2.internal.facet.FacetUtil;
+import com.liferay.portal.search.opensearch2.internal.facet.SelectedTermsFacetCollector;
 import com.liferay.portal.search.opensearch2.internal.groupby.GroupByTranslator;
 import com.liferay.portal.search.opensearch2.internal.legacy.hits.HitDocumentTranslator;
 import com.liferay.portal.search.opensearch2.internal.stats.StatsTranslator;
@@ -45,6 +46,8 @@ import org.opensearch.client.json.JsonData;
 import org.opensearch.client.opensearch._types.aggregations.Aggregate;
 import org.opensearch.client.opensearch._types.aggregations.Buckets;
 import org.opensearch.client.opensearch._types.aggregations.FilterAggregate;
+import org.opensearch.client.opensearch._types.aggregations.FiltersAggregate;
+import org.opensearch.client.opensearch._types.aggregations.FiltersBucket;
 import org.opensearch.client.opensearch._types.aggregations.SamplerAggregate;
 import org.opensearch.client.opensearch._types.aggregations.StringTermsAggregate;
 import org.opensearch.client.opensearch._types.aggregations.StringTermsBucket;
@@ -172,14 +175,57 @@ public class SearchResponseTranslator {
 	}
 
 	private FacetCollector _getFacetCollector(
-		Map<String, Aggregate> aggregations, Facet facet) {
+		Map<String, Aggregate> aggregations, Facet facet,
+		Integer facetSampleSize) {
 
 		FacetCollectorFactory facetCollectorFactory =
 			new FacetCollectorFactory();
 
-		return facetCollectorFactory.getFacetCollector(
-			aggregations.get(FacetUtil.getAggregationName(facet)),
-			FacetUtil.getAggregationName(facet));
+		String aggregationName = FacetUtil.getAggregationName(facet);
+
+		FacetCollector facetCollector = facetCollectorFactory.getFacetCollector(
+			aggregations.get(aggregationName), aggregationName);
+
+		Aggregate aggregate = aggregations.get(
+			aggregationName + FacetUtil.SELECTED_AGGREGATION_NAME_SUFFIX);
+
+		if ((facetSampleSize == null) || (aggregate == null)) {
+			return facetCollector;
+		}
+
+		aggregate = _getFilteredAggregate(aggregate, aggregationName);
+
+		FiltersAggregate filtersAggregate = aggregate.filters();
+
+		Buckets<FiltersBucket> buckets = filtersAggregate.buckets();
+
+		Map<String, FiltersBucket> filtersBuckets = buckets.keyed();
+
+		Map<String, Integer> frequencies = new HashMap<>();
+
+		for (Map.Entry<String, FiltersBucket> entry :
+				filtersBuckets.entrySet()) {
+
+			FiltersBucket filtersBucket = entry.getValue();
+
+			frequencies.put(
+				entry.getKey(),
+				(int)Math.min(filtersBucket.docCount(), facetSampleSize));
+		}
+
+		return new SelectedTermsFacetCollector(facetCollector, frequencies);
+	}
+
+	private Aggregate _getFilteredAggregate(Aggregate aggregate, String name) {
+		if (!aggregate.isFilter()) {
+			return aggregate;
+		}
+
+		FilterAggregate filterAggregate = aggregate.filter();
+
+		Map<String, Aggregate> aggregations = filterAggregate.aggregations();
+
+		return aggregations.get(name);
 	}
 
 	private void _populateUID(String alternateUidFieldName, Document document) {
@@ -258,15 +304,8 @@ public class SearchResponseTranslator {
 			Aggregate aggregate = aggregations.get(
 				FacetUtil.SAMPLER_AGGREGATION_NAME);
 
-			if (aggregate.isFilter()) {
-				FilterAggregate filterAggregate = aggregate.filter();
-
-				Map<String, Aggregate> filterAggregations =
-					filterAggregate.aggregations();
-
-				aggregate = filterAggregations.get(
-					FacetUtil.SAMPLER_AGGREGATION_NAME);
-			}
+			aggregate = _getFilteredAggregate(
+				aggregate, FacetUtil.SAMPLER_AGGREGATION_NAME);
 
 			SamplerAggregate samplerAggregate = aggregate.sampler();
 
@@ -280,7 +319,8 @@ public class SearchResponseTranslator {
 				continue;
 			}
 
-			facet.setFacetCollector(_getFacetCollector(aggregations, facet));
+			facet.setFacetCollector(
+				_getFacetCollector(aggregations, facet, facetSampleSize));
 		}
 	}
 
