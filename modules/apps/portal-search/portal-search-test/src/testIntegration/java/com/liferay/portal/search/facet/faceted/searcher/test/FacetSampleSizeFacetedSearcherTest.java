@@ -131,7 +131,7 @@ public class FacetSampleSizeFacetedSearcherTest
 
 	@Test
 	public void testFacetSampleSizeWithFacetSelection() throws Exception {
-		for (int i = 0; i < _USERS; i++) {
+		for (int i = 1; i < _SAMPLE_SIZE; i++) {
 			addUser(
 				_group, _keyword,
 				_keyword + StringPool.SPACE + RandomTestUtil.randomString(),
@@ -169,6 +169,7 @@ public class FacetSampleSizeFacetedSearcherTest
 		Assert.assertEquals(_USERS, searchHits.getTotalHits());
 
 		_assertFrequency(_SAMPLE_SIZE, assetEntriesFacet, User.class.getName());
+		_assertFrequency(_SAMPLE_SIZE, facet, _tag);
 	}
 
 	@Test
