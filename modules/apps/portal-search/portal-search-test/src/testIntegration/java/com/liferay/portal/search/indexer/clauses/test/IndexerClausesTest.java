@@ -25,6 +25,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -33,12 +34,15 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.searcher.SearchResponse;
 import com.liferay.portal.search.searcher.Searcher;
+import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.test.rule.SearchTestRule;
 import com.liferay.portal.search.test.util.DocumentsAssert;
 import com.liferay.portal.test.rule.Inject;
@@ -55,6 +59,11 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceRegistration;
 
 /**
  * @author Adam Brandizzi
@@ -154,6 +163,49 @@ public class IndexerClausesTest {
 		assertSearch(
 			"[Gamma Article, Gamma Blog, Omega Article, Omega Blog]",
 			withoutIndexerClauses(), consumer);
+	}
+
+	@Test
+	public void testModelPreFilterContributor() throws Exception {
+		Bundle bundle = FrameworkUtil.getBundle(IndexerClausesTest.class);
+
+		BundleContext bundleContext = bundle.getBundleContext();
+
+		String value = RandomTestUtil.randomString();
+
+		ServiceRegistration<ModelPreFilterContributor> serviceRegistration =
+			bundleContext.registerService(
+				ModelPreFilterContributor.class,
+				(booleanFilter, modelSearchSettings, searchContext) ->
+					booleanFilter.addTerm(
+						Field.UID, value, BooleanClauseOccur.MUST_NOT),
+				HashMapDictionaryBuilder.<String, Object>put(
+					"indexer.class.name", BlogsEntry.class.getName()
+				).build());
+
+		try {
+			SearchResponse searchResponse = searcher.search(
+				searchRequestBuilderFactory.builder(
+				).companyId(
+					_group.getCompanyId()
+				).groupIds(
+					_group.getGroupId()
+				).highlightEnabled(
+					false
+				).modelIndexerClasses(
+					BlogsEntry.class
+				).queryString(
+					RandomTestUtil.randomString()
+				).build());
+
+			String requestString = searchResponse.getRequestString();
+
+			Assert.assertEquals(
+				requestString, 1, StringUtil.count(requestString, value));
+		}
+		finally {
+			serviceRegistration.unregister();
+		}
 	}
 
 	@Rule
