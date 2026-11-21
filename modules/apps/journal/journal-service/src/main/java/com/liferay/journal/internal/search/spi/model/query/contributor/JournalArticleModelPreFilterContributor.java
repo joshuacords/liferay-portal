@@ -9,6 +9,8 @@ import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.util.DDMIndexer;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.petra.function.UnsafeSupplierValue;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -29,6 +31,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.preview.PreviewableResolverUtil;
 import com.liferay.portal.search.asset.AssetSubtypeIdentifier;
 import com.liferay.portal.search.filter.DateRangeFilterBuilder;
 import com.liferay.portal.search.filter.FilterBuilders;
@@ -71,14 +74,15 @@ public class JournalArticleModelPreFilterContributor
 		// share entryClassPK = resourcePrimKey, so the per-version UID is the
 		// only safe key).
 
-		Map<Long, Long> previewSwaps = _getPreviewSwaps(searchContext);
+		Map<Serializable, Object> previewValues =
+			PreviewableResolverUtil.getPreviewableMap(JournalArticle.class);
 
-		if (MapUtil.isEmpty(previewSwaps)) {
+		if (MapUtil.isEmpty(previewValues)) {
 			_workflowStatusModelPreFilterContributor.contribute(
 				booleanFilter, modelSearchSettings, searchContext);
 		}
 		else {
-			_contributePreviewSwapFilter(booleanFilter, previewSwaps);
+			_contributePreviewSwapFilter(booleanFilter, previewValues);
 		}
 
 		Long classNameId = (Long)searchContext.getAttribute(
@@ -203,7 +207,7 @@ public class JournalArticleModelPreFilterContributor
 		// _contributePreviewSwapFilter. Suppress the normal head/latest filter
 		// so the previewed draft (head=false) is not excluded again.
 
-		if (!MapUtil.isEmpty(previewSwaps)) {
+		if (MapUtil.isNotEmpty(previewValues)) {
 			head = false;
 			headOrShowNonindexable = false;
 			latest = false;
@@ -265,14 +269,38 @@ public class JournalArticleModelPreFilterContributor
 	}
 
 	private void _contributePreviewSwapFilter(
-		BooleanFilter booleanFilter, Map<Long, Long> previewSwaps) {
+		BooleanFilter booleanFilter, Map<Serializable, Object> previewValues) {
 
 		TermsFilter fromUIDsTermsFilter = new TermsFilter(Field.UID);
 		TermsFilter toUIDsTermsFilter = new TermsFilter(Field.UID);
 
-		for (Map.Entry<Long, Long> entry : previewSwaps.entrySet()) {
-			fromUIDsTermsFilter.addValue(_getUID(entry.getKey()));
-			toUIDsTermsFilter.addValue(_getUID(entry.getValue()));
+		for (Map.Entry<Serializable, Object> entry : previewValues.entrySet()) {
+			fromUIDsTermsFilter.addValue(_getUID((Long)entry.getKey()));
+
+			// TODO Resolving an UnsafeSupplierValue loads the draft only to
+			// read its ID. UnsafeSupplierValue memoizes the draft, so later
+			// PreviewableResolverUtil.resolve calls in the same request reuse
+			// it, but propose PreviewableResolverUtil.getPreviewPrimaryKeys
+			// (live primary key to draft primary key) to Headless as the
+			// cheaper API.
+
+			Object value = entry.getValue();
+
+			if (value instanceof
+					UnsafeSupplierValue<?, ?> unsafeSupplierValue) {
+
+				try {
+					JournalArticle journalArticle =
+						(JournalArticle)unsafeSupplierValue.getValue();
+
+					value = journalArticle.getId();
+				}
+				catch (Throwable throwable) {
+					throw new SystemException(throwable);
+				}
+			}
+
+			toUIDsTermsFilter.addValue(_getUID((Long)value));
 		}
 
 		// Keep all approved/head/live content except the previewed-away
@@ -293,19 +321,6 @@ public class JournalArticleModelPreFilterContributor
 		previewBooleanFilter.add(toUIDsTermsFilter, BooleanClauseOccur.SHOULD);
 
 		booleanFilter.add(previewBooleanFilter, BooleanClauseOccur.MUST);
-	}
-
-	private Map<Long, Long> _getPreviewSwaps(SearchContext searchContext) {
-		Object attribute = searchContext.getAttribute("preview.swap.map");
-
-		if (!(attribute instanceof Map)) {
-			return null;
-		}
-
-		Map<String, Map<Long, Long>> previewSwapMap =
-			(Map<String, Map<Long, Long>>)attribute;
-
-		return previewSwapMap.get(JournalArticle.class.getName());
 	}
 
 	private String _getUID(long classPK) {
