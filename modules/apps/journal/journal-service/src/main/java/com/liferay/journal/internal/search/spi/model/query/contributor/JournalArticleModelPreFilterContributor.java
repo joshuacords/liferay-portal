@@ -5,6 +5,7 @@
 
 package com.liferay.journal.internal.search.spi.model.query.contributor;
 
+import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.util.DDMIndexer;
@@ -35,6 +36,7 @@ import com.liferay.portal.preview.PreviewableResolverUtil;
 import com.liferay.portal.search.asset.AssetSubtypeIdentifier;
 import com.liferay.portal.search.filter.DateRangeFilterBuilder;
 import com.liferay.portal.search.filter.FilterBuilders;
+import com.liferay.portal.search.model.uid.UIDFactory;
 import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 
@@ -275,10 +277,13 @@ public class JournalArticleModelPreFilterContributor
 		TermsFilter toUIDsTermsFilter = new TermsFilter(Field.UID);
 
 		for (Map.Entry<Serializable, Object> entry : previewValues.entrySet()) {
-			fromUIDsTermsFilter.addValue(_getUID((Long)entry.getKey()));
+			fromUIDsTermsFilter.addValue(
+				_uidFactory.getUID(
+					JournalArticle.class.getName(), entry.getKey(),
+					CTConstants.CT_COLLECTION_ID_PRODUCTION));
 
 			// TODO Resolving an UnsafeSupplierValue loads the draft only to
-			// read its ID. UnsafeSupplierValue memoizes the draft, so later
+			// read its UID. UnsafeSupplierValue memoizes the draft, so later
 			// PreviewableResolverUtil.resolve calls in the same request reuse
 			// it, but propose PreviewableResolverUtil.getPreviewPrimaryKeys
 			// (live primary key to draft primary key) to Headless as the
@@ -290,17 +295,20 @@ public class JournalArticleModelPreFilterContributor
 					UnsafeSupplierValue<?, ?> unsafeSupplierValue) {
 
 				try {
-					JournalArticle journalArticle =
-						(JournalArticle)unsafeSupplierValue.getValue();
-
-					value = journalArticle.getId();
+					toUIDsTermsFilter.addValue(
+						_uidFactory.getUID(
+							(JournalArticle)unsafeSupplierValue.getValue()));
 				}
 				catch (Throwable throwable) {
 					throw new SystemException(throwable);
 				}
 			}
-
-			toUIDsTermsFilter.addValue(_getUID((Long)value));
+			else {
+				toUIDsTermsFilter.addValue(
+					_uidFactory.getUID(
+						JournalArticle.class.getName(), (Serializable)value,
+						CTConstants.CT_COLLECTION_ID_PRODUCTION));
+			}
 		}
 
 		// Keep all approved/head/live content except the previewed-away
@@ -323,14 +331,6 @@ public class JournalArticleModelPreFilterContributor
 		booleanFilter.add(previewBooleanFilter, BooleanClauseOccur.MUST);
 	}
 
-	private String _getUID(long classPK) {
-
-		// Mirrors UIDFactoryImpl production UID format
-		// (modelClassName + "_PORTLET_" + primaryKey).
-
-		return JournalArticle.class.getName() + "_PORTLET_" + classPK;
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalArticleModelPreFilterContributor.class);
 
@@ -348,6 +348,9 @@ public class JournalArticleModelPreFilterContributor
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private UIDFactory _uidFactory;
 
 	@Reference(target = "(model.pre.filter.contributor.id=WorkflowStatus)")
 	private ModelPreFilterContributor _workflowStatusModelPreFilterContributor;
