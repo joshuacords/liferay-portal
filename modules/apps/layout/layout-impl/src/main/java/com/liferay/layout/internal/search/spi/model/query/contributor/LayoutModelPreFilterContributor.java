@@ -5,7 +5,12 @@
 
 package com.liferay.layout.internal.search.spi.model.query.contributor;
 
+import com.liferay.petra.function.UnsafeSupplierValue;
+import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.launch.LaunchPreviewThreadLocal;
+import com.liferay.portal.kernel.model.ClassedModel;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
@@ -17,10 +22,17 @@ import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.preview.PreviewableResolverUtil;
+import com.liferay.portal.search.model.uid.UIDFactory;
 import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
+
+import java.io.Serializable;
+
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -112,26 +124,61 @@ public class LayoutModelPreFilterContributor
 				groupIds[0], launchSetId);
 		}
 
-		if (ArrayUtil.isEmpty(classPKs)) {
+		Map<Serializable, Object> previewValues =
+			PreviewableResolverUtil.getPreviewableMap(Layout.class);
+
+		if (ArrayUtil.isEmpty(classPKs) && MapUtil.isEmpty(previewValues)) {
 			return statusesTermsFilter;
 		}
 
 		BooleanFilter booleanFilter = new BooleanFilter();
 
-		BooleanFilter launchDraftFilter = new BooleanFilter();
+		if (ArrayUtil.isNotEmpty(classPKs)) {
+			BooleanFilter launchDraftFilter = new BooleanFilter();
 
-		launchDraftFilter.add(
-			new TermFilter(
-				Field.STATUS, String.valueOf(WorkflowConstants.STATUS_DRAFT)),
-			BooleanClauseOccur.MUST);
+			launchDraftFilter.add(
+				new TermFilter(
+					Field.STATUS,
+					String.valueOf(WorkflowConstants.STATUS_DRAFT)),
+				BooleanClauseOccur.MUST);
 
-		TermsFilter classPKsTermsFilter = new TermsFilter(Field.ENTRY_CLASS_PK);
+			TermsFilter classPKsTermsFilter = new TermsFilter(
+				Field.ENTRY_CLASS_PK);
 
-		classPKsTermsFilter.addValues(ArrayUtil.toStringArray(classPKs));
+			classPKsTermsFilter.addValues(ArrayUtil.toStringArray(classPKs));
 
-		launchDraftFilter.add(classPKsTermsFilter, BooleanClauseOccur.MUST);
+			launchDraftFilter.add(classPKsTermsFilter, BooleanClauseOccur.MUST);
 
-		booleanFilter.add(launchDraftFilter, BooleanClauseOccur.SHOULD);
+			booleanFilter.add(launchDraftFilter, BooleanClauseOccur.SHOULD);
+		}
+
+		if (MapUtil.isNotEmpty(previewValues)) {
+			TermsFilter uidTermsFilter = new TermsFilter(Field.UID);
+
+			for (Object value : previewValues.values()) {
+				if (value instanceof
+						UnsafeSupplierValue<?, ?> unsafeSupplierValue) {
+
+					try {
+						uidTermsFilter.addValue(
+							_uidFactory.getUID(
+								(ClassedModel)unsafeSupplierValue.getValue()));
+					}
+					catch (Throwable throwable) {
+						throw new SystemException(throwable);
+					}
+				}
+				else {
+					uidTermsFilter.addValue(
+						_uidFactory.getUID(
+							Layout.class.getName(), (Serializable)value,
+							CTCollectionThreadLocal.
+								CT_COLLECTION_ID_PRODUCTION));
+				}
+			}
+
+			booleanFilter.add(uidTermsFilter, BooleanClauseOccur.SHOULD);
+		}
 
 		booleanFilter.add(statusesTermsFilter, BooleanClauseOccur.SHOULD);
 
@@ -140,5 +187,8 @@ public class LayoutModelPreFilterContributor
 
 	@Reference
 	private LayoutLocalService _layoutLocalService;
+
+	@Reference
+	private UIDFactory _uidFactory;
 
 }
