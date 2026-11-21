@@ -42,34 +42,9 @@ public class PreviewModelPreFilterContributor
 		BooleanFilter booleanFilter, ModelSearchSettings modelSearchSettings,
 		SearchContext searchContext) {
 
-		if (PreviewableResolverUtil.getPreviewId() == null) {
-			return;
-		}
-
 		String className = modelSearchSettings.getClassName();
 
-		// TODO For Objects, className is
-		// "com.liferay.object.model.ObjectDefinition#<id>" while the
-		// previewable map key is ObjectEntry.class.
-		// ObjectDefinitionDeployerImpl registers ObjectEntryLocalService under
-		// that className, so this resolves to ObjectEntry.class, but that map
-		// holds the entries of every object definition. Verify once
-		// ObjectEntryLaunchEntryManager (LPD-115022) lands.
-
-		PersistedModelLocalService persistedModelLocalService =
-			PersistedModelLocalServiceRegistryUtil.
-				getPersistedModelLocalService(className);
-
-		if (persistedModelLocalService == null) {
-			return;
-		}
-
-		BasePersistence<?> basePersistence =
-			persistedModelLocalService.getBasePersistence();
-
-		Map<Serializable, Object> previewValues =
-			PreviewableResolverUtil.getPreviewableMap(
-				basePersistence.getModelClass());
+		Map<Serializable, Object> previewValues = getPreviewValues(className);
 
 		if (MapUtil.isEmpty(previewValues)) {
 			return;
@@ -85,6 +60,36 @@ public class PreviewModelPreFilterContributor
 		}
 
 		booleanFilter.add(uidTermsFilter, BooleanClauseOccur.MUST_NOT);
+	}
+
+	protected static Map<Serializable, Object> getPreviewValues(
+		String className) {
+
+		if (PreviewableResolverUtil.getPreviewId() == null) {
+			return null;
+		}
+
+		// TODO For Objects, className is
+		// "com.liferay.object.model.ObjectDefinition#<id>" while the
+		// previewable map key is ObjectEntry.class.
+		// ObjectDefinitionDeployerImpl registers ObjectEntryLocalService under
+		// that className, so this resolves to ObjectEntry.class, but that map
+		// holds the entries of every object definition. Verify once
+		// ObjectEntryLaunchEntryManager (LPD-115022) lands.
+
+		PersistedModelLocalService persistedModelLocalService =
+			PersistedModelLocalServiceRegistryUtil.
+				getPersistedModelLocalService(className);
+
+		if (persistedModelLocalService == null) {
+			return null;
+		}
+
+		BasePersistence<?> basePersistence =
+			persistedModelLocalService.getBasePersistence();
+
+		return PreviewableResolverUtil.getPreviewableMap(
+			basePersistence.getModelClass());
 	}
 
 	@Reference
