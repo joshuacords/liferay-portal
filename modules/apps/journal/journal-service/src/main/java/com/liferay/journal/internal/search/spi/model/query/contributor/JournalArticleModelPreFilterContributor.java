@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.preview.PreviewableResolverUtil;
 import com.liferay.portal.search.asset.AssetSubtypeIdentifier;
 import com.liferay.portal.search.filter.DateRangeFilterBuilder;
@@ -68,24 +67,17 @@ public class JournalArticleModelPreFilterContributor
 		BooleanFilter booleanFilter, ModelSearchSettings modelSearchSettings,
 		SearchContext searchContext) {
 
-		// LPD-92301 Preview Framework POC: when a preview swap map is present
-		// for JournalArticle, replace the normal "status=approved AND head"
-		// restriction with a relaxed clause that excludes the approved/live
-		// version (fromClassPK) and includes the specific draft version
-		// (toClassPK), keyed on Field.UID (all versions of a JournalArticle
-		// share entryClassPK = resourcePrimKey, so the per-version UID is the
-		// only safe key).
-
 		Map<Serializable, Object> previewValues =
 			PreviewableResolverUtil.getPreviewableMap(JournalArticle.class);
 
-		if (MapUtil.isEmpty(previewValues)) {
-			_workflowStatusModelPreFilterContributor.contribute(
-				booleanFilter, modelSearchSettings, searchContext);
+		BooleanFilter versionBooleanFilter = booleanFilter;
+
+		if (MapUtil.isNotEmpty(previewValues)) {
+			versionBooleanFilter = new BooleanFilter();
 		}
-		else {
-			_contributePreviewSwapFilter(booleanFilter, previewValues);
-		}
+
+		_workflowStatusModelPreFilterContributor.contribute(
+			versionBooleanFilter, modelSearchSettings, searchContext);
 
 		Long classNameId = (Long)searchContext.getAttribute(
 			Field.CLASS_NAME_ID);
@@ -205,34 +197,23 @@ public class JournalArticleModelPreFilterContributor
 		boolean showNonindexable = GetterUtil.getBoolean(
 			searchContext.getAttribute("showNonindexable"));
 
-		// Preview mode already added the combined status + head clause in
-		// _contributePreviewSwapFilter. Suppress the normal head/latest filter
-		// so the previewed draft (head=false) is not excluded again.
-
-		if (MapUtil.isNotEmpty(previewValues)) {
-			head = false;
-			headOrShowNonindexable = false;
-			latest = false;
-			showNonindexable = false;
-		}
-
 		if (latest && !relatedClassName && !showNonindexable) {
-			booleanFilter.addRequiredTerm("latest", Boolean.TRUE);
+			versionBooleanFilter.addRequiredTerm("latest", Boolean.TRUE);
 		}
 		else if (head && !headOrShowNonindexable && !relatedClassName &&
 				 !showNonindexable) {
 
-			booleanFilter.addRequiredTerm("head", Boolean.TRUE);
+			versionBooleanFilter.addRequiredTerm("head", Boolean.TRUE);
 		}
 
 		if (latest && !relatedClassName && showNonindexable) {
-			booleanFilter.addRequiredTerm("latest", Boolean.TRUE);
+			versionBooleanFilter.addRequiredTerm("latest", Boolean.TRUE);
 		}
 		else if (!relatedClassName && showNonindexable) {
-			booleanFilter.addRequiredTerm("headListable", Boolean.TRUE);
+			versionBooleanFilter.addRequiredTerm("headListable", Boolean.TRUE);
 		}
 		else if (headOrShowNonindexable && !relatedClassName) {
-			booleanFilter.add(
+			versionBooleanFilter.add(
 				new BooleanFilter() {
 					{
 						addTerm("head", Boolean.TRUE);
@@ -240,6 +221,48 @@ public class JournalArticleModelPreFilterContributor
 					}
 				},
 				BooleanClauseOccur.MUST);
+		}
+
+		if (MapUtil.isNotEmpty(previewValues)) {
+			TermsFilter uidTermsFilter = new TermsFilter(Field.UID);
+
+			for (Object value : previewValues.values()) {
+
+				// TODO Resolving an UnsafeSupplierValue loads the draft only
+				// to read its UID. UnsafeSupplierValue memoizes the draft, so
+				// later PreviewableResolverUtil.resolve calls in the same
+				// request reuse it, but propose
+				// PreviewableResolverUtil.getPreviewPrimaryKeys (live primary
+				// key to draft primary key) to Headless as the cheaper API.
+
+				if (value instanceof
+						UnsafeSupplierValue<?, ?> unsafeSupplierValue) {
+
+					try {
+						uidTermsFilter.addValue(
+							_uidFactory.getUID(
+								(JournalArticle)
+									unsafeSupplierValue.getValue()));
+					}
+					catch (Throwable throwable) {
+						throw new SystemException(throwable);
+					}
+				}
+				else {
+					uidTermsFilter.addValue(
+						_uidFactory.getUID(
+							JournalArticle.class.getName(), (Serializable)value,
+							CTConstants.CT_COLLECTION_ID_PRODUCTION));
+				}
+			}
+
+			BooleanFilter previewBooleanFilter = new BooleanFilter();
+
+			previewBooleanFilter.add(
+				versionBooleanFilter, BooleanClauseOccur.SHOULD);
+			previewBooleanFilter.add(uidTermsFilter, BooleanClauseOccur.SHOULD);
+
+			booleanFilter.add(previewBooleanFilter, BooleanClauseOccur.MUST);
 		}
 
 		boolean filterExpired = GetterUtil.getBoolean(
@@ -268,67 +291,6 @@ public class JournalArticleModelPreFilterContributor
 		dateRangeFilterBuilder.setIncludeUpper(false);
 
 		booleanFilter.add(dateRangeFilterBuilder.build());
-	}
-
-	private void _contributePreviewSwapFilter(
-		BooleanFilter booleanFilter, Map<Serializable, Object> previewValues) {
-
-		TermsFilter fromUIDsTermsFilter = new TermsFilter(Field.UID);
-		TermsFilter toUIDsTermsFilter = new TermsFilter(Field.UID);
-
-		for (Map.Entry<Serializable, Object> entry : previewValues.entrySet()) {
-			fromUIDsTermsFilter.addValue(
-				_uidFactory.getUID(
-					JournalArticle.class.getName(), entry.getKey(),
-					CTConstants.CT_COLLECTION_ID_PRODUCTION));
-
-			// TODO Resolving an UnsafeSupplierValue loads the draft only to
-			// read its UID. UnsafeSupplierValue memoizes the draft, so later
-			// PreviewableResolverUtil.resolve calls in the same request reuse
-			// it, but propose PreviewableResolverUtil.getPreviewPrimaryKeys
-			// (live primary key to draft primary key) to Headless as the
-			// cheaper API.
-
-			Object value = entry.getValue();
-
-			if (value instanceof
-					UnsafeSupplierValue<?, ?> unsafeSupplierValue) {
-
-				try {
-					toUIDsTermsFilter.addValue(
-						_uidFactory.getUID(
-							(JournalArticle)unsafeSupplierValue.getValue()));
-				}
-				catch (Throwable throwable) {
-					throw new SystemException(throwable);
-				}
-			}
-			else {
-				toUIDsTermsFilter.addValue(
-					_uidFactory.getUID(
-						JournalArticle.class.getName(), (Serializable)value,
-						CTConstants.CT_COLLECTION_ID_PRODUCTION));
-			}
-		}
-
-		// Keep all approved/head/live content except the previewed-away
-		// versions...
-
-		BooleanFilter liveBooleanFilter = new BooleanFilter();
-
-		liveBooleanFilter.addRequiredTerm(
-			Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-		liveBooleanFilter.addRequiredTerm("head", Boolean.TRUE);
-		liveBooleanFilter.add(fromUIDsTermsFilter, BooleanClauseOccur.MUST_NOT);
-
-		// ...OR include the specific draft versions being previewed.
-
-		BooleanFilter previewBooleanFilter = new BooleanFilter();
-
-		previewBooleanFilter.add(liveBooleanFilter, BooleanClauseOccur.SHOULD);
-		previewBooleanFilter.add(toUIDsTermsFilter, BooleanClauseOccur.SHOULD);
-
-		booleanFilter.add(previewBooleanFilter, BooleanClauseOccur.MUST);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
