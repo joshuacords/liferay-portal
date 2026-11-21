@@ -10,6 +10,8 @@ import com.liferay.dynamic.data.mapping.test.util.DDMStructureTestUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.test.util.JournalTestUtil;
+import com.liferay.petra.function.UnsafeSupplierValue;
+import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
@@ -33,8 +35,10 @@ import com.liferay.portal.kernel.test.util.SearchContextTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.preview.PreviewableResolverUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.io.Serializable;
@@ -66,12 +70,10 @@ import org.junit.runner.RunWith;
  * JournalArticle, entirely inside the search query.
  *
  * <p>
- * The preview context is mocked as a {@link SearchContext} attribute
- * ({@value #_PREVIEW_SWAP_MAP_ATTRIBUTE_NAME}) shaped as
- * {@code Map<entryClassName, Map<fromClassPK, toClassPK>>}, where the PKs are
- * the per-version primary keys ({@link JournalArticle#getId()}). This mirrors
- * the Confluence "Preview Context Model" (fromClassPK = live, toClassPK =
- * preview/draft version).
+ * The preview context is the one {@code LaunchPreviewFilter} sets: a
+ * {@link PreviewableResolverUtil} previewable map keyed by the live
+ * {@link JournalArticle#getId()}, whose values are the draft version's
+ * primary key or an {@link UnsafeSupplierValue} that supplies the draft.
  * </p>
  *
  * <p>
@@ -108,10 +110,12 @@ public class JournalArticlePreviewSearchTest {
 		_originalPortalPreferencesXML = PortletPreferencesFactoryUtil.toXML(
 			portalPreferences);
 
-		portalPreferences.setValue("", "indexAllArticleVersionsEnabled", "true");
+		portalPreferences.setValue(
+			"", "indexAllArticleVersionsEnabled", "true");
 
 		PortalPreferencesLocalServiceUtil.updatePreferences(
-			TestPropsValues.getCompanyId(), PortletKeys.PREFS_OWNER_TYPE_COMPANY,
+			TestPropsValues.getCompanyId(),
+			PortletKeys.PREFS_OWNER_TYPE_COMPANY,
 			PortletPreferencesFactoryUtil.toXML(portalPreferences));
 
 		_folder = JournalTestUtil.addFolder(
@@ -123,7 +127,8 @@ public class JournalArticlePreviewSearchTest {
 	@After
 	public void tearDown() throws Exception {
 		PortalPreferencesLocalServiceUtil.updatePreferences(
-			TestPropsValues.getCompanyId(), PortletKeys.PREFS_OWNER_TYPE_COMPANY,
+			TestPropsValues.getCompanyId(),
+			PortletKeys.PREFS_OWNER_TYPE_COMPANY,
 			_originalPortalPreferencesXML);
 	}
 
@@ -148,13 +153,15 @@ public class JournalArticlePreviewSearchTest {
 		Article article = _addArticleWithDraft("alpaca", "zebra");
 		Article unmapped = _addArticleWithDraft("cobra", "ocelot");
 
-		Serializable previewSwapMap = _previewSwapMap(
-			_swaps(article.approved, article.draft));
+		Map<Serializable, Object> previewValues =
+			HashMapBuilder.<Serializable, Object>put(
+				article.approved.getId(), article.draft.getId()
+			).build();
 
-		_assertUIDs(_search("zebra", previewSwapMap), _uid(article.draft));
-		_assertUIDs(_search("alpaca", previewSwapMap));
+		_assertUIDs(_search("zebra", previewValues), _uid(article.draft));
+		_assertUIDs(_search("alpaca", previewValues));
 		_assertUIDs(
-			_search(null, previewSwapMap), _uid(article.draft),
+			_search(null, previewValues), _uid(article.draft),
 			_uid(unmapped.approved));
 	}
 
@@ -168,16 +175,13 @@ public class JournalArticlePreviewSearchTest {
 		Article article2 = _addArticleWithDraft("beaver", "yak");
 		Article unmapped = _addArticleWithDraft("cobra", "ocelot");
 
-		HashMap<Long, Long> swaps = _swaps(article1.approved, article1.draft);
+		Map<Serializable, Object> previewValues = _previewValues(
+			article1, article2);
 
-		swaps.putAll(_swaps(article2.approved, article2.draft));
-
-		Serializable previewSwapMap = _previewSwapMap(swaps);
-
-		_assertUIDs(_search("zebra", previewSwapMap), _uid(article1.draft));
-		_assertUIDs(_search("yak", previewSwapMap), _uid(article2.draft));
+		_assertUIDs(_search("zebra", previewValues), _uid(article1.draft));
+		_assertUIDs(_search("yak", previewValues), _uid(article2.draft));
 		_assertUIDs(
-			_search(null, previewSwapMap), _uid(article1.draft),
+			_search(null, previewValues), _uid(article1.draft),
 			_uid(article2.draft), _uid(unmapped.approved));
 	}
 
@@ -189,12 +193,10 @@ public class JournalArticlePreviewSearchTest {
 	 * applied for every search execution path (headless backend, FreeMarker
 	 * restClient, search bar) since they all converge on the same query
 	 * building. So the swap works for headless <em>if</em> the headless
-	 * resource layer propagates the preview signal into the
-	 * {@code SearchContext} ({@value #_PREVIEW_SWAP_MAP_ATTRIBUTE_NAME}). That
-	 * propagation (translating a request header/param or a thread-local into
-	 * the attribute) is product wiring that does not exist yet, and exercising
-	 * the full HTTP stack is beyond the search-query POC. This is exactly the
-	 * "Concern" the Confluence page raises for this scenario.
+	 * request passes through {@code LaunchPreviewFilter}, which sets the
+	 * {@link PreviewableResolverUtil} preview ID for requests carrying
+	 * {@code previewLaunchSetId} and {@code p_l_mode=preview}. Exercising the
+	 * full HTTP stack is beyond the search-query POC.
 	 * </p>
 	 */
 	@Ignore
@@ -206,7 +208,7 @@ public class JournalArticlePreviewSearchTest {
 	 * Scenario 5 - FreeMarker. OUT OF SCOPE for the search-query POC, for the
 	 * same reason as scenario 4: a FreeMarker template invoking search (via the
 	 * search taglib or restClient) reaches the same query path, so the swap
-	 * applies once the preview signal is present in the {@code SearchContext}.
+	 * applies once the preview ID is set on the rendering thread.
 	 * Rendering a template and wiring the signal is product integration, not a
 	 * search-query concern.
 	 */
@@ -237,20 +239,16 @@ public class JournalArticlePreviewSearchTest {
 		Map<String, Integer> baselineFacet = _statusFacet(null);
 
 		Assert.assertEquals(
-			"Baseline: both approved heads counted",
-			Integer.valueOf(2),
+			"Baseline: both approved heads counted", Integer.valueOf(2),
 			baselineFacet.getOrDefault(
 				String.valueOf(WorkflowConstants.STATUS_APPROVED), 0));
 		Assert.assertEquals(
-			"Baseline: no draft status in the facet",
-			Integer.valueOf(0),
+			"Baseline: no draft status in the facet", Integer.valueOf(0),
 			baselineFacet.getOrDefault(
 				String.valueOf(WorkflowConstants.STATUS_DRAFT), 0));
 
-		Serializable previewSwapMap = _previewSwapMap(
-			_swaps(article.approved, article.draft));
-
-		Map<String, Integer> previewFacet = _statusFacet(previewSwapMap);
+		Map<String, Integer> previewFacet = _statusFacet(
+			_previewValues(article));
 
 		Assert.assertEquals(
 			"Preview: the previewed entry contributes its draft status",
@@ -270,19 +268,17 @@ public class JournalArticlePreviewSearchTest {
 
 	/**
 	 * Scenario 7 - Concurrent previews are isolated. Two threads search the
-	 * same entry at the same time: one with a preview swap map, one without.
-	 * Because the swap is read from the per-call {@code SearchContext} (no
-	 * thread-local or shared mutable state in the contributor), neither thread
-	 * leaks into the other.
+	 * same entry at the same time: one with a preview ID, one without. The
+	 * preview ID is a thread-local, so neither thread leaks into the other.
 	 */
 	@Test
 	public void testScenario7ConcurrentPreviewsAreIsolated() throws Exception {
 		Article article = _addArticleWithDraft("alpaca", "zebra");
 
-		Serializable previewSwapMap = _previewSwapMap(
-			_swaps(article.approved, article.draft));
+		Map<Serializable, Object> previewValues = _previewValues(article);
 
 		String draftUID = _uid(article.draft);
+
 		long companyId = TestPropsValues.getCompanyId();
 		long groupId = _group.getGroupId();
 
@@ -298,7 +294,7 @@ public class JournalArticlePreviewSearchTest {
 
 		Thread previewerThread = new Thread(
 			() -> _runConcurrentSearch(
-				companyId, groupId, "zebra", previewSwapMap, iterations,
+				companyId, groupId, "zebra", previewValues, iterations,
 				cyclicBarrier, throwables,
 				hits -> {
 					if (_containsUID(hits, draftUID)) {
@@ -346,22 +342,19 @@ public class JournalArticlePreviewSearchTest {
 		Article article2 = _addArticleWithDraft(
 			_group2.getGroupId(), _folder2.getFolderId(), "beaver", "yak");
 
-		HashMap<Long, Long> swaps = _swaps(article1.approved, article1.draft);
-
-		swaps.putAll(_swaps(article2.approved, article2.draft));
-
-		Serializable previewSwapMap = _previewSwapMap(swaps);
+		Map<Serializable, Object> previewValues = _previewValues(
+			article1, article2);
 
 		long[] groupIds = {_group.getGroupId(), _group2.getGroupId()};
 
 		_assertUIDs(
-			_searchGroups(groupIds, "zebra", previewSwapMap),
+			_searchGroups(groupIds, "zebra", previewValues),
 			_uid(article1.draft));
 		_assertUIDs(
-			_searchGroups(groupIds, "yak", previewSwapMap),
+			_searchGroups(groupIds, "yak", previewValues),
 			_uid(article2.draft));
 
-		Hits hits = _searchGroups(groupIds, null, previewSwapMap);
+		Hits hits = _searchGroups(groupIds, null, previewValues);
 
 		Assert.assertTrue(
 			"Group 1 draft present", _containsUID(hits, _uid(article1.draft)));
@@ -376,35 +369,20 @@ public class JournalArticlePreviewSearchTest {
 	}
 
 	/**
-	 * Scenario 9 - Preview context cleared. After a preview search, a
-	 * subsequent search on the same thread that does not carry the preview
-	 * attribute returns live versions only. There is no thread-local to leak,
-	 * so clearing is simply "do not set the attribute".
+	 * Scenario 9 - Preview context cleared. After the preview ID is closed, a
+	 * subsequent search on the same thread returns live versions only.
 	 */
 	@Test
 	public void testScenario9PreviewContextCleared() throws Exception {
 		Article article = _addArticleWithDraft("alpaca", "zebra");
 
-		Serializable previewSwapMap = _previewSwapMap(
-			_swaps(article.approved, article.draft));
+		_assertUIDs(
+			_search("zebra", _previewValues(article)), _uid(article.draft));
 
-		// Preview search sees the draft...
-
-		_assertUIDs(_search("zebra", previewSwapMap), _uid(article.draft));
-
-		// ...the next search without the attribute is back to live only.
+		Assert.assertNull(PreviewableResolverUtil.getPreviewId());
 
 		_assertUIDs(_search("zebra", null));
 		_assertUIDs(_search("alpaca", null), _uid(article.approved));
-	}
-
-	private Article _addArticleWithDraft(
-			String approvedKeyword, String draftKeyword)
-		throws Exception {
-
-		return _addArticleWithDraft(
-			_group.getGroupId(), _folder.getFolderId(), approvedKeyword,
-			draftKeyword);
 	}
 
 	private Article _addArticleWithDraft(
@@ -422,14 +400,23 @@ public class JournalArticlePreviewSearchTest {
 
 		JournalArticle draft = JournalTestUtil.updateArticle(
 			approved, approved.getTitleMap(),
-			DDMStructureTestUtil.getSampleStructuredContent(draftKeyword), false,
-			true, serviceContext);
+			DDMStructureTestUtil.getSampleStructuredContent(draftKeyword),
+			false, true, serviceContext);
 
 		Assert.assertNotEquals(
 			"Approved and draft must be distinct version rows",
 			(Long)approved.getId(), (Long)draft.getId());
 
 		return new Article(approved, draft);
+	}
+
+	private Article _addArticleWithDraft(
+			String approvedKeyword, String draftKeyword)
+		throws Exception {
+
+		return _addArticleWithDraft(
+			_group.getGroupId(), _folder.getFolderId(), approvedKeyword,
+			draftKeyword);
 	}
 
 	private void _assertUIDs(Hits hits, String... expectedUIDs) {
@@ -454,18 +441,23 @@ public class JournalArticlePreviewSearchTest {
 		return false;
 	}
 
-	private Serializable _previewSwapMap(HashMap<Long, Long> journalSwaps) {
-		HashMap<String, Serializable> previewSwapMap = new HashMap<>();
+	private Map<Serializable, Object> _previewValues(Article... articles) {
+		Map<Serializable, Object> previewValues = new HashMap<>();
 
-		previewSwapMap.put(JournalArticle.class.getName(), journalSwaps);
+		for (Article article : articles) {
+			previewValues.put(
+				article.approved.getId(),
+				new UnsafeSupplierValue<>(() -> article.draft));
+		}
 
-		return previewSwapMap;
+		return previewValues;
 	}
 
 	private void _runConcurrentSearch(
 		long companyId, long groupId, String keywords,
-		Serializable previewSwapMap, int iterations, CyclicBarrier cyclicBarrier,
-		List<Throwable> throwables, Consumer<Hits> hitsConsumer) {
+		Map<Serializable, Object> previewValues, int iterations,
+		CyclicBarrier cyclicBarrier, List<Throwable> throwables,
+		Consumer<Hits> hitsConsumer) {
 
 		try {
 			CompanyThreadLocal.setCompanyId(companyId);
@@ -484,12 +476,11 @@ public class JournalArticlePreviewSearchTest {
 				searchContext.setKeywords(keywords);
 				searchContext.setUserId(0);
 
-				if (previewSwapMap != null) {
-					searchContext.setAttribute(
-						_PREVIEW_SWAP_MAP_ATTRIBUTE_NAME, previewSwapMap);
-				}
+				try (SafeCloseable safeCloseable =
+						_setPreviewValuesWithSafeCloseable(previewValues)) {
 
-				hitsConsumer.accept(indexer.search(searchContext));
+					hitsConsumer.accept(indexer.search(searchContext));
+				}
 			}
 		}
 		catch (Throwable throwable) {
@@ -497,15 +488,17 @@ public class JournalArticlePreviewSearchTest {
 		}
 	}
 
-	private Hits _search(String keywords, Serializable previewSwapMap)
+	private Hits _search(
+			String keywords, Map<Serializable, Object> previewValues)
 		throws Exception {
 
 		return _searchGroups(
-			new long[] {_group.getGroupId()}, keywords, previewSwapMap);
+			new long[] {_group.getGroupId()}, keywords, previewValues);
 	}
 
 	private Hits _searchGroups(
-			long[] groupIds, String keywords, Serializable previewSwapMap)
+			long[] groupIds, String keywords,
+			Map<Serializable, Object> previewValues)
 		throws Exception {
 
 		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
@@ -518,18 +511,40 @@ public class JournalArticlePreviewSearchTest {
 			searchContext.setKeywords(keywords);
 		}
 
-		if (previewSwapMap != null) {
-			searchContext.setAttribute(
-				_PREVIEW_SWAP_MAP_ATTRIBUTE_NAME, previewSwapMap);
-		}
-
 		Indexer<JournalArticle> indexer = IndexerRegistryUtil.getIndexer(
 			JournalArticle.class);
 
-		return indexer.search(searchContext);
+		try (SafeCloseable safeCloseable = _setPreviewValuesWithSafeCloseable(
+				previewValues)) {
+
+			return indexer.search(searchContext);
+		}
 	}
 
-	private Map<String, Integer> _statusFacet(Serializable previewSwapMap)
+	private SafeCloseable _setPreviewValuesWithSafeCloseable(
+		Map<Serializable, Object> previewValues) {
+
+		if (previewValues == null) {
+			return SafeCloseable.EMPTY;
+		}
+
+		Long previewId = PreviewableResolverUtil.addPreviewableMap(
+			HashMapBuilder.<Class<?>, Map<Serializable, Object>>put(
+				JournalArticle.class, previewValues
+			).build());
+
+		SafeCloseable safeCloseable =
+			PreviewableResolverUtil.setPreviewIdWithSafeCloseable(previewId);
+
+		return () -> {
+			safeCloseable.close();
+
+			PreviewableResolverUtil.removePreviewableMap(previewId);
+		};
+	}
+
+	private Map<String, Integer> _statusFacet(
+			Map<Serializable, Object> previewValues)
 		throws Exception {
 
 		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
@@ -537,11 +552,6 @@ public class JournalArticlePreviewSearchTest {
 
 		searchContext.setGroupIds(new long[] {_group.getGroupId()});
 		searchContext.setUserId(0);
-
-		if (previewSwapMap != null) {
-			searchContext.setAttribute(
-				_PREVIEW_SWAP_MAP_ATTRIBUTE_NAME, previewSwapMap);
-		}
 
 		MultiValueFacet multiValueFacet = new MultiValueFacet(searchContext);
 
@@ -552,7 +562,11 @@ public class JournalArticlePreviewSearchTest {
 		Indexer<JournalArticle> indexer = IndexerRegistryUtil.getIndexer(
 			JournalArticle.class);
 
-		indexer.search(searchContext);
+		try (SafeCloseable safeCloseable = _setPreviewValuesWithSafeCloseable(
+				previewValues)) {
+
+			indexer.search(searchContext);
+		}
 
 		Map<String, Integer> termFrequencies = new HashMap<>();
 
@@ -570,16 +584,6 @@ public class JournalArticlePreviewSearchTest {
 		return termFrequencies;
 	}
 
-	private HashMap<Long, Long> _swaps(
-		JournalArticle fromArticle, JournalArticle toArticle) {
-
-		HashMap<Long, Long> swaps = new HashMap<>();
-
-		swaps.put(fromArticle.getId(), toArticle.getId());
-
-		return swaps;
-	}
-
 	private String _uid(JournalArticle journalArticle) {
 
 		// Mirrors UIDFactoryImpl production UID format
@@ -588,9 +592,6 @@ public class JournalArticlePreviewSearchTest {
 		return JournalArticle.class.getName() + "_PORTLET_" +
 			journalArticle.getId();
 	}
-
-	private static final String _PREVIEW_SWAP_MAP_ATTRIBUTE_NAME =
-		"preview.swap.map";
 
 	@DeleteAfterTestRun
 	private JournalFolder _folder;
