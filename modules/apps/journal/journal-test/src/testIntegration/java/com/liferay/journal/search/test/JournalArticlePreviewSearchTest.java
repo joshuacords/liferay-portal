@@ -94,7 +94,7 @@ public class JournalArticlePreviewSearchTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_group = GroupTestUtil.addGroup();
+		_group1 = GroupTestUtil.addGroup();
 		_group2 = GroupTestUtil.addGroup();
 
 		UserTestUtil.setUser(TestPropsValues.getUser());
@@ -118,8 +118,8 @@ public class JournalArticlePreviewSearchTest {
 			PortletKeys.PREFS_OWNER_TYPE_COMPANY,
 			PortletPreferencesFactoryUtil.toXML(portalPreferences));
 
-		_folder = JournalTestUtil.addFolder(
-			_group.getGroupId(), RandomTestUtil.randomString());
+		_folder1 = JournalTestUtil.addFolder(
+			_group1.getGroupId(), RandomTestUtil.randomString());
 		_folder2 = JournalTestUtil.addFolder(
 			_group2.getGroupId(), RandomTestUtil.randomString());
 	}
@@ -140,7 +140,8 @@ public class JournalArticlePreviewSearchTest {
 	public void testScenario1BaselineNoPreviewContext() throws Exception {
 		Article article = _addArticleWithDraft("alpaca", "zebra");
 
-		_assertUIDs(_search("alpaca", null), _uid(article.approved));
+		_assertUIDs(_search("alpaca", null), _uid(article._approved));
+
 		_assertUIDs(_search("zebra", null));
 	}
 
@@ -155,14 +156,14 @@ public class JournalArticlePreviewSearchTest {
 
 		Map<Serializable, Object> previewValues =
 			HashMapBuilder.<Serializable, Object>put(
-				article.approved.getId(), article.draft.getId()
+				article._approved.getId(), article._draft.getId()
 			).build();
 
-		_assertUIDs(_search("zebra", previewValues), _uid(article.draft));
+		_assertUIDs(_search("zebra", previewValues), _uid(article._draft));
 		_assertUIDs(_search("alpaca", previewValues));
 		_assertUIDs(
-			_search(null, previewValues), _uid(article.draft),
-			_uid(unmapped.approved));
+			_search(null, previewValues), _uid(article._draft),
+			_uid(unmapped._approved));
 	}
 
 	/**
@@ -178,11 +179,11 @@ public class JournalArticlePreviewSearchTest {
 		Map<Serializable, Object> previewValues = _previewValues(
 			article1, article2);
 
-		_assertUIDs(_search("zebra", previewValues), _uid(article1.draft));
-		_assertUIDs(_search("yak", previewValues), _uid(article2.draft));
+		_assertUIDs(_search("zebra", previewValues), _uid(article1._draft));
+		_assertUIDs(_search("yak", previewValues), _uid(article2._draft));
 		_assertUIDs(
-			_search(null, previewValues), _uid(article1.draft),
-			_uid(article2.draft), _uid(unmapped.approved));
+			_search(null, previewValues), _uid(article1._draft),
+			_uid(article2._draft), _uid(unmapped._approved));
 	}
 
 	/**
@@ -277,10 +278,10 @@ public class JournalArticlePreviewSearchTest {
 
 		Map<Serializable, Object> previewValues = _previewValues(article);
 
-		String draftUID = _uid(article.draft);
+		String draftUID = _uid(article._draft);
 
 		long companyId = TestPropsValues.getCompanyId();
-		long groupId = _group.getGroupId();
+		long groupId = _group1.getGroupId();
 
 		int iterations = 25;
 
@@ -345,27 +346,27 @@ public class JournalArticlePreviewSearchTest {
 		Map<Serializable, Object> previewValues = _previewValues(
 			article1, article2);
 
-		long[] groupIds = {_group.getGroupId(), _group2.getGroupId()};
+		long[] groupIds = {_group1.getGroupId(), _group2.getGroupId()};
 
 		_assertUIDs(
 			_searchGroups(groupIds, "zebra", previewValues),
-			_uid(article1.draft));
+			_uid(article1._draft));
 		_assertUIDs(
 			_searchGroups(groupIds, "yak", previewValues),
-			_uid(article2.draft));
+			_uid(article2._draft));
 
 		Hits hits = _searchGroups(groupIds, null, previewValues);
 
 		Assert.assertTrue(
-			"Group 1 draft present", _containsUID(hits, _uid(article1.draft)));
+			"Group 1 draft present", _containsUID(hits, _uid(article1._draft)));
 		Assert.assertTrue(
-			"Group 2 draft present", _containsUID(hits, _uid(article2.draft)));
+			"Group 2 draft present", _containsUID(hits, _uid(article2._draft)));
 		Assert.assertFalse(
 			"Group 1 approved excluded",
-			_containsUID(hits, _uid(article1.approved)));
+			_containsUID(hits, _uid(article1._approved)));
 		Assert.assertFalse(
 			"Group 2 approved excluded",
-			_containsUID(hits, _uid(article2.approved)));
+			_containsUID(hits, _uid(article2._approved)));
 	}
 
 	/**
@@ -377,12 +378,12 @@ public class JournalArticlePreviewSearchTest {
 		Article article = _addArticleWithDraft("alpaca", "zebra");
 
 		_assertUIDs(
-			_search("zebra", _previewValues(article)), _uid(article.draft));
+			_search("zebra", _previewValues(article)), _uid(article._draft));
 
 		Assert.assertNull(PreviewableResolverUtil.getPreviewId());
 
 		_assertUIDs(_search("zebra", null));
-		_assertUIDs(_search("alpaca", null), _uid(article.approved));
+		_assertUIDs(_search("alpaca", null), _uid(article._approved));
 	}
 
 	private Article _addArticleWithDraft(
@@ -415,7 +416,7 @@ public class JournalArticlePreviewSearchTest {
 		throws Exception {
 
 		return _addArticleWithDraft(
-			_group.getGroupId(), _folder.getFolderId(), approvedKeyword,
+			_group1.getGroupId(), _folder1.getFolderId(), approvedKeyword,
 			draftKeyword);
 	}
 
@@ -446,8 +447,8 @@ public class JournalArticlePreviewSearchTest {
 
 		for (Article article : articles) {
 			previewValues.put(
-				article.approved.getId(),
-				new UnsafeSupplierValue<>(() -> article.draft));
+				article._approved.getId(),
+				new UnsafeSupplierValue<>(() -> article._draft));
 		}
 
 		return previewValues;
@@ -493,7 +494,7 @@ public class JournalArticlePreviewSearchTest {
 		throws Exception {
 
 		return _searchGroups(
-			new long[] {_group.getGroupId()}, keywords, previewValues);
+			new long[] {_group1.getGroupId()}, keywords, previewValues);
 	}
 
 	private Hits _searchGroups(
@@ -548,9 +549,9 @@ public class JournalArticlePreviewSearchTest {
 		throws Exception {
 
 		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
-			_group.getGroupId());
+			_group1.getGroupId());
 
-		searchContext.setGroupIds(new long[] {_group.getGroupId()});
+		searchContext.setGroupIds(new long[] {_group1.getGroupId()});
 		searchContext.setUserId(0);
 
 		MultiValueFacet multiValueFacet = new MultiValueFacet(searchContext);
@@ -594,13 +595,13 @@ public class JournalArticlePreviewSearchTest {
 	}
 
 	@DeleteAfterTestRun
-	private JournalFolder _folder;
+	private JournalFolder _folder1;
 
 	@DeleteAfterTestRun
 	private JournalFolder _folder2;
 
 	@DeleteAfterTestRun
-	private Group _group;
+	private Group _group1;
 
 	@DeleteAfterTestRun
 	private Group _group2;
@@ -610,12 +611,12 @@ public class JournalArticlePreviewSearchTest {
 	private static class Article {
 
 		private Article(JournalArticle approved, JournalArticle draft) {
-			this.approved = approved;
-			this.draft = draft;
+			_approved = approved;
+			_draft = draft;
 		}
 
-		private final JournalArticle approved;
-		private final JournalArticle draft;
+		private final JournalArticle _approved;
+		private final JournalArticle _draft;
 
 	}
 
